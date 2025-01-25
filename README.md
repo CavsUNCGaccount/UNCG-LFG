@@ -1,4 +1,5 @@
 # CSC-490 Senior Capstone Project
+Our repository for the senior capstone project
 
 # UNCG-LFG
 A Looking for Group web app for co-op and multiplayer games
