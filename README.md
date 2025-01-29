@@ -2,7 +2,7 @@
 Our repository for the senior capstone project
 
 # UNCG-LFG
-A Looking for Group web app for co-op and multiplayer games
+A Looking for Group web app for co-op and multiplayer games. Our web app will focus on the top 15-20 co-op/multiplayer games of the last 15 years.
 
 ## Current Status
 - In the planning stage.
