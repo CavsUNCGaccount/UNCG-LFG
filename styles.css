@@ -99,6 +99,7 @@ nav ul li a {
     border: none;
     border-radius: 5px;
     font-weight: bold;
+    width: 20%;
     cursor: pointer;
     transition: background 0.3s ease;
 }
