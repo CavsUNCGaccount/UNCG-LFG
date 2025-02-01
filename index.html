@@ -16,13 +16,14 @@
 
     <header>
         <nav>
-            <div class="logo"><img src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
+            <div class="logo"><img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
             </div>
             <ul>
                 <li><a href="#about">About</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#Games">Games</a></li>
-                <li><a href="#" class="btn">Login</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#" class="login-signup">Login</a></li>
+                <li><a href="#" class="login-signup">Sign Up</a></li>
             </ul>
         </nav>
     </header>
@@ -59,29 +60,69 @@
             </div>
         </section>
 
-        <section class="hero">
+        <section class="introduction">
             <h1>Welcome to UNCG LFG!</h1>
             <img class="logo" src="images/UNCG_LFG_Logo.png" alt="website-logo">
             <p>Connect with fellow students, join games, and find other gamers to play with.</p>
-            <a href="#" class="btn">Get Started</a>
+            <a href="#" class="login-signup">Get Started</a>
         </section>
         
-        <section>
+        <section id="about" class="general-section">
             <h2>About UNCG LFG</h2>
-            <p>UNCG LFG is a platform for students to find gaming groups, schedule sessions, and meet like-minded players.</p>
+            <p>UNCG LFG is a platform for students to find gaming groups, schedule gaming sessions, and meet like-minded players.
+                UNCG LFG focuses on PlayStation, Xbox, and Steam platforms.
+            </p>
         </section>
         
-        <section>
+        <section id="features" class="general-section">
             <h2>Features</h2>
             <ul>
                 <li>Find players for your favorite games</li>
                 <li>Schedule gaming sessions</li>
-                <li>Join campus gaming events</li>
-                <li>Game Community pages for 20 popular co-op/multiplayer games of the last 15 years. All of these games are available for PlayStation, Xbox, and Steam. </li>
+                <li>Join gaming sessions hosted by other players</li>
+                <li>Game Community pages for 20 popular co-op/multiplayer games of the last 15 years. 
+                    All of these games are available for PlayStation, Xbox, and Steam. </li>
+                <li>Display your PlayStation, Xbox, and Steam gamertags.</li>
                 <li>Achievement tracking for Steam users.</li>
             </ul>
         </section>
 
+        <section id="games" class="game-list">
+            <h2>Join a Game Community</h2>
+            <div class="game-container">
+                <div class="game-item">
+                    <img src="images/game-covers/Marvel_Rivals_cover_art.jpg" alt="Marvel Rivals">
+                    <a href="#" class="game-link">Marvel Rivals</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <div class="game-item">
+                    <img src="images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" alt="Apex Legends">
+                    <a href="#" class="game-link">Apex Legends</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <div class="game-item">
+                    <img src="images/game-covers/Minecraft_2024_cover_art.png" alt="Minecraft">
+                    <a href="#" class="game-link">Minecraft</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <div class="game-item">
+                    <img src="images/game-covers/Overwatch_2_cover_art.jpg" alt="Overwatch 2">
+                    <a href="#" class="game-link">Overwatch 2</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <div class="game-item">
+                    <img src="images/game-covers/Path_of_Exile_2_cover_art.jpg" alt="Path of Exile 2">
+                    <a href="#" class="game-link">Path of Exile 2</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <div class="game-item">
+                    <img src="images/game-covers/Monster_Hunter_World_cover_art.jpg" alt="Monster Hunter World">
+                    <a href="#" class="game-link">Monster Hunter World</a>
+                    <button class="join-btn">Join</button>
+                </div>
+                <!-- Repeat for all 20 games -->
+            </div>
+        </section>
         
     </main>
     

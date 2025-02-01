@@ -1,3 +1,4 @@
+/* ====== Global Styles ====== */
 body {
     font-family: 'Rajdhani', sans-serif;
     margin: 0;
@@ -12,9 +13,10 @@ body {
     color: white;
 }
 
+/* ====== Header & Navigation ====== */
 header {
-    font-family: 'Rajdhani', sans-serif;
     position: fixed;
+    white-space: nowrap;
     width: 100%;
     top: 0;
     left: 0;
@@ -28,21 +30,25 @@ header {
     transition: background 0.3s ease;
 }
 
+/* ====== Logos ====== */
 .logo {
     display: flex;
     align-items: center; /* Aligns text and image vertically */
     gap: 10px; /* Adds spacing between the image and text */
     white-space: nowrap; /* Prevents text from wrapping */
+    width: 50%; 
+    height: auto;
     font-size: 24px; /* Adjust text size if needed */
     font-weight: bold;
 }
 
-.logo img {
+#circular-logo {
     width: 100px;  /* Size of the image in navbar. Adjust as needed */
     height: auto;
     margin-right: 10px; /* Space between image and text */
 }
 
+/* ====== Navbar ====== */
 nav {
     display: flex;
     justify-content: space-between; /* Spreads out logo & links */
@@ -70,7 +76,9 @@ nav ul li a {
     font-weight: bold;
 }
 
-.btn {
+/* ====== Buttons ====== */
+.login-signup {
+    display: flex;
     background: #ffd700;
     color: #00471b;
     padding: 10px 15px;
@@ -79,6 +87,27 @@ nav ul li a {
     font-weight: bold;
 }
 
+.login-signup:hover {
+    background: #af970a;
+}
+
+.join-btn {
+    background: #ffd700;
+    color: #00471b;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.join-btn:hover {
+    background: #af970a;
+}
+
+/* ====== Featured Games Section ====== */
 .featured-games {
     text-align: center;
     padding: 40px 20px;
@@ -101,7 +130,7 @@ nav ul li a {
     align-items: center;
     text-decoration: none;
     color: white;
-    background: rgba(186, 181, 13, 0.2);
+    background: rgba(186, 181, 13, 0.5);
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -119,7 +148,8 @@ nav ul li a {
     object-fit: cover;
 }
 
-.hero {
+/* ====== Introduction Section ====== */
+.introduction {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers all child elements horizontally */
@@ -131,28 +161,73 @@ nav ul li a {
     width: 90%;
 }
 
-
-.logo {
-    width: 50%; 
-    height: auto;
-    display: block;
-}
-
-.hero h1 {
+.introduction h1 {
     font-size: 2.5em;
 }
 
-.hero p {
+.introduction p {
     font-size: 1.2em;
     margin-bottom: 20px;
 }
 
+/* ====== Game List Sections ====== */
+.game-list {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 90%;
+    color: white;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-item {
+    display: flex;
+    align-items: center;
+    background: rgba(29, 4, 122, 0.5);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    justify-content: space-between;
+}
+
+.game-item img {
+    width: 100px;
+    height: 140px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.game-link {
+    font-size: 1.2em;
+    flex-grow: 1;
+    text-align: left;
+    text-decoration: none;
+    color: #ffd700;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.game-link:hover {
+    color: #ffcc00;
+}
+
+/* ====== General Sections ====== */
 main {
     padding: 20px;
     margin-top: 80px;
 }
 
-section {
+.general-section {
     margin: 20px auto;
     padding: 15px;
     background: rgba(29, 4, 122, 0.5);
@@ -161,16 +236,18 @@ section {
     width: 90%;
 }
 
-footer {
-    text-align: center;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    margin-top: 20px;
+/* Prevents games from being hidden by navbar */
+.general-section, .game-list {
+    padding-top: 150px; /* Adjust based on navbar height */
 }
 
+/* ====== Footer ====== */
 .pre-format {
     font-family: monospace;
     text-align: right;
     white-space: pre;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    margin-top: 20px;
 }
