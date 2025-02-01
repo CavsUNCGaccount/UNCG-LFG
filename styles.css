@@ -13,7 +13,7 @@ body {
 }
 
 header {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     position: fixed;
     width: 100%;
     top: 0;
@@ -27,6 +27,31 @@ header {
     align-items: center;
     transition: background 0.3s ease;
 }
+
+.logo {
+    display: flex;
+    align-items: center; /* Aligns text and image vertically */
+    gap: 10px; /* Adds spacing between the image and text */
+    white-space: nowrap; /* Prevents text from wrapping */
+    font-size: 24px; /* Adjust text size if needed */
+    font-weight: bold;
+}
+
+.logo img {
+    width: 100px;  /* Size of the image in navbar. Adjust as needed */
+    height: auto;
+    margin-right: 10px; /* Space between image and text */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Spreads out logo & links */
+    align-items: center; /* Aligns items vertically */
+    flex-wrap: nowrap; /* Prevents wrapping */
+    padding: 10px 20px;
+    font-size: x-large;
+}
+
 
 nav ul {
     list-style: none;
