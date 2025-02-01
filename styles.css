@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -13,6 +13,7 @@ body {
 }
 
 header {
+    font-family: 'Orbitron', sans-serif;
     position: fixed;
     width: 100%;
     top: 0;
@@ -94,12 +95,22 @@ nav ul li a {
 }
 
 .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers all child elements horizontally */
     text-align: center;
     padding: 50px 20px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     margin: 20px auto;
     width: 90%;
+}
+
+
+.logo {
+    width: 50%; 
+    height: auto;
+    display: block;
 }
 
 .hero h1 {
@@ -122,7 +133,7 @@ section {
     background: rgba(29, 4, 122, 0.5);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    width: 90%;
 }
 
 footer {
@@ -131,4 +142,10 @@ footer {
     background: rgba(0, 0, 0, 0.5);
     color: white;
     margin-top: 20px;
+}
+
+.pre-format {
+    font-family: monospace;
+    text-align: right;
+    white-space: pre;
 }
