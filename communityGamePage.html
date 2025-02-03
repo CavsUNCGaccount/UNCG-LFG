@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Community | UNCG LFG</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts/game-community.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html">UNCG LFG</a></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#players">Players</a></li>
+                <li><a href="#sessions">Sessions</a></li>
+                <li><a href="#discussion">Discussion</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="game-banner">
+            <img id="game-banner-img" src="" alt="Game Banner">
+            <h1 id="game-title"></h1>
+        </section>
+
+        <section id="players" class="general-section">
+            <h2>Active Players</h2>
+            <ul id="player-list"></ul>
+        </section>
+
+        <section id="sessions" class="general-section">
+            <h2>Upcoming Sessions</h2>
+            <ul id="session-list"></ul>
+            <button class="create-session">Create a Session</button>
+        </section>
+
+        <section id="discussion" class="general-section">
+            <h2>Game Discussion</h2>
+            <div class="chat-box">
+                <ul id="chat-messages"></ul>
+                <input type="text" id="chat-input" placeholder="Type a message...">
+                <button id="send-message">Send</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 UNCG LFG. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
