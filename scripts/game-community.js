@@ -10,25 +10,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     if (gameImage) {
-        document.getElementById("game-banner").src = gameImage;
+        document.getElementById("game-banner-img").src = gameImage;
+        document.getElementById("game-banner-img").alt = gameTitle;
     }
 
-    // Placeholder for dynamically loading community data (players, sessions, discussions)
+    // Load community data dynamically (players, sessions, discussions)
     loadCommunityData(gameTitle);
 });
 
 function loadCommunityData(gameTitle) {
-    // Simulate fetching data based on gameTitle
     console.log(`Loading community data for ${gameTitle}`);
-    
-    // Example: Fetch active players, scheduled gaming sessions, and discussions (mock data)
-    document.getElementById("active-players").innerHTML = "<p>Loading players...</p>";
-    document.getElementById("game-sessions").innerHTML = "<p>Loading sessions...</p>";
-    document.getElementById("discussions").innerHTML = "<p>Loading discussions...</p>";
+
+    document.getElementById("player-list").innerHTML = "<li>Loading players...</li>";
+    document.getElementById("session-list").innerHTML = "<li>Loading sessions...</li>";
+    document.getElementById("chat-messages").innerHTML = "<li>Loading discussions...</li>";
 
     setTimeout(() => {
-        document.getElementById("active-players").innerHTML = "<p>Player1, Player2, Player3</p>";
-        document.getElementById("game-sessions").innerHTML = "<p>Session1: 8 PM EST | Session2: 10 PM EST</p>";
-        document.getElementById("discussions").innerHTML = "<p>Discussion1: Strategies | Discussion2: Game Updates</p>";
+        document.getElementById("player-list").innerHTML = "<li>Player1</li><li>Player2</li><li>Player3</li>";
+        document.getElementById("session-list").innerHTML = "<li>Session1: 8 PM EST</li><li>Session2: 10 PM EST</li>";
+        document.getElementById("chat-messages").innerHTML = "<li>Discussion1: Strategies</li><li>Discussion2: Game Updates</li>";
     }, 1000);
 }
