@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <header>
             <nav>
                 <div class="logo">
+                    <a href="index.html">
                     <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
+            </a>
                 </div>
                 <ul>
                     <li><a href="index.html#about">About</a></li>
