@@ -6,44 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNCG LFG</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font style used for all the pages. Imported from Google API-->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
-
-
 </head>
 
 <body>
 
-    <header>
-        <nav>
-            <div class="logo"><img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
-            </div>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#games">Games</a></li>
-                <li><a href="#" class="login-signup">Login</a></li>
-                <li><a href="#" class="login-signup">Sign Up</a></li>
-            </ul>
-        </nav>
-    </header>
-    
+    <!-- Obtain the navbar from a script using event listeners. For prototyping purposes.  -->
+    <div id="navbar-container"></div>
+    <script src="scripts/navbar.js"></script>
+
     <main>
 
         <section class="featured-games">
             <h2>Featured Games</h2>
             <div class="games-container">
-                <a href="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.jpg" class="game-card">
+                <a href="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.jpg"
+                    class="game-card">
                     <img src="images/game-covers/Marvel_Rivals_cover_art.jpg" alt="Marvel Rivals">
                     <p>Marvel Rivals</p>
                 </a>
-                
-                <a href="community.html?game=Rainbow Six Siege&image=images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" class="game-card">
+
+                <a href="community.html?game=Rainbow Six Siege&image=images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg"
+                    class="game-card">
                     <img src="images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" alt="Rainbow Six Siege">
                     <p>Rainbow Six Siege</p>
                 </a>
-                
-                <a href="community.html?game=Minecraft&image=images/game-covers/Minecraft_2024_cover_art.png" class="game-card">
+
+                <a href="community.html?game=Minecraft&image=images/game-covers/Minecraft_2024_cover_art.png"
+                    class="game-card">
                     <img src="images/game-covers/Minecraft_2024_cover_art.png" alt="Minecraft">
                     <p>Minecraft</p>
                 </a>
@@ -68,21 +61,22 @@
             <p>Connect with fellow students, join games, and find other gamers to play with.</p>
             <a href="#" class="login-signup">Get Started</a>
         </section>
-        
+
         <section id="about" class="general-section">
             <h2>About UNCG LFG</h2>
-            <p>UNCG LFG is a platform for students to find gaming groups, schedule gaming sessions, and meet like-minded players.
+            <p>UNCG LFG is a platform for students to find gaming groups, schedule gaming sessions, and meet like-minded
+                players.
                 UNCG LFG focuses on PlayStation, Xbox, and Steam platforms.
             </p>
         </section>
-        
+
         <section id="features" class="general-section">
             <h2>Features</h2>
             <ul>
                 <li>Find players for your favorite games</li>
                 <li>Schedule gaming sessions</li>
                 <li>Join gaming sessions hosted by other players</li>
-                <li>Game Community pages for 20 popular co-op/multiplayer games of the last 15 years. 
+                <li>Game Community pages for 20 popular co-op/multiplayer games of the last 15 years.
                     All of these games are available for PlayStation, Xbox, and Steam. </li>
                 <li>Display your PlayStation, Xbox, and Steam gamertags.</li>
                 <li>Achievement tracking for Steam users.</li>
@@ -125,11 +119,11 @@
                 <!-- Repeat for all 20 games -->
             </div>
         </section>
-        
+
     </main>
-    
+
     <footer class="pre-format">
-        Copyright © 2025 UNCG LFG. 
+        Copyright © 2025 UNCG LFG.
         All rights reserved.
     </footer>
 
