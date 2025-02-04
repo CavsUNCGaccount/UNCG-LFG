@@ -16,3 +16,9 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Team Leader: Carlos Villarreal
 - Member 1: Salvador Macias
 - Member 2: Shreya Jayas
+
+# Prerequisites
+To run this prototype locally, you need:
+
+ - Visual Studio Code (VS Code) (or any code editor)
+ - Live Server Extension (for serving static files locally)
