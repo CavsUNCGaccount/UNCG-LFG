@@ -20,30 +20,29 @@
     <script src="scripts/navbar.js"></script>
 
     <main>
+
         <section class="game-banner">
-            <img id="game-banner-img" src="" alt="Game Banner">
-            <h1 id="game-title"></h1>
-        </section>
-
-        <section id="players" class="general-section">
-            <h2>Active Players</h2>
-            <ul id="player-list"></ul>
-        </section>
-
-        <section id="sessions" class="general-section">
-            <h2>Upcoming Sessions</h2>
-            <ul id="session-list"></ul>
-            <button class="create-session">Create a Session</button>
-        </section>
-
-        <section id="discussion" class="general-section">
-            <h2>Game Discussion</h2>
-            <div class="chat-box">
-                <ul id="chat-messages"></ul>
-                <input type="text" id="chat-input" placeholder="Type a message...">
-                <button id="send-message">Send</button>
+            <img id="game-cover-img" src="" alt="Game Cover">
+            <div>
+                <h1 id="game-title"></h1>
+                <p id="game-description"></p>
+                <button class="join-btn">Join Community</button>
             </div>
         </section>
+
+        <div class="community-content">
+        
+            <section class="group-section" id="group-section">
+                <h2>Look for Group</h2>
+                <p>Find other players looking for a game.</p>
+            </section>
+        
+            <section class="user-posts" id="user-posts">
+                <h2>User Posts</h2>
+                <p>Discuss game strategies, updates, and more!</p>
+            </section>
+        </div>
+        
     </main>
 
     <footer class="pre-format">

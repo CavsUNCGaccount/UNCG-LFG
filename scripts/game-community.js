@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
     const gameTitle = params.get("game");
     const gameImage = params.get("image");
+    const gameDescription = params.get("description");
 
     // Update the page with the game details
     if (gameTitle) {
@@ -10,24 +11,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     if (gameImage) {
-        document.getElementById("game-banner-img").src = gameImage;
-        document.getElementById("game-banner-img").alt = gameTitle;
+        document.getElementById("game-cover-img").src = gameImage;
+        document.getElementById("game-cover-img").alt = gameTitle;
     }
 
-    // Load community data dynamically (players, sessions, discussions)
+    if (gameDescription) {
+        document.getElementById("game-description").textContent = gameDescription;
+    }
+
+    // Load community data dynamically
     loadCommunityData(gameTitle);
 });
 
 function loadCommunityData(gameTitle) {
     console.log(`Loading community data for ${gameTitle}`);
 
-    document.getElementById("player-list").innerHTML = "<li>Loading players...</li>";
-    document.getElementById("session-list").innerHTML = "<li>Loading sessions...</li>";
-    document.getElementById("chat-messages").innerHTML = "<li>Loading discussions...</li>";
+    document.getElementById("group-section").innerHTML = "<p>Loading available groups...</p>";
+    document.getElementById("user-posts").innerHTML = "<p>Loading user posts...</p>";
 
     setTimeout(() => {
-        document.getElementById("player-list").innerHTML = "<li>Player1</li><li>Player2</li><li>Player3</li>";
-        document.getElementById("session-list").innerHTML = "<li>Session1: 8 PM EST</li><li>Session2: 10 PM EST</li>";
-        document.getElementById("chat-messages").innerHTML = "<li>Discussion1: Strategies</li><li>Discussion2: Game Updates</li>";
+        document.getElementById("group-section").innerHTML = `
+            <h2>Look for Group</h2>
+            <ul>
+                <li><strong>Squad Up:</strong> Looking for 2 more players!</li>
+                <li><strong>Ranked Matches:</strong> Competitive players only.</li>
+                <li><strong>Casual Hangout:</strong> No stress, just fun!</li>
+            </ul>
+        `;
+
+        document.getElementById("user-posts").innerHTML = `
+            <h2>User Posts</h2>
+            <ul>
+                <li><strong>JohnDoe:</strong> Anyone down for a match at 9 PM EST?</li>
+                <li><strong>GameFanatic:</strong> New event dropping soon, thoughts?</li>
+                <li><strong>ProGamerX:</strong> Need help with a mission, join me!</li>
+            </ul>
+        `;
     }, 1000);
 }

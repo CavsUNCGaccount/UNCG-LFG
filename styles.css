@@ -253,116 +253,91 @@ main {
     margin-top: 20px;
 }
 
-/* ====== Community Page ====== */
-.community-container {
-    width: 90%;
-    margin: 100px auto 20px;
+/* ====== Game Community Page ====== */
+.game-banner {
+    display: flex;
+    align-items: center;
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
+    margin: 100px auto 20px;
+    width: 80%;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
 }
 
-/* Game Banner */
-.game-banner {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+.game-banner img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.game-banner div {
+    flex-grow: 1;
 }
 
 .game-banner h1 {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px 20px;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.game-banner p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.join-btn {
+    background: #ffd700;
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
     border-radius: 5px;
-    color: #ffd700;
-    font-size: 2em;
-}
-
-/* Tabs (Discussion, Members, Events) */
-.tabs {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.tab-button {
-    background: rgba(255, 215, 0, 0.8);
-    color: #00471b;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.2em;
     font-weight: bold;
+    font-size: 1.2rem;
+    border: none;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-    margin: 0 10px;
 }
 
-.tab-button:hover, .tab-button.active {
-    background: #af970a;
-    color: white;
+.join-btn:hover {
+    background: #ffcc00;
 }
 
-/* Discussion Section */
-.discussion-container, .members-container, .events-container {
-    display: none;
-    margin-top: 20px;
-    background: rgba(29, 4, 122, 0.6);
+/* Flex container for sections */
+.community-content {
+    display: flex;
+    flex-direction: row; /* Ensures content is laid out in a row */
+    justify-content: space-between; /* Ensures spacing between both sections */
+    align-items: stretch;  /* Ensures both sections have the same height */
+    margin: 30px auto;
+    width: 80%;
+    gap: 20px; /* Adds spacing between the two sections */
+}
+
+/* Individual Sections */
+.group-section,
+.user-posts {
+    flex: 1; /* Both take equal space */
+    min-height: 250px; /* Set a baseline height */
+    background: rgba(0, 0, 139, 0.7);
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-.discussion-container.active, 
-.members-container.active, 
-.events-container.active {
-    display: block;
-}
-
-/* Discussion Messages */
-.message {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
+.group-section h2,
+.user-posts h2 {
+    font-size: 1.5rem;
     margin-bottom: 10px;
-    text-align: left;
 }
 
-.message strong {
-    color: #ffd700;
-}
-
-/* Member List */
-.members-list {
-    list-style: none;
+.group-section ul,
+.user-posts ul {
+    list-style-type: none;
     padding: 0;
 }
 
-.members-list li {
-    background: rgba(0, 0, 0, 0.5);
+.group-section li,
+.user-posts li {
     padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    color: #ffd700;
-}
-
-/* Events */
-.event-item {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.event-item strong {
-    color: #ffd700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
