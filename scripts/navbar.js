@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("navbar-container").innerHTML = `
-        <header>
-            <nav>
+        <header id="header">
+            <nav id="navbar">
                 <div class="logo">
                     <a href="index.html">
                     <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
