@@ -4,27 +4,28 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    color: #333;
+    color: white;
     background-image: url("images/Background_Index.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: white;
 }
 
 /* ====== Header & Navigation ====== */
 #header {
     position: fixed;
     white-space: nowrap;
-    width: 100%;
+    width: 90%;
+    max-width: 1200px;
     height: 10%;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     color: white;
-    padding: 15px 20px;
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,12 +33,6 @@ body {
 }
 
 /* ====== Navbar ====== */
-#circular-logo {
-    width: 75px;  /* Size of the image in navbar. Adjust as needed */
-    height: auto;
-    margin-right: 10px; /* Space between image and text */
-}
-
 #navbar {
     display: flex;
     justify-content: space-between; /* Spreads out logo & links */
@@ -46,7 +41,6 @@ body {
     padding: 10px 20px;
     font-size: large;
 }
-
 
 #navbar ul {
     list-style: none;
@@ -59,10 +53,29 @@ body {
     margin: 0 15px;
 }
 
-nav ul li a {
+#navbar ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 18px;
+}
+
+/* ====== Logos ====== */
+.logo {
+    display: flex;
+    align-items: center; /* Aligns text and image vertically */
+    gap: 10px; /* Adds spacing between the image and text */
+    white-space: nowrap; /* Prevents text from wrapping */
+    width: 50%; 
+    height: auto; 
+    font-size: 20px; /* Adjust text size if needed */
+    font-weight: bold; 
+}
+
+#circular-logo {
+    width: 50px;  /* Size of the image in navbar. Adjust as needed */
+    height: auto;
+    margin-right: 10px; /* Space between image and text */
 }
 
 /* ====== Buttons ====== */
@@ -79,6 +92,9 @@ nav ul li a {
 .login-signup:hover {
     background: #af970a;
 }
+
+
+/* End of Header CSS ======================================== */
 
 .join-btn {
     background: #ffd700;
