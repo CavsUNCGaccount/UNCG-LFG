@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <nav id="navbar">
                 <div class="logo">
                     <a href="index.html">
-                    <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
-            </a>
+                        <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
+                    </a>
                 </div>
                 <ul>
                     <li><a href="index.html#about">About</a></li>
@@ -22,4 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
             </nav>
         </header>
     `;
+
+    let lastScrollTop = 0;
+    const header = document.getElementById('header');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down
+            header.classList.add('hidden');
+        } else {
+            // Scrolling up
+            header.classList.remove('hidden');
+        }
+        lastScrollTop = scrollTop;
+    });
 });
