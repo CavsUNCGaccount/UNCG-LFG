@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </ul>
                 <div class="account-menu">
                     <a href="account-page.html">
-                        <img id="account-pic" src="images/default-profile.png" alt="Account">
+                        <img id="account-pic" src="images/Default-Profile.svg" alt="Account">
                     </a>
                 </div>
             </nav>
