@@ -12,7 +12,7 @@ body {
     background-attachment: fixed;
 }
 
-/* ====== Header & Navigation ====== */
+/* ====== Header/Navigation bar ====== */
 #header {
     position: fixed;
     white-space: nowrap;
@@ -32,7 +32,6 @@ body {
     transition: background 0.3s ease;
 }
 
-/* ====== Navbar ====== */
 #navbar {
     display: flex;
     justify-content: space-between; /* Spreads out logo & links */
@@ -552,4 +551,49 @@ main {
     border-radius: 5px;
     border: none;
     text-align: center;
+}
+
+/* ====== Steam Achievements Page Styles ====== */
+.steam-games {
+    text-align: center;
+    padding: 20px;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    justify-content: center;
+}
+
+.game-card {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.game-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.game-card h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #ffd700;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #c5a400;
 }
