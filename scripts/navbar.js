@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a href="login.html" class="login-signup">Login</a></li>
                     <li><a href="signup.html" class="login-signup">Sign Up</a></li>
                 </ul>
+                <div class="account-menu">
+                    <a href="account-page.html">
+                        <img id="account-pic" src="images/default-profile.png" alt="Account">
+                    </a>
+                </div>
             </nav>
         </header>
     `;
