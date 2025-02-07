@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a href="signup.html" class="login-signup">Sign Up</a></li>
                 </ul>
                 <div class="account-menu">
-                    <a href="account-page.html">
-                        <img id="account-pic" src="images/Default-Profile.svg" alt="Account">
+                    <a href="gamer-account-page.html">
+                        <img id="account-pic" src="images/default-avatar.png" alt="Account">
                     </a>
                 </div>
             </nav>
