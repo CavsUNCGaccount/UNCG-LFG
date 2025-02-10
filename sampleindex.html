@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Achievement Tracker</title>
+    <link rel="stylesheet" href="sampleindex.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <script src="search.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>UNCG LFG</span>
+                <a href="#games" class="nav-item">Games</a>
+                <a href="#forums" class="nav-item">Forums</a>
+                <a href="#gamercards" class="nav-item">Gamercards</a>
+                <a href="#leaderboard" class="nav-item">Leaderboard</a>
+                <a href="#reviews" class="nav-item">Reviews</a>
+                <a href="#chat" class="nav-item">Chat</a>
+                
+            </div>
+            <div class="auth-links">
+                <a href="#" id="search-button" class="search-toggle"><i class="fas fa-search"></i></a>
+                <a href="#signup" class="signup">Sign Up / Log In</a>
+            </div>
+            <div id="search-box" class="hidden">
+                <input type="text" id="search-input" placeholder="Start typing to search the site...">
+                <button id="clear-search">✖</button>
+            </div>
+            
+        </nav>
+    </header>
+    
+    <div class="slideshow">
+        <img src="images/21.png" alt="Slide 1" class="active">
+        <img src="images/22.png" alt="Slide 2">
+        <img src="images/23.png" alt="Slide 3">
+    </div>
+
+    <section class="hero">
+        <h1>Track Your Steam Activity</h1>
+        <p>Get an Exophase-like profile and start tracking your gaming achievements and leaderboards.</p>
+        <button id="get-started">Get Started</button>
+    </section>
+
+    <section class="content-section">
+        <p>
+            Explore your achievements, check your progress, and compare your stats with other gamers. More updates and features coming soon!
+        </p>
+
+        <section class="updates-section">
+            <div class="updates">
+                <h3>Updates</h3>
+                <div class="updates-item">
+                    <img src="update1.jpg" alt="Cabernet">
+                    <div>
+                        <p>Achievements: Cabernet</p>
+                        <span>Xbox Series, Xbox One</span>
+                    </div>
+                </div>
+                <div class="updates-item">
+                    <img src="update2.jpg" alt="Dream Cage">
+                    <div>
+                        <p>Achievements: Dream Cage</p>
+                        <span>Steam</span>
+                    </div>
+                </div>
+                <div class="updates-item">
+                    <img src="update3.jpg" alt="Ambulance Life">
+                    <div>
+                        <p>Achievements: Ambulance Life</p>
+                        <span>Steam</span>
+                    </div>
+                </div>
+            </div>
+            <div class="community">
+                <h3>Community</h3>
+                <div class="community-item">
+                    <img src="community1.jpg" alt="Community">
+                    <div>
+                        <p>Game Icon Submissions</p>
+                        <span>Feedback & Support</span>
+                    </div>
+                </div>
+                <div class="community-item">
+                    <img src="community2.jpg" alt="Community">
+                    <div>
+                        <p>Just a Few EA Games Showing Up</p>
+                        <span>Feedback & Support</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <script>
+        const slides = document.querySelectorAll('.slideshow img');
+        let currentIndex = 0;
+
+        function showNextSlide() {
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % slides.length;
+            slides[currentIndex].classList.add('active');
+        }
+
+        setInterval(showNextSlide, 3000);
+    </script>
+
+</body>
+</html>
