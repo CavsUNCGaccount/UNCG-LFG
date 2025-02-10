@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Page | UNCG LFG</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
+    <script defer src="scripts/account.js"></script>
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+    <script src="scripts/navbar.js"></script>
+
+    <main>
+        <div class="account-container">
+            <h2>My Account</h2>
+
+
+            <div class="avatar-section">
+                <img src="images/default-avatar.png" alt="User Avatar">
+            </div>
+
+            <button class="change-avatar-btn" onclick="changeAvatar()">Change Avatar</button>
+
+            <div class="profile-section">
+
+                <div class="profile-info">
+
+
+                    <div class="profile-details">
+                        <label>Username:</label>
+                        <input type="text" id="username" value="JohnDoe" disabled>
+                        <button class="edit-profile" onclick="editField('username')">Edit</button>
+
+                        <label>Email:</label>
+                        <input type="email" id="email" value="johndoe@example.com" disabled>
+                        <button class="edit-profile" onclick="editField('email')">Edit</button>
+
+                        <label>Password:</label>
+                        <input type="password" id="password" value="••••••" disabled>
+                        <button class="edit-profile" onclick="editField('password')">Edit</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="platforms-section">
+                <h3>Linked Gaming Accounts</h3>
+                <div class="platforms">
+                    <div class="platform">
+                        <img src="images/platform-logos/Playstation-logo.png" alt="PlayStation">
+                        <input type="text" id="psn-id" value="PSN_User123" readonly>
+                        <button class="edit-profile" onclick="editField('psn-id')">Edit</button>
+                    </div>
+                    <div class="platform">
+                        <img src="images/platform-logos/Xbox-logo.png" alt="Xbox">
+                        <input type="text" id="xbox-id" value="XboxUser456" readonly>
+                        <button class="edit-profile" onclick="editField('xbox-id')">Edit</button>
+                    </div>
+                    <div class="platform">
+                        <img src="images/platform-logos/Steam-logo.jpg" alt="Steam">
+                        <input type="text" id="steam-id" value="SteamGamer789" readonly>
+                        <button class="steam-login-btn" onclick="linkSteamAccount()">Link Steam Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Edit <span id="edit-field-name"></span></h2>
+                <input type="text" id="edit-input">
+                <button onclick="saveChanges()">Save Changes</button>
+            </div>
+        </div>
+
+        <script src="scripts/modal.js"></script>
+
+        <script>
+            function editField(fieldId) {
+                let field = document.getElementById(fieldId);
+                document.getElementById('edit-modal').style.display = 'block';
+                document.getElementById('edit-field-name').innerText = fieldId;
+                document.getElementById('edit-input').value = field.value;
+                document.getElementById('edit-input').setAttribute('data-field', fieldId);
+            }
+
+            function closeModal() {
+                document.getElementById('edit-modal').style.display = 'none';
+            }
+
+            function saveChanges() {
+                let field = document.getElementById('edit-input').getAttribute('data-field');
+                document.getElementById(field).value = document.getElementById('edit-input').value;
+                closeModal();
+            }
+
+        </script>
+
+
+        <section class="steam-games">
+            <h2>Your Steam Games</h2>
+            <div class="games-grid">
+                <div class="game-card">
+                    <img src="images/game-covers/Fall_Guys_cover_art.png" alt="Fall Guys">
+                    <h3>Fall Guys</h3>
+                    <p>Playtime: 250.0 hours</p>
+                    <a href="view-game-achievements.html" class="btn">View Achievements</a>
+                </div>
+
+                <div class="game-card">
+                    <img src="images/game-covers/Fortnite_cover_art.png" alt="Fortnite">
+                    <h3>Fortnite</h3>
+                    <p>Playtime: 83.3 hours</p>
+                    <a href="view-game-achievements.html" class="btn">View Achievements</a>
+                </div>
+
+                <div class="game-card">
+                    <img src="images/game-covers/Minecraft_2024_cover_art.png" alt="Minecraft">
+                    <h3>Minecraft</h3>
+                    <p>Playtime: 145.5 hours</p>
+                    <a href="view-game-achievements.html" class="btn">View Achievements</a>
+                </div>
+
+                <div class="game-card">
+                    <img src="images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" alt="Rainbow Six Siege">
+                    <h3>Rainbow Six Siege</h3>
+                    <p>Playtime: 98.2 hours</p>
+                    <a href="view-game-achievements.html" class="btn">View Achievements</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function changeAvatar() {
+            alert("Avatar change functionality will be implemented later.");
+        }
+    </script>
+
+    <script>
+        function linkSteamAccount() {
+            alert("Redirecting to Steam for authentication...");
+            alert("Steam authentication will be implemented later.");
+            //window.location.href = "https://steamcommunity.com/openid"; 
+        }
+    </script>
+
+    <footer class="pre-format">
+        Copyright © 2025 UNCG LFG.
+        All rights reserved.
+    </footer>
+</body>
+
+</html>
