@@ -3,232 +3,383 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UNCG LFG</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font style used for all the pages. Imported from Google API-->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts (Rajdhani & Orbitron for gaming aesthetic) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Navbar script -->
+    <script src="scripts/navbar.js" defer></script>
+
 </head>
 
 <body>
-
-    <!-- Obtain the navbar from a script using event listeners. For prototyping purposes.  -->
+    <!-- Navbar -->
     <div id="navbar-container"></div>
-    <script src="scripts/navbar.js"></script>
 
-    <main>
+    <!-- Featured Games slideshow-->
+    <section id="featured-games">
+        <div class="slideshow">
+            <!-- Wallpapers for slideshow are 1920 x 1080 -->
+            <img src="images/slideshow-covers/Marvel_Rivals.jpeg" alt="Marvel Rivals" class="active"
+                data-link="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.png">
 
-        <section class="featured-games">
-            <h2>Featured Games</h2>
-            <div class="games-container">
-                <a href="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.jpg"
-                    class="game-card">
-                    <img src="images/game-covers/Marvel_Rivals_cover_art.jpg" alt="Marvel Rivals">
-                    <p>Marvel Rivals</p>
-                </a>
+            <img src="images/slideshow-covers/Rainbow_Six_Siege.jpg" alt="Rainbow Six Siege"
+                data-link="community.html?game=Rainbow Six Siege&image=images/game-covers/Rainbow_Six_Siege_cover_art.png">
 
-                <a href="community.html?game=Rainbow Six Siege&image=images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg"
-                    class="game-card">
-                    <img src="images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" alt="Rainbow Six Siege">
-                    <p>Rainbow Six Siege</p>
-                </a>
+            <img src="images/slideshow-covers/Minecraft.jpg" alt="Minecraft" 
+                data-link="community.html?game=Minecraft&image=images/game-covers/Minecraft_cover_art.jpg">
 
-                <a href="community.html?game=Minecraft&image=images/game-covers/Minecraft_2024_cover_art.png"
-                    class="game-card">
-                    <img src="images/game-covers/Minecraft_2024_cover_art.png" alt="Minecraft">
-                    <p>Minecraft</p>
-                </a>
-                <a href="community.html?game=Overwatch 2&image=images/game-covers/Overwatch_2_cover_art.jpg"
-                    class="game-card">
-                    <img src="images/game-covers/Overwatch_2_cover_art.jpg" alt="Overwatch 2">
-                <p>Overwatch 2</p>
-                </a>
+            <img src="images/slideshow-covers/Overwatch_2.png" alt="Overwatch 2" 
+                data-link="community.html?game=Overwatch 2&image=images/game-covers/Overwatch_2_cover_art.jpg">
 
-                <a href="community.html?game=Path of Exile 2&image=images/game-covers/Path_of_Exile_2_cover_art.jpg"
-                    class="game-card">
-                    <img src="images/game-covers/Path_of_Exile_2_cover_art.jpg" alt="Path of Exile 2">
-                    <p>Path of Exile 2</p>
-                </a>
+            <img src="images/slideshow-covers/Path_of_Exile_2.jpg" alt="Path of Exile 2" 
+                data-link="community.html?game=Path of Exile 2&image=images/game-covers/Path_of_Exile_2_cover_art.png">
 
-                <a href="community.html?game=Monster Hunter World&image=images/game-covers/Monster_Hunter_World_cover_art.jpg"
-                    class="game-card">
-                    <img src="images/game-covers/Monster_Hunter_World_cover_art.jpg" alt="Monster Hunter World">
-                    <p>Monster Hunter World</p>
-                </a>
-            </div>
-        </section>
+            <img src="images/slideshow-covers/Monster_Hunter_World.png" alt="Monster Hunter World" 
+                data-link="community.html?game=Monster Hunter World&image=images/game-covers/Monster_Hunter_World_cover_art.jpg">
+        </div>
 
-        <section class="introduction">
-            <h1>Welcome to UNCG LFG!</h1>
-            <img class="logo" src="images/UNCG_LFG_Logo.png" alt="website-logo">
-            <p>Connect with fellow students, join games, and find other gamers to play with.</p>
-            <a href="#" class="login-signup">Get Started</a>
-        </section>
+        <!-- Game Title & Community Page Link -->
+        <div class="slideshow-info">
+            <h2 id="game-title">Marvel Rivals</h2>
+            <a id="game-link" href="#">Visit Community Page</a>
+        </div>
+    </section>
 
-        <section id="about" class="general-section">
+    <!-- Hero Section -->
+    <header class="text-center text-white bg-dark py-5">
+        <div class="container">
+            <h1>Find Your Gaming Community at UNCG</h1>
+            <img class="img-fluid" src="images/UNCG_LFG_Logo.png" alt="website-logo" width="600">
+            <p class="mt-3">Connect with fellow students, join games, and build friendships.</p>
+            <a href="#" class="btn btn-warning btn-lg">Get Started</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="bg-secondary text-white py-5">
+        <div class="container text-center">
             <h2>About UNCG LFG</h2>
             <p>UNCG LFG is a platform for students to find gaming groups, schedule gaming sessions, and meet like-minded
-                players.
-                UNCG LFG focuses on PlayStation, Xbox, and Steam platforms.
-            </p>
-        </section>
+                players.</p>
+        </div>
+    </section>
 
-        <section id="features" class="general-section">
-            <h2>Features</h2>
-            <ul>
-                <li>Find players for your favorite games</li>
-                <li>Schedule gaming sessions</li>
-                <li>Join gaming sessions hosted by other players</li>
-                <li>Game Community pages for 20 popular co-op/multiplayer games of the last 15 years.
-                    All of these games are available for PlayStation, Xbox, and Steam. </li>
-                <li>Display your PlayStation, Xbox, and Steam gamertags.</li>
-                <li>Achievement tracking for Steam users.</li>
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center">Features</h2>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item bg-dark text-white">Find players for your favorite games</li>
+                <li class="list-group-item bg-dark text-white">Schedule gaming sessions</li>
+                <li class="list-group-item bg-dark text-white">Join gaming sessions hosted by other players</li>
+                <li class="list-group-item bg-dark text-white">Game Community pages for 20 popular co-op/multiplayer
+                    games</li>
+                <li class="list-group-item bg-dark text-white">Achievement tracking for Steam users</li>
             </ul>
-        </section>
+        </div>
+    </section>
 
-        <section id="games" class="game-list">
-            <h2>Join a Game Community</h2>
-            <div class="game-container">
+    <!-- List of 20 games -->
+    <section id="games" class="py-5">
 
-                <!-- Keep href link in one single line for now. Not doing so causes image to not load in community page.-->
-                <div class="game-item">
-                    <img src="images/game-covers/Fortnite_cover_art.png" alt="Fortnite">
-                    <a href="community.html?game=Fortnite&image=images/game-covers/Fortnite_cover_art.png&description=Fortnite is a battle royale game with building mechanics and constant updates." class="game-link">Fortnite</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Minecraft_2024_cover_art.png" alt="Minecraft">
-                    <a href="community.html?game=Minecraft&image=images/game-covers/Minecraft_2024_cover_art.png&description=Minecraft is a sandbox survival game with infinite creative possibilities." class="game-link">Minecraft</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/COD_Warzone_Cover_Art.jpg" alt="Call of Duty: Warzone">
-                    <a href="community.html?game=Call of Duty: Warzone&image=images/game-covers/COD_Warzone_cover_art.jpg&description=Warzone is a free-to-play battle royale game set in the Call of Duty universe." class="game-link">Call of Duty: Warzone</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Apex_Legends_cover_art.jpg" alt="Apex Legends">
-                    <a href="community.html?game=Apex Legends&image=images/game-covers/Apex_Legends_cover_art.jpg&description=Apex Legends is a fast-paced battle royale with unique hero abilities." class="game-link">Apex Legends</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Rocket_League_cover_art.png" alt="Rocket League">
-                    <a href="community.html?game=Rocket League&image=images/game-covers/Rocket_League_cover_art.png&description=Rocket League is a soccer game played with rocket-powered cars." class="game-link">Rocket League</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/GTA_Online_cover_art.png" alt="GTA V Online">
-                    <a href="community.html?game=Grand Theft Auto V Online&image=images/game-covers/GTA_Online_cover_art.png&description=GTA V Online is an open-world multiplayer experience with endless activities." class="game-link">Grand Theft Auto V Online</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Among_Us_cover_art.jpg" alt="Among Us">
-                    <a href="community.html?game=Among Us&image=images/game-covers/Among_Us_cover_art.jpg&description=Among Us is a social deduction game where players work together to find the imposter." class="game-link">Among Us</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Fall_Guys_cover_art.png" alt="Fall Guys">
-                    <a href="community.html?game=Fall Guys&image=images/game-covers/Fall_Guys_cover_art.png&description=Fall Guys is a chaotic party game with fun obstacle course challenges." class="game-link">Fall Guys</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Destiny_2_cover_art.jpg" alt="Destiny 2">
-                    <a href="community.html?game=Destiny 2&image=images/game-covers/Destiny_2_cover_art.jpg&description=Destiny 2 is an online FPS MMO with cooperative raids and PvP modes." class="game-link">Destiny 2</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Overwatch_2_cover_art.jpg" alt="Overwatch 2">
-                    <a href="community.html?game=Overwatch 2&image=images/game-covers/Overwatch_2_cover_art.jpg&description=Overwatch 2 is a team-based hero shooter with strategic gameplay." class="game-link">Overwatch 2</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Marvel_Rivals_cover_art.jpg" alt="Marvel Rivals">
-                    <a href="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.jpg&description=Marvel Rivals is a fast-paced hero shooter with Marvel characters." class="game-link">Marvel Rivals</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Sea_of_thieves_cover_art.jpg" alt="Sea of Thieves">
-                    <a href="community.html?game=Sea of Thieves&image=images/game-covers/Sea_of_thieves_cover_art.jpg&description=Sea of Thieves is a pirate adventure game where players explore and battle on the high seas." class="game-link">Sea of Thieves</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Halo_TMCC_cover_art.png" alt="Halo: MCC">
-                    <a href="community.html?game=Halo: The Master Chief Collection&image=images/game-covers/Halo_TMCC_cover_art.png&description=A collection of classic Halo FPS games with multiplayer and campaigns." class="game-link">Halo: The Master Chief Collection</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Dead_by_Daylight_cover_art.jpg" alt="Dead By Daylight">
-                    <a href="community.html?game=Dead By Daylight&image=images/game-covers/Dead_by_Daylight_cover_art.jpg&description=Dead By Daylight is an asymmetrical horror game where survivors escape from a killer." class="game-link">Dead By Daylight</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/League_of_Legends_cover_art.jpg" alt="League of Legends">
-                    <a href="community.html?game=League of Legends&image=images/game-covers/League_of_Legends_cover_art.jpg&description=League of Legends is a competitive MOBA with deep strategic gameplay." class="game-link">League of Legends</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Diablo_III_cover_art.png" alt="Diablo III">
-                    <a href="community.html?game=Diablo III&image=images/game-covers/Diablo_III_cover_art.png&description=Diablo III is an action RPG with deep loot mechanics and dungeon crawling." class="game-link">Diablo III</a>
-                    <button class="join-btn">Join</button>
-                </div>
-        
-                <div class="game-item">
-                    <img src="images/game-covers/Valorant_cover_art.jpg" alt="Valorant">
-                    <a href="community.html?game=Valorant&image=images/game-covers/Valorant_cover_art.jpg&description=Valorant is a tactical shooter that blends hero abilities with precise gunplay." class="game-link">Valorant</a>
-                    <button class="join-btn">Join</button>
-                </div>
-
-                <div class="game-item">
-                    <img src="images/game-covers/Monster_Hunter_World_cover_art.jpg" alt="Monster Hunter World">
-                    <a href="community.html?game=Monster%20Hunter%20World
-                        &image=images/game-covers/Monster_Hunter_World_cover_art.jpg
-                        &description=Monster%20Hunter%20World%20is%20an%20action%20RPG%20where%20players%20hunt%20monsters%20in%20a%20vast%20open%20world." 
-                        class="game-link">Monster Hunter World</a>
-                    <button class="join-btn">Join</button>
-                </div>
+        <div class="container">
+            <h2 class="text-center text-white">Join a Game Community</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 
-                <div class="game-item">
-                    <img src="images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg" alt="Rainbow Six Siege">
-                    <a href="community.html?game=Rainbow%20Six%20Siege
-                        &image=images/game-covers/Tom_Clancy's_Rainbow_Six_Siege_cover_art.jpg
-                        &description=Rainbow%20Six%20Siege%20is%20a%20tactical%20shooter%20that%20requires%20teamwork%20and%20strategy." 
-                        class="game-link">Rainbow Six Siege</a>
-                    <button class="join-btn">Join</button>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Among_Us_cover_art.png" class="card-img-top" alt="Among Us">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Among Us</h5>
+                            <a href="community.html?game=Among Us&image=images/game-covers/Among_Us_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
                 </div>
-                
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Apex_Legends_cover_art.jpg" class="card-img-top" alt="Apex Legends">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Apex Legends</h5>
+                            <a href="community.html?game=Apex Legends&image=images/game-covers/Apex_Legends_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/COD_Warzone_Cover_Art.jpg" class="card-img-top" alt="Call of Duty: Warzone">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Call of Duty Warzone</h5>
+                            <a href="community.html?game=Call of Duty: Warzone&image=images/game-covers/COD_Warzone_Cover_Art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Dead_by_Daylight_cover_art.jpg" class="card-img-top" alt="Dead by Daylight">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Dead by Daylight</h5>
+                            <a href="community.html?game=Dead by Daylight&image=images/game-covers/Dead_by_Daylight_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Destiny_2_cover_art.jpg" class="card-img-top" alt="Destiny 2">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Destiny 2</h5>
+                            <a href="community.html?game=Destiny 2&image=images/game-covers/Destiny_2_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Diablo_III_cover_art.png" class="card-img-top" alt="Diablo III">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Diablo III</h5>
+                            <a href="community.html?game=Diablo III&image=images/game-covers/Diablo_III_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Fall_Guys_cover_art.jpg" class="card-img-top" alt="Fall Guys">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Fall Guys</h5>
+                            <a href="community.html?game=Fall Guys&image=images/game-covers/Fall_Guys_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Fortnite_cover_art.png" class="card-img-top" alt="Fortnite">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Fortnite</h5>
+                            <a href="community.html?game=Fortnite&image=images/game-covers/Fortnite_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/GTA_Online_cover_art.png" class="card-img-top" alt="Grand Theft Auto Online">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Grand Theft Auto Online</h5>
+                            <a href="community.html?game=Grand Theft Auto Online&image=images/game-covers/GTA_Online_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Halo_TMCC_cover_art.png" class="card-img-top" alt="Halo: MCC">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Halo: The Master Chief Collection</h5>
+                            <a href="community.html?game=Halo: The Master Chief Collection&image=images/game-covers/Halo_TMCC_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/League_of_Legends_cover_art.jpg" class="card-img-top" alt="League of Legends">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">League of Legends</h5>
+                            <a href="community.html?game=League of Legends&image=images/game-covers/League_of_Legends_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Marvel_Rivals_cover_art.png" class="card-img-top" alt="Marvel Rivals">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Marvel Rivals</h5>
+                            <a href="community.html?game=Marvel Rivals&image=images/game-covers/Marvel_Rivals_cover_art.png" 
+                                    class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Minecraft_cover_art.jpg" class="card-img-top" alt="Minecraft">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Minecraft</h5>
+                            <a href="community.html?game=Minecraft&image=images/game-covers/Minecraft_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Monster_Hunter_World_cover_art.jpg" class="card-img-top" alt="Monster Hunter World">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Monster Hunter World</h5>
+                            <a href="community.html?game=Monster Hunter World&image=images/game-covers/Monster_Hunter_World_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Overwatch_2_cover_art.jpg" class="card-img-top" alt="Overwatch 2">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Overwatch 2</h5>
+                            <a href="community.html?game=Overwatch 2&image=images/game-covers/Overwatch_2_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Path_of_Exile_2_cover_art.png" class="card-img-top" alt="Path of Exile 2">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Path of Exile 2</h5>
+                            <a href="community.html?game=Path of Exile 2&image=images/game-covers/Path_of_Exile_2_cover_art.png" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Rocket_League_cover_art.jpg" class="card-img-top" alt="Rocket League">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Rocket League</h5>
+                            <a href="community.html?game=Rocket League&image=images/game-covers/Rocket_League_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Sea_of_thieves_cover_art.jpg" class="card-img-top" alt="Sea of Thieves">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Sea of Thieves</h5>
+                            <a href="community.html?game=Sea of Thieves&image=images/game-covers/Sea_of_thieves_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
         
-                <div class="game-item">
-                    <img src="images/game-covers/Path_of_Exile_2_cover_art.jpg" alt="Path of Exile 2">
-                    <a href="community.html?game=Path of Exile 2&image=images/game-covers/Path_of_Exile_2_cover_art.jpg&description=Path of Exile 2 is an action RPG with deep customization and dark fantasy elements." class="game-link">Path of Exile 2</a>
-                    <button class="join-btn">Join</button>
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Rainbow_Six_Siege_cover_art.png" class="card-img-top" alt="Rainbow Six Siege">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Tom Clancy's Rainbow Six Siege</h5>
+                            <a href="community.html?game=Rainbow Six Siege&image=images/game-covers/Rainbow_Six_Siege_cover_art.png"
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <div class="card game-card">
+                        <img src="images/game-covers/Valorant_cover_art.jpg" class="card-img-top" alt="Valorant">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Valorant</h5>
+                            <a href="community.html?game=Valorant&image=images/game-covers/Valorant_cover_art.jpg" 
+                                class="btn btn-primary">Visit Community</a>
+                            <a href="#" class="btn btn-outline-light">Join</a>
+                        </div>
+                    </div>
                 </div>
         
             </div>
-        </section>               
+        </div>        
 
-    </main>
+    </section>
 
-    <footer class="pre-format">
-        Copyright © 2025 UNCG LFG.
-        All rights reserved.
+    
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2025 UNCG LFG. All rights reserved.
     </footer>
+
+    <!-- Slideshow Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = document.querySelectorAll(".slideshow img");
+            const titleElement = document.getElementById("game-title");
+            const linkElement = document.getElementById("game-link");
+            let currentIndex = 0;
+
+            function updateGameInfo() {
+                titleElement.textContent = images[currentIndex].alt;
+                linkElement.href = images[currentIndex].getAttribute("data-link");
+            }
+
+            function nextSlide() {
+                images[currentIndex].classList.remove("active");
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.add("active");
+                updateGameInfo();
+            }
+
+            // Auto transition 1 second for every 1000 (so 5 seconds is 5000)
+            setInterval(nextSlide, 5000);
+
+            // Initialize first title
+            updateGameInfo();
+        });
+    </script>
 
 </body>
 

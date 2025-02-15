@@ -1,40 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("navbar-container").innerHTML = `
-        <header id="header">
-            <nav id="navbar">
-                <div class="logo">
-                    <a href="index.html">
-                        <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo">
-                    </a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo" width="50"
+                        height="50">
+                    UNCG LFG
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#games">Games</a></li>
+                        <a href="login.html" class="btn btn-login-signup me-2">Login</a>
+                        <a href="signup.html" class="btn btn-login-signup">Sign Up</a>
+                    </ul>
                 </div>
-                <ul>
-                    <li><a href="index.html#about">About</a></li>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#games">Games</a></li>
-                    <li><a href="login.html" class="login-signup">Login</a></li>
-                    <li><a href="signup.html" class="login-signup">Sign Up</a></li>
-                </ul>
-                <div class="account-menu">
-                    <a href="gamer-account-page.html">
-                        <img id="account-pic" src="images/default-avatar.png" alt="Account">
-                    </a>
-                </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
     `;
-
-    let lastScrollTop = 0;
-    const header = document.getElementById('header');
-
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > lastScrollTop) {
-            // Scrolling down
-            header.classList.add('hidden');
-        } else {
-            // Scrolling up
-            header.classList.remove('hidden');
-        }
-        lastScrollTop = scrollTop;
-    });
 });

@@ -1,0 +1,188 @@
+/* ===== Global Styles ===== */
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #111;
+    background-image: url("../images/Background_Index.jpg");
+    background-size: 100%;
+    color: white;
+}
+
+/* Apply Orbitron for headings */
+h1, h2, h3 {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+}
+
+/* Navbar Customization */
+.navbar-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+}
+
+#circular-logo {
+    width: 50px;
+    height: 50px;
+}
+
+/* Button Customization */
+.btn-warning {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Style for Login & Sign Up buttons */
+.btn-login-signup {
+    background-color: #ffd700; /* Default color (Gold) */
+    color: #000; /* Black text */
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.btn-login-signup:hover {
+    background-color: #af970a; /* Darker Gold on hover */
+    color: #fff; /* White text */
+}
+
+/* Slideshow styles */
+.slideshow {
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    position: relative;
+    overflow: hidden;
+}
+
+.slideshow img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire section */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slideshow img.active {
+    opacity: 1;
+}
+
+#featured-games {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.slideshow-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px 20px;
+    border-radius: 10px;
+}
+
+.slideshow-info h2 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.slideshow-info a {
+    color: yellow;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    display: block;
+    margin-top: 5px;
+}
+
+.slideshow-info a:hover {
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+.hero img {
+    width: 200px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+/* Featured Games Grid */
+.featured-games {
+    text-align: center;
+}
+
+.featured-games img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.featured-games img:hover {
+    transform: scale(1.05);
+}
+
+/* Game List Styling */
+.list-group-item {
+    background-color: #222;
+    color: white;
+    border: 1px solid #333;
+}
+
+/* Ensure uniform card size */
+.game-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #222;  /* Matches dark theme */
+    border: 1px solid #333;  /* Subtle border */
+    height: 100%; /* Ensures all cards in a row stay the same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white; /* Ensures text is white */
+}
+
+/* Keep hover effect */
+.game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+/* Ensure images fit nicely inside the cards */
+.game-card img {
+    object-fit: cover;
+    width: 100%;
+    height: 250px; /* Adjust height for uniformity */
+    border-bottom: 1px solid #444;
+}
+
+/* Buttons inside cards */
+.game-card .card-body {
+    flex-grow: 1; /* Ensures buttons are at the bottom */
+    text-align: center;
+}
+
+/* Ensure buttons look good */
+.game-card .btn {
+    width: 100%; /* Makes buttons same width */
+    margin-top: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    padding: 10px;
+    font-size: 0.9rem;
+}

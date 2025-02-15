@@ -1,0 +1,747 @@
+/* ====== Global Styles ====== */
+body {
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: white;
+    background-image: url("images/Background_Index.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* ====== Header/Navigation bar ====== */
+#header {
+    position: fixed;
+    top: 0; /* Ensure the header is at the top */
+    white-space: nowrap;
+    width: 100%;
+    height: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    color:whitesmoke;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header.hidden {
+    top: -60px; /* Adjust based on your header height */
+    transition: top 0.3s ease;
+}
+
+#header:hover {
+    top: 0;
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between; /* Spreads out logo & links */
+    align-items: center; /* Aligns items vertically */
+    flex-wrap: nowrap; /* Prevents wrapping */
+    padding: 10px 20px;
+    font-size: large;
+}
+
+#navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* ====== Logos ====== */
+.logo {
+    display: flex;
+    align-items: center; /* Aligns text and image vertically */
+    gap: 10px; /* Adds spacing between the image and text */
+    white-space: nowrap; /* Prevents text from wrapping */
+    width: 50%; 
+    height: auto; 
+    font-size: 20px; /* Adjust text size if needed */
+    font-weight: bold; 
+}
+
+#circular-logo {
+    width: 50px;  /* Size of the image in navbar. Adjust as needed */
+    height: auto;
+    margin-right: 10px; /* Space between image and text */
+}
+
+/* ====== Buttons ====== */
+.login-signup {
+    display: flex;
+    background: #ffd700;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.login-signup:hover {
+    background: #af970a;
+}
+
+/* ====== Account Picture in Navbar ====== */
+.account-menu {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+#account-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#account-pic:hover {
+    transform: scale(1.1);
+}
+
+
+/* End of Header CSS ======================================== */
+
+.join-btn {
+    background: #ffd700;
+    color: #00471b;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 20%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.join-btn:hover {
+    background: #af970a;
+}
+
+/* ====== Logos ====== */
+.logo {
+    display: flex;
+    align-items: center; /* Aligns text and image vertically */
+    gap: 10px; /* Adds spacing between the image and text */
+    white-space: nowrap; /* Prevents text from wrapping */
+    width: 50%; 
+    height: auto;
+    font-size: 24px; /* Adjust text size if needed */
+    font-weight: bold;
+}
+
+/* ====== Featured Games Section ====== */
+.featured-games {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 80px auto 20px;
+    width: 90%;
+}
+
+.games-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.game-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    background: rgba(186, 181, 13, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover {
+    transform: scale(1.05);
+}
+
+.game-card img {
+    width: 120px;
+    height: 160px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* ====== Introduction Section ====== */
+.introduction {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers all child elements horizontally */
+    text-align: center;
+    padding: 50px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 90%;
+}
+
+.introduction h1 {
+    font-size: 2.5em;
+}
+
+.introduction p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* ====== Game List Sections ====== */
+.game-list {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 90%;
+    color: white;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-item {
+    display: flex;
+    align-items: center;
+    background: rgba(29, 4, 122, 0.5);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    justify-content: space-between;
+}
+
+.game-item img {
+    width: 100px;
+    height: 140px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.game-link {
+    font-size: 1.2em;
+    flex-grow: 1;
+    text-align: left;
+    text-decoration: none;
+    color: #ffd700;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.game-link:hover {
+    color: #ffcc00;
+}
+
+/* ====== General Sections ====== */
+main {
+    padding: 20px;
+    margin-top: 80px;
+}
+
+.general-section {
+    margin: 20px auto;
+    padding: 15px;
+    background: rgba(29, 4, 122, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+}
+
+/* Prevents games from being hidden by navbar */
+.general-section, .game-list {
+    padding-top: 150px; /* Adjust based on navbar height */
+}
+
+/* ====== Footer ====== */
+.pre-format {
+    font-family: monospace;
+    text-align: right;
+    white-space: pre;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    margin-top: 20px;
+}
+/* ================== End of index.html styling ================== */
+
+/* ====== Game Community Page ====== */
+.game-banner {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    margin: 100px auto 20px;
+    width: 80%;
+    border-radius: 8px;
+}
+
+.game-banner img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.game-banner div {
+    flex-grow: 1;
+}
+
+.game-banner h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.game-banner p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.join-btn {
+    background: #ffd700;
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.join-btn:hover {
+    background: #ffcc00;
+}
+
+/* Flex container for sections */
+.community-content {
+    display: flex;
+    flex-direction: row; /* Ensures content is laid out in a row */
+    justify-content: space-between; /* Ensures spacing between both sections */
+    align-items: stretch;  /* Ensures both sections have the same height */
+    margin: 30px auto;
+    width: 80%;
+    gap: 20px; /* Adds spacing between the two sections */
+}
+
+/* Individual Sections */
+.group-section,
+.user-posts {
+    flex: 1; /* Both take equal space */
+    min-height: 250px; /* Set a baseline height */
+    background: rgba(0, 0, 139, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    width: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.group-section h2,
+.user-posts h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.group-section ul,
+.user-posts ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.group-section li,
+.user-posts li {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* User Posts Page Styling */
+.user-posts-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1a1a2e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-posts-container h2 {
+    color: #fff;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.post-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background: #16213e;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.post-input textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    background: #0f3460;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.post-input button {
+    padding: 10px;
+    background: #e94560;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.post-input button:hover {
+    background: #ff2e63;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post-card {
+    padding: 15px;
+    background: #0f3460;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.post-card .post-author {
+    font-weight: bold;
+    color: #e94560;
+}
+
+.post-card .post-time {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+}
+
+@media (max-width: 600px) {
+    .user-posts-container {
+        width: 90%;
+    }
+
+    .post-input textarea {
+        height: 80px;
+    }
+}
+
+/* ====== Account Page Styles ====== */
+.account-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(53, 122, 168, 0.2);
+    border-radius: 10px;
+    padding: 30px;
+    color: white;
+    text-align: center;
+}
+
+/* Profile section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Avatar section */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px; /* Ensure width consistency */
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin: 0 auto; /* Centers the avatar */
+    position: relative;
+    overflow: hidden;
+    background: transparent; /* Ensures no background when no image */
+}
+
+/* Only display the border if an image exists */
+.avatar-section img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Hide the .avatar-section when no image exists */
+.avatar-section:empty {
+    border: none; /* Removes the circle outline when no image */
+    width: 0;
+    height: 0;
+}
+
+.avatar-section button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #ffd700;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.avatar-section .edit-avatar {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+    padding: 6px 12px;
+    background: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+    opacity: 0;
+}
+
+.avatar-section:hover .edit-avatar {
+    bottom: -10px;
+    opacity: 1;
+}
+
+/* Position the Change Avatar button correctly */
+.change-avatar-btn {
+    margin-top: 10px; /* Adjusts spacing below the avatar */
+    background: #ffd700;
+    color: black;
+    padding: 6px 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+}
+
+/* Profile details */
+.profile-details {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-details div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.profile-details label {
+    font-size: 1rem;
+    width: 120px;
+    text-align: left;
+}
+
+.profile-details input {
+    flex-grow: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+}
+
+.profile-details .edit-profile {
+    margin-left: 10px;
+    background: white;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+}
+
+/* ====== Steam Account Button Styles ====== */
+.steam-login-btn {
+    background: #1b2838; /* Steam dark blue */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.steam-login-btn:hover {
+    background: #2a475e; /* Lighter Steam blue */
+}
+
+
+/* Platforms section */
+.platforms-section {
+    margin-top: 20px;
+}
+
+.platforms {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.platform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.platform img {
+    width: 100px;
+    height: 100px;
+}
+
+.platform input {
+    padding: 8px;
+    width: 160px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* ====== Modal Styles ====== */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ffd700;
+}
+
+
+/* ====== Steam Achievements ====== */
+.steam-games {
+    text-align: center;
+    padding: 20px;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    justify-content: center;
+}
+
+.game-card {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.game-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.game-card h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #ffd700;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #c5a400;
+}
