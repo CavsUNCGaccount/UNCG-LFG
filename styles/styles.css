@@ -180,8 +180,8 @@ h1, h2, h3 {
     margin-top: 5px;
 }
 
-/* Make header in app policy page slighty darker */
-.app-policy-page-header {
+/* Make html elements touching navbar have a slighty darker background */
+.dark-background-element {
     background-color: #120303;
 }
 

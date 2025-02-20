@@ -1,24 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Games</title>
-    <link rel="stylesheet" href="first_sample_styles.css">
+    <title>View Steam Achievements | UNCG LFG</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Navbar script -->
+    <script src="scripts/navbar.js" defer></script>
+
+    <!-- Page Script -->
+    <script defer src="scripts/account.js"></script>
+
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-    <!-- Obtain the navbar from a script using event listeners. For prototyping purposes.  -->
+    <!-- Navbar -->
     <div id="navbar-container"></div>
-    <script src="scripts/navbar.js"></script>
 
-    
+    <!-- Game Banner Section -->
+    <section class="dark-background-element text-white text-center py-5">
+        <div class="container">
+            <img src="images/game-covers/sample-game-cover.jpg" alt="Game Cover" class="img-fluid rounded" style="max-width: 300px;">
+            <h1 class="mt-3">Game Title</h1>
+            <p class="lead">View your achievements for this game</p>
+        </div>
+    </section>
 
-    <footer class="pre-format">
-        Copyright © 2025 UNCG LFG.
-        All rights reserved.
+    <!-- Achievement Overview Section -->
+    <section class="bg-secondary text-white text-center py-3">
+        <div class="container">
+            <h3>Achievements Overview</h3>
+            <p>Earned <strong>15</strong> out of <strong>50</strong> Achievements</p>
+            <div class="progress" style="height: 25px; max-width: 600px; margin: 0 auto;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 30%;" 
+                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Grid Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Achievements</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                <!-- Achievement Card Examples -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="images/achievement-icons/sample-icon.png" class="card-img-top" alt="Achievement Icon">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Achievement Name</h5>
+                            <p class="card-text">Description of the achievement.</p>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            Unlocked on: <br> <strong>2025-01-15</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="images/achievement-icons/sample-icon.png" class="card-img-top" alt="Achievement Icon">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Achievement Name</h5>
+                            <p class="card-text">Description of the achievement.</p>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            Unlocked on: <br> <strong>2025-01-15</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="images/achievement-icons/sample-icon.png" class="card-img-top" alt="Achievement Icon">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Achievement Name</h5>
+                            <p class="card-text">Description of the achievement.</p>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            Unlocked on: <br> <strong>2025-01-15</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        Copyright © 2025 UNCG LFG. All rights reserved.
     </footer>
 
 </body>
+
 </html>
