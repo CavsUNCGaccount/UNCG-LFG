@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#games">Games</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#games">Games</a></li>
                         <a href="login.html" class="btn btn-login-signup me-2">Login</a>
                         <a href="signup.html" class="btn btn-login-signup">Sign Up</a>
                     </ul>
