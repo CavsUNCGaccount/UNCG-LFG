@@ -180,6 +180,11 @@ h1, h2, h3 {
     margin-top: 5px;
 }
 
+/* Make header in app policy page slighty darker */
+.app-policy-page-header {
+    background-color: #120303;
+}
+
 /* Footer */
 footer {
     background-color: #000;

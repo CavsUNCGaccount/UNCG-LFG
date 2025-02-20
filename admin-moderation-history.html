@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderation History | UNCG LFG</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Navbar script -->
+    <script src="scripts/navbar.js" defer></script>
+</head>
+
+<!-- d-flex flex-column min-vh-100: ensures that mt-auto for the footer makes footer stay at the bottom of the page. -->
+<body class="d-flex flex-column min-vh-100">
+    
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card bg-dark text-white p-4 rounded shadow">
+                    <h2 class="text-center">Moderation History</h2>
+
+                    <!-- Search Bar -->
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search Moderation Actions...">
+                        <button class="btn btn-primary" onclick="searchModeration()">Search</button>
+                    </div>
+
+                    <!-- Moderation History Table -->
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Action Type</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="moderationTable">
+                                <tr>
+                                    <td>2025-02-01</td>
+                                    <td>Banned User</td>
+                                    <td>Username: ToxicPlayer123</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-28</td>
+                                    <td>Deleted Post</td>
+                                    <td>Post ID: 456 - Offensive Language</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-20</td>
+                                    <td>Suspended User</td>
+                                    <td>Username: Spammer001</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-15</td>
+                                    <td>Deleted Group</td>
+                                    <td>Group Name: ToxicClan</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Back to Admin Profile -->
+                    <div class="text-center mt-4">
+                        <a href="admin-profile-page.html" class="btn btn-secondary">Back to Admin Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <!-- mt-auto ensure footer stays at the bottom of the page. -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        Copyright © 2025 UNCG LFG. All rights reserved.
+    </footer>
+
+    <script>
+        // Simple search functionality
+        function searchModeration() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const tableRows = document.getElementById("moderationTable").getElementsByTagName("tr");
+
+            for (let i = 0; i < tableRows.length; i++) {
+                let rowText = tableRows[i].textContent.toLowerCase();
+                if (rowText.includes(input)) {
+                    tableRows[i].style.display = "";
+                } else {
+                    tableRows[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
