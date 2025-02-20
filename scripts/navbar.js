@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#features">Features</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#games">Games</a></li>
+                        <li class="nav-item"><a class="nav-link" href="app-policy.html">Policy</a></li>
                         <a href="login.html" class="btn btn-login-signup me-2">Login</a>
                         <a href="signup.html" class="btn btn-login-signup">Sign Up</a>
                     </ul>

@@ -10,7 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
@@ -38,7 +39,8 @@
 
                     <!-- Avatar Section -->
                     <div class="text-center mb-3">
-                        <img src="images/default-avatar.png" alt="User Avatar" class="rounded-circle img-fluid" width="150">
+                        <img src="images/default-avatar.png" alt="User Avatar" class="rounded-circle img-fluid"
+                            width="150">
                     </div>
 
                     <!-- Profile Details -->
@@ -46,19 +48,22 @@
                         <h4>Profile Details</h4>
                         <div class="form-group">
                             <label>Username:</label>
-                            <input type="text" id="username" class="form-control bg-secondary text-white" value="AdminUser" disabled>
+                            <input type="text" id="username" class="form-control bg-secondary text-white"
+                                value="AdminUser" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('username')">Edit</button>
                         </div>
 
                         <div class="form-group mt-3">
                             <label>Email:</label>
-                            <input type="email" id="email" class="form-control bg-secondary text-white" value="admin@example.com" disabled>
+                            <input type="email" id="email" class="form-control bg-secondary text-white"
+                                value="admin@example.com" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('email')">Edit</button>
                         </div>
 
                         <div class="form-group mt-3">
                             <label>Password:</label>
-                            <input type="password" id="password" class="form-control bg-secondary text-white" value="••••••" disabled>
+                            <input type="password" id="password" class="form-control bg-secondary text-white"
+                                value="••••••" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('password')">Edit</button>
                         </div>
                     </div>
@@ -67,6 +72,50 @@
                     <div class="text-center mt-4">
                         <a href="admin-moderation-history.html" class="btn btn-danger">View Moderation Activity</a>
                     </div>
+
+                    <!-- Admin Reports Section -->
+                    <div class="mt-5">
+                        <h4>Reports on Toxic Behavior</h4>
+                        <p class="text-muted">These are reports made by gamers regarding toxic behavior. Review and take
+                            appropriate action.</p>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Reporter</th>
+                                        <th>Reported User</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Gamer123</td>
+                                        <td>ToxicPlayer01</td>
+                                        <td>Harassment</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td><button class="btn btn-sm btn-outline-info">View Details</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PlayerOne</td>
+                                        <td>NoobHunter02</td>
+                                        <td>Cheating</td>
+                                        <td><span class="badge bg-success">Resolved</span></td>
+                                        <td><button class="btn btn-sm btn-outline-info">View Details</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ShadowNinja</td>
+                                        <td>SaltyGamer03</td>
+                                        <td>Toxic Language</td>
+                                        <td><span class="badge bg-danger">Action Taken</span></td>
+                                        <td><button class="btn btn-sm btn-outline-info">View Details</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
