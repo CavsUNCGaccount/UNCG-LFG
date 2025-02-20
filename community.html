@@ -27,7 +27,8 @@
     <script defer src="scripts/game-community.js"></script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100: along with mt-auto for the footer, it makes footer stay at the bottom of the page. -->
+<body class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <div id="navbar-container"></div>
 
@@ -51,7 +52,8 @@
             <div class="col-md-6">
                 <section class="p-4 bg-dark rounded shadow">
                     <h2>Look for Group</h2>
-                    <p>Find other players looking for a game.</p>
+                    <p>Find other players looking for a group to play with.</p>
+                    <a href="#" class="btn btn-warning btn-lg">View Groups</a>
                 </section>
             </div>
             
@@ -60,13 +62,14 @@
                 <section class="p-4 bg-dark rounded shadow">
                     <h2>User Posts</h2>
                     <p>Get into the action quicker! No need to organize a group here. </p>
+                    <a href="user-posts.html" class="btn btn-warning btn-lg">View User Posts</Video></a>
                 </section>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-4">
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
         Copyright © 2025 UNCG LFG. All rights reserved.
     </footer>
 </body>

@@ -1,40 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Posts | UNCG LFG</title>
-    <link rel="stylesheet" href="first_sample_styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <title>Game Community | UNCG LFG</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font style used for all the pages. Imported from Google API-->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
-    <script defer src="scripts/user-posts.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Navbar script -->
+    <script src="scripts/navbar.js" defer></script>
+
+    <!-- Page Script -->
+    <script defer src="scripts/game-community.js"></script>
 </head>
 
-<body>
-    
-    <div id="navbar-container"></div>
-    <script src="scripts/navbar.js"></script>
+<!-- d-flex flex-column min-vh-100: along with mt-auto for the footer, it makes footer stay at the bottom of the page. -->
 
-    <main>
-        <section class="posts-section">
-            <h1>User Posts</h1>
-            <p>Discuss game strategies, updates, and more!</p>
-            
-            <div class="post-form">
-                <textarea id="new-post" placeholder="Write something..."></textarea>
-                <button id="submit-post">Post</button>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <main class="container my-4">
+        <!-- Page Title -->
+        <h2 class="text-center text-white mb-4">Fortnite User Posts</h2>
+
+        <!-- Post A -->
+        <div class="card mb-3 bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+
+                    <!-- h5 card-title: Username of the gamer-->
+                    <!-- h6 card-text: Gamer tag of the gamer-->
+                    <h5 class="card-title">JohnDoe</h5>
+                    <h6 class="card-text">SteamGamer789</h6>
+                    <small>2/3/2025 9:30 PM <img src="images/platform-logos/steam-logo.jpg" alt="Steam"
+                            width="25"></small>
+                </div>
+                <p class="card-text">Need 1 more for Battle Royale, please have a mic.</p>
             </div>
-            
-            <div class="posts-container" id="posts-container">
-                <p>Loading posts...</p>
+        </div>
+
+        <!-- Post B -->
+        <div class="card mb-3 bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+
+                    <!-- h5 card-title: Username of the gamer-->
+                    <!-- h6 card-text: Gamer tag of the gamer-->
+                    <h5 class="card-title">JaeSpeedy</h5>
+                    <h6 class="card-text">XboxGamer012</h6>
+                    <small>2/3/2025 9:00 PM <img src="images/platform-logos/xbox-logo.png" alt="Xbox"
+                            width="25"></small>
+                </div>
+                <p class="card-text">Need 2 players for Zero Build. Please have a mic. Message me on Xbox Live.</p>
             </div>
-        </section>
+        </div>
+
+        <!-- Post C -->
+        <div class="card mb-3 bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+
+                    <!-- h5 card-title: Username of the gamer-->
+                    <!-- h6 card-text: Gamer tag of the gamer-->
+                    <h5 class="card-title">ToastedBread</h5>
+                    <h6 class="card-text">PSNGamer423</h6>
+                    <small>2/3/2025 6:48 PM <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
+                            width="25"></small>
+                </div>
+                <p class="card-text">Need 4 players for Zero Build. Please have a mic. Message me on PSN @ PSNGamer423.
+                </p>
+            </div>
+        </div>
+
+        <!-- Post D: Crossplay -->
+        <div class="card mb-3 bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+
+                    <!-- h5 card-title: Username of the gamer-->
+                    <!-- h6 card-text: Gamer tag of the gamer-->
+                    <h5 class="card-title">JaneDoe</h5>
+                    <h6 class="card-text">JaneDoeSteam</h6>
+                    <small>2/3/2025 6:00PM <img src="images/platform-logos/steam-logo.jpg" alt="Steam"
+                        width="25"></small>
+                </div>
+                <p class="card-text">Looking for players for a crossplay session. Any platform is welcome. Send me
+                    a friend request to my Epic Games username: CrossPlatformPlayer".</a></p>
+            </div>
+        </div>
+
     </main>
-    
-    <footer class="pre-format">
-        Copyright © 2025 UNCG LFG.
-        All rights reserved.
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        Copyright © 2025 UNCG LFG. All rights reserved.
     </footer>
 </body>
 
