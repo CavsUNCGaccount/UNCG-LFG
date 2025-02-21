@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Group | UNCG LFG</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- Navbar script -->
+    <script src="scripts/navbar.js" defer></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <main class="container my-4">
+
+        <!-- Session Overview -->
+        <div class="bg-dark text-white p-4 rounded mb-4">
+            <h2>Fortnite Group Session</h2>
+            <p class="text-muted">Hosted by <strong>JohnDoe</strong> on <img src="images/platform-logos/playstation-logo.jpg"
+                    alt="PlayStation" width="30"></p>
+            <p>Need 3 more players for Squads. Please have a mic and be willing to communicate.</p>
+            <span class="badge bg-success">Competitive Session</span>
+            <span class="badge bg-primary">3 Spaces Left</span>
+            <span class="badge bg-info">Open Session</span>
+            <p><small class="text-muted">8:00 PM - For 2 Hours</small></p>
+            <button class="btn btn-success">Join Session</button>
+            <a href="community.html?game=Fortnite" class="btn btn-outline-light">Back to Game Community</a>
+        </div>
+
+        <!-- Session Host -->
+        <div class="bg-secondary text-white p-4 rounded mb-4">
+            <h4>Session Host</h4>
+            <div class="d-flex align-items-center">
+                <img src="images/default-picture.svg" alt="JohnDoe" class="rounded-circle me-3" width="60">
+                <div>
+                    <strong>JohnDoe</strong> <br>
+                    <small class="text-muted">PSN: JohnDoe123</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamers Joined -->
+        <div class="bg-secondary text-white p-4 rounded mb-4">
+            <h4>Gamers Joined</h4>
+            <ul class="list-unstyled">
+                <li>
+                    <img src="images/default-avatar.png" alt="JaneDoe" class="rounded-circle me-2" width="40">
+                    JaneDoe <img src="images/platform-logos/playstation-logo.jpg" alt="Xbox" width="25">
+                </li>
+                <li>
+                    <img src="images/default-avatar.png" alt="JaeSpeedy" class="rounded-circle me-2" width="40">
+                    JaeSpeedy <img src="images/platform-logos/playstation-logo.jpg" alt="Steam" width="25">
+                </li>
+            </ul>
+        </div>
+
+        <!-- Messaging Section -->
+        <div class="bg-dark text-white p-4 rounded mb-4">
+            <h4>Messages</h4>
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="images/default-avatar.png" alt="JaneDoe" class="rounded-circle me-2" width="40">
+                        <strong>JaneDoe</strong> <small class="text-muted">2/20/2025 9:30 PM</small>
+                    </div>
+                    <p class="ms-5">Looking forward to playing with you all!</p>
+                </li>
+                <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="images/default-avatar.png" alt="JaeSpeedy" class="rounded-circle me-2"
+                            width="40">
+                        <strong>JaeSpeedy</strong> <small class="text-muted">2/20/2025 10:00 PM</small>
+                    </div>
+                    <p class="ms-5">I'll be on a few minutes early. Let's win this!</p>
+                </li>
+            </ul>
+            <form>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Type your message...">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        Copyright © 2025 UNCG LFG. All rights reserved.
+    </footer>
+
+</body>
+
+</html>
