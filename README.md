@@ -36,14 +36,14 @@ To run this current version locally, you need:
  - nodemon v3.1.9 (devDependency) - For automatic server restarts during development
  - A local PostGreSQL database. Create it and call it uncg_lfg_db.
     - Open the sql file named 'uncg_lfg_db_tables.sql. Copy and paste this script to the query console and run each sql query in order. Make sure the query console is connected to uncg_lfg_db. The file is inside the sql-queries folder.
-- Create a .env file in the root directory, in it paste the following: < br / >
+- Create a .env file in the root directory, in it paste the following: 
 
-        DB_HOST=localhost < br / >
-        DB_PORT=5432 < br / >
-        DB_USER="your postgres username" < br / >
-        DB_PASSWORD="your postgres password" < br / >
-        DB_NAME=uncg_lfg_db < br / >
-        SESSION_SECRET=your_super_secret_key < br / >
+        DB_HOST=localhost
+        DB_PORT=5432 
+        DB_USER="your postgres username" 
+        DB_PASSWORD="your postgres password" 
+        DB_NAME=uncg_lfg_db 
+        SESSION_SECRET=your_super_secret_key 
 
 Replace "your postgres username" with the username you set when you installed PostgreSQL.
 Replace "your postgres password" with the password you set when you installed PostgreSQL.
