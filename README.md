@@ -33,3 +33,4 @@ To run this current version locally, you need:
     - Open the sql file named 'uncg_lfg_db_tables.sql. Copy and paste this script to the query console and run each sql query in order. Make sure the query console is connected to uncg_lfg_db. The file is inside the sql-queries folder.
 
 To install all the required dependencies, run the command: npm install.
+npm install bcryptjs express-session pg cors connect-pg-simple jsonwebtoken

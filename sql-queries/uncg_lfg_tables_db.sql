@@ -137,3 +137,9 @@ insert into game_community (game_name, cover_image_url, description, created_at)
 values ('Valorant', 'images/game-covers/Valorant_cover_art.jpg',
         'A tactical first-person shooter with character abilities and precise gunplay.',
         current_timestamp);
+
+        CREATE TABLE "session" (
+    "sid" VARCHAR PRIMARY KEY,
+    "sess" JSON NOT NULL,
+    "expire" TIMESTAMPTZ NOT NULL
+);
