@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("navbar-container").innerHTML = `
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -17,11 +17,40 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li class="nav-item"><a class="nav-link" href="index.html#features">Features</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#games">Games</a></li>
                         <li class="nav-item"><a class="nav-link" href="app-policy.html">Policy</a></li>
-                        <a href="login.html" class="btn btn-login-signup me-2">Login</a>
-                        <a href="signup.html" class="btn btn-login-signup">Sign Up</a>
+                        <li id="navbar-login"></li> <!-- Login/Profile will be updated dynamically -->
                     </ul>
                 </div>
             </div>
         </nav>
     `;
+
+       // Check if user is logged in
+       try {
+        const response = await fetch("http://localhost:5000/auth/me", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // If logged in, show avatar
+            document.getElementById("navbar-login").innerHTML = `
+                <img src="images/default-avatar.png" alt="Profile" class="nav-avatar" id="profile-link">
+            `;
+
+            document.getElementById("profile-link").addEventListener("click", () => {
+                window.location.href = "gamer-account-page.html";
+            });
+        } else {
+            // If not logged in, show login/signup buttons
+            document.getElementById("navbar-login").innerHTML = `
+                <a href="login.html" class="btn btn-outline-light">Login</a>
+                <a href="signup.html" class="btn btn-warning">Sign Up</a>
+            `;
+        }
+    } catch (error) {
+        console.error("Error checking session:", error);
+    }
+
 });
