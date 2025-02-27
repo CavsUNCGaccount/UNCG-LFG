@@ -42,13 +42,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/gamer-profile-page.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'gamer-profile-page.html'));
+});
+
 
 app.use('/auth', authRoutes);
 
-// Test Route
-app.get('/', (req, res) => {
-    res.send('Welcome to UNCG LFG App! Let\'s play some games!');
-});
+
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             `;
 
             document.getElementById("profile-link").addEventListener("click", () => {
-                window.location.href = "gamer-account-page.html";
+                window.location.href = "gamer-profile-page.html";
             });
         } else {
             // If not logged in, show login/signup buttons

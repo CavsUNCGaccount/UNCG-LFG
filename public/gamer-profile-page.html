@@ -90,51 +90,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Logout Button -->
+                    <div class="text-center mt-4">
+                        <button class="btn btn-danger" onclick="logout()">Logout</button>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-        <!-- Steam Games Section -->
-        <section class="mt-5">
-            <h2 class="text-center">Your Steam Games</h2>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card bg-dark text-white p-3 rounded shadow">
-                        <img src="images/game-covers/Fall_Guys_cover_art.jpg" alt="Fall Guys" class="img-fluid rounded">
-                        <h5 class="mt-2">Fall Guys</h5>
-                        <p>Playtime: 250.0 hours</p>
-                        <a href="view-game-achievements.html" class="btn btn-warning btn-sm">View Achievements</a>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card bg-dark text-white p-3 rounded shadow">
-                        <img src="images/game-covers/Fortnite_cover_art.png" alt="Fortnite" class="img-fluid rounded">
-                        <h5 class="mt-2">Fortnite</h5>
-                        <p>Playtime: 83.3 hours</p>
-                        <a href="view-game-achievements.html" class="btn btn-warning btn-sm">View Achievements</a>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card bg-dark text-white p-3 rounded shadow">
-                        <img src="images/game-covers/Minecraft_cover_art.jpg" alt="Minecraft" class="img-fluid rounded">
-                        <h5 class="mt-2">Minecraft</h5>
-                        <p>Playtime: 145.5 hours</p>
-                        <a href="view-game-achievements.html" class="btn btn-warning btn-sm">View Achievements</a>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card bg-dark text-white p-3 rounded shadow">
-                        <img src="images/game-covers/Rainbow_Six_Siege_cover_art.png" alt="Rainbow Six Siege" class="img-fluid rounded">
-                        <h5 class="mt-2">Rainbow Six Siege</h5>
-                        <p>Playtime: 98.2 hours</p>
-                        <a href="view-game-achievements.html" class="btn btn-warning btn-sm">View Achievements</a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -159,7 +123,20 @@
                 field.value = newValue;
             }
         }
-    </script>
-</body>
 
+        function logout() {
+            fetch('/auth/logout', {
+                method: 'POST',
+                credentials: 'include' // Ensures cookies are sent with the request
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = 'index.html'; // Redirect to login page after logout
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
 </html>

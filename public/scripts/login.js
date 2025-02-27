@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 alert("Login successful!");
                 localStorage.setItem("user", JSON.stringify(data.user)); // Store user data locally
-                window.location.href = "gamer-account-page.html"; // Redirect to account page
+                window.location.href = "gamer-profile-page.html"; // Redirect to account page
             } else {
                 alert(data.message || "Invalid credentials. Please try again.");
             }
