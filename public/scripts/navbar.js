@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    // This displays the default navbar; it shows the login and signup buttons when a user is not logged in 
     document.getElementById("navbar-container").innerHTML = `
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="index.html">
-                    <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo" width="50"
-                        height="50">
+                    <img id="circular-logo" src="images/gaming-controller-circular.png" alt="UNCG LFG Logo" width="50" height="50">
                     UNCG LFG
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         </nav>
     `;
 
-       // Check if user is logged in
-       try {
+    // Check if user is logged in
+    try {
         const response = await fetch("http://localhost:5000/auth/me", {
             method: "GET",
             credentials: "include"
@@ -33,10 +33,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const data = await response.json();
 
-        if (response.ok) {
-            // If logged in, show avatar
+        // Check if user_id exists in the response
+        if (data.user_id) {
+            // If logged in, show avatar and username
             document.getElementById("navbar-login").innerHTML = `
-                <img src="images/default-avatar.png" alt="Profile" class="nav-avatar" id="profile-link">
+                <img src="images/default-avatar.png" alt="Profile" class="nav-avatar" id="profile-link" title="${data.username}">
             `;
 
             document.getElementById("profile-link").addEventListener("click", () => {
@@ -51,6 +52,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     } catch (error) {
         console.error("Error checking session:", error);
+        // Default to logged out state in case of an error
+        document.getElementById("navbar-login").innerHTML = `
+            <a href="login.html" class="btn btn-outline-light">Login</a>
+            <a href="signup.html" class="btn btn-warning">Sign Up</a>
+        `;
     }
 
 });

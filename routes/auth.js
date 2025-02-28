@@ -50,12 +50,18 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
+        
         // Save session
-        req.session.user = {
-            user_id: user.rows[0].user_id,
-            username: user.rows[0].username,
-            email: user.rows[0].email,
-        };
+        req.session.user_id = user.rows[0].user_id;
+        req.session.username = user.rows[0].username;
+        req.session.email = user.rows[0].email;
+
+        // Save session
+        //req.session.user = {
+        //    user_id: user.rows[0].user_id,
+        //    username: user.rows[0].username,
+        //    email: user.rows[0].email,
+        //};
 
         res.status(200).json({ message: 'Login successful', user: req.session.user });
     } catch (err) {
@@ -77,8 +83,11 @@ router.post('/logout', (req, res) => {
 
 // Check if user is logged in
 router.get('/me', (req, res) => {
-    if (req.session.user) {
-        res.status(200).json({ user: req.session.user });
+    if (req.session.user_id) {
+        res.status(200).json({
+            user_id: req.session.user_id,
+            username: req.session.username,
+            email: req.session.email,});
     } else {
         res.status(401).json({ message: 'Not authenticated' });
     }

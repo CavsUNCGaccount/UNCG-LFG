@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Account Page | UNCG LFG</title>
+    <title>Gamer Profile Page | UNCG LFG</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+        rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
@@ -24,12 +25,10 @@
     <!-- Navbar script -->
     <script src="scripts/navbar.js" defer></script>
 
-    <!-- Page Script -->
-    <script defer src="scripts/account.js"></script>
 </head>
 
 <body class="bg-dark text-white">
-    
+
     <!-- Navbar -->
     <div id="navbar-container"></div>
 
@@ -41,7 +40,8 @@
 
                     <!-- Avatar Section -->
                     <div class="text-center mb-3">
-                        <img src="images/default-avatar.png" alt="User Avatar" class="rounded-circle img-fluid" width="150">
+                        <img src="images/default-avatar.png" alt="User Avatar" class="rounded-circle img-fluid"
+                            width="150">
                         <button class="btn btn-warning mt-2" onclick="changeAvatar()">Change Avatar</button>
                     </div>
 
@@ -50,19 +50,20 @@
                         <h4>Profile Details</h4>
                         <div class="form-group">
                             <label>Username:</label>
-                            <input type="text" id="username" class="form-control bg-secondary text-white" value="JohnDoe" disabled>
+                            <input type="text" id="username" class="form-control bg-secondary text-white" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('username')">Edit</button>
                         </div>
 
                         <div class="form-group mt-3">
                             <label>Email:</label>
-                            <input type="email" id="email" class="form-control bg-secondary text-white" value="johndoe@example.com" disabled>
+                            <input type="email" id="email" class="form-control bg-secondary text-white" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('email')">Edit</button>
                         </div>
 
                         <div class="form-group mt-3">
                             <label>Password:</label>
-                            <input type="password" id="password" class="form-control bg-secondary text-white" value="••••••" disabled>
+                            <input type="password" id="password" class="form-control bg-secondary text-white"
+                                value="••••••" disabled>
                             <button class="btn btn-outline-warning mt-2" onclick="editField('password')">Edit</button>
                         </div>
                     </div>
@@ -72,21 +73,25 @@
                         <h4>Linked Gaming Accounts</h4>
                         <div class="row">
                             <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation" class="img-fluid mb-2" width="50">
-                                <input type="text" id="psn-id" class="form-control bg-secondary text-white" value="PSNGamer123" readonly>
+                                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
+                                    class="img-fluid mb-2" width="50">
+                                    <input type="text" id="psn-id" class="form-control bg-secondary text-white" readonly>
                                 <button class="btn btn-outline-warning mt-2" onclick="editField('psn-id')">Edit</button>
                             </div>
 
                             <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2" width="50">
-                                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" value="XboxGamer456" readonly>
+                                <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2"
+                                    width="50">
+                                    <input type="text" id="xbox-id" class="form-control bg-secondary text-white" readonly>
                                 <button class="btn btn-outline-warning mt-2" onclick="editField('xbox-id')">Edit</button>
                             </div>
 
                             <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2" width="50">
-                                <input type="text" id="steam-id" class="form-control bg-secondary text-white" value="SteamGamer789" readonly>
-                                <button class="btn btn-warning mt-2" onclick="linkSteamAccount()">Link Steam Account</button>
+                                <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2"
+                                    width="50">
+                                    <input type="text" id="steam-id" class="form-control bg-secondary text-white" readonly>
+                                <button class="btn btn-warning mt-2" onclick="linkSteamAccount()">Link Steam
+                                    Account</button>
                             </div>
                         </div>
                     </div>
@@ -129,14 +134,49 @@
                 method: 'POST',
                 credentials: 'include' // Ensures cookies are sent with the request
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                window.location.href = 'index.html'; // Redirect to login page after logout
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    window.location.href = 'index.html'; // Redirect to login page after logout
+                })
+                .catch(error => console.error('Error:', error));
         }
     </script>
 
+    <script>
+        // Fetch the profile data using the API route
+        fetch("/gamer-profile/api/profile", {
+            method: 'GET',
+            credentials: 'include' // Include cookies for session
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Unauthorized");
+                }
+                return response.json();
+            })
+            .then(profile => {
+                if (profile.error) {
+                    alert("No profile information available.");
+                } else {
+                    document.getElementById("username").value = profile.username;
+                    document.getElementById("email").value = profile.email;
+                    document.getElementById("psn-id").value = profile.psn_id || 'N/A';
+                    document.getElementById("xbox-id").value = profile.xbox_id || 'N/A';
+                    document.getElementById("steam-id").value = profile.steam_id || 'N/A';
+
+                    // Set avatar image or use default if none is set
+                    const avatarImg = document.querySelector("img[alt='User Avatar']");
+                    avatarImg.src = profile.avatar_url || 'images/default-avatar.png';
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching profile:", err);
+                alert("You must be logged in to view this page.");
+                window.location.href = '/login.html'; // Redirect to login if not authorized
+            });
+    </script>
+
 </body>
+
 </html>

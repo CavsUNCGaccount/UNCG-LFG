@@ -6,15 +6,30 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const bcrypt = require('bcryptjs');
 const authRoutes = require('./routes/auth');
+const gamerProfileRouter = require("./routes/gamer-profile");
 
 
 // Initialize Express app
 const app = express();
 
+// Cors Middleware (Before session middleware)
+app.use(cors({
+    origin: 'http://localhost:5000', // Adjust this if using a different port or domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // Allow cookies to be sent
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+const path = require('path');
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For form submissions
-app.use(cors()); // Enable CORS for frontend requests
+
+// Session Middleware
 app.use(
     session({
         store: new pgSession({
@@ -26,16 +41,14 @@ app.use(
         saveUninitialized: false,
         cookie: {
             secure: false, // Set to `true` in production with HTTPS
-            httpOnly: true,
+            httpOnly: false, // Change to `true` in production
             maxAge: 1000 * 60 * 60 * 24, // 1 day
+            sameSite: 'Lax' // Set to 'Strict' or 'Lax in production
         },
     })
 );
 
-const path = require('path');
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve index.html for the root route
 app.get('/', (req, res) => {
@@ -48,8 +61,7 @@ app.get('/gamer-profile-page.html', (req, res) => {
 
 
 app.use('/auth', authRoutes);
-
-
+app.use("/gamer-profile", gamerProfileRouter);
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {
@@ -62,13 +74,14 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Something went wrong' });
 });
 
-//Kill the app with ctrl + c
-//Run the app with node server.js
-//Run the app with nodemon server.js
-
-// Start Server
+/**
+ * Run the app with nodemon server.js (developer mode)
+ * Run the app with node server.js (production mode)
+ * Open http://localhost:5000 in your browser
+ * Kill the app with ctrl + c
+ */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
 
