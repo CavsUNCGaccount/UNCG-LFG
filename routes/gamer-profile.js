@@ -40,4 +40,52 @@ router.get("/api/profile", isAuthenticated, async (req, res) => {
     }
 });
 
+// Route to update username
+router.put("/update-username", isAuthenticated, async (req, res) => {
+    const { username } = req.body;
+    try {
+        await pool.query("UPDATE users SET username = $1 WHERE user_id = $2", [username, req.session.user_id]);
+        res.status(200).json({ message: "Username updated successfully" });
+    } catch (error) {
+        console.error("Error updating username:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Route to update email
+router.put("/update-email", isAuthenticated, async (req, res) => {
+    const { email } = req.body;
+    try {
+        await pool.query("UPDATE users SET email = $1 WHERE user_id = $2", [email, req.session.user_id]);
+        res.status(200).json({ message: "Email updated successfully" });
+    } catch (error) {
+        console.error("Error updating email:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Route to update psn ID
+router.put("/update-psn", isAuthenticated, async (req, res) => {
+    const { psn } = req.body;
+    try {
+        await pool.query("UPDATE gamer_profiles SET psn_id = $1 WHERE user_id = $2", [psn, req.session.user_id]);
+        res.status(200).json({ message: "PSN ID updated successfully" });
+    } catch (error) {
+        console.error("Error updating PSN ID:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Route to update Xbox ID
+router.put("/update-xbox", isAuthenticated, async (req, res) => {
+    const { xbox } = req.body;
+    try {
+        await pool.query("UPDATE gamer_profiles SET xbox_id = $1 WHERE user_id = $2", [xbox, req.session.user_id]);
+        res.status(200).json({ message: "Xbox ID updated successfully" });
+    } catch (error) {
+        console.error("Error updating Xbox ID:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 module.exports = router;

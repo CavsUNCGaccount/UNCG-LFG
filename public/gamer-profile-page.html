@@ -25,6 +25,9 @@
     <!-- Navbar script -->
     <script src="scripts/navbar.js" defer></script>
 
+    <!-- Gamer Profile Page script -->
+    <script src="scripts/gamer-profile-page.js" defer></script>
+
 </head>
 
 <body class="bg-dark text-white">
@@ -48,16 +51,23 @@
                     <!-- Profile Details -->
                     <div class="mb-3">
                         <h4>Profile Details</h4>
+
+                        <!-- Username -->
                         <div class="form-group">
                             <label>Username:</label>
                             <input type="text" id="username" class="form-control bg-secondary text-white" disabled>
-                            <button class="btn btn-outline-warning mt-2" onclick="editField('username')">Edit</button>
+                            <button class="btn btn-outline-warning mt-2" id="edit-username">Edit</button>
+                            <button class="btn btn-outline-success mt-2" id="save-username"
+                                style="display: none;">Save</button>
                         </div>
 
+                        <!-- Email -->
                         <div class="form-group mt-3">
                             <label>Email:</label>
                             <input type="email" id="email" class="form-control bg-secondary text-white" disabled>
-                            <button class="btn btn-outline-warning mt-2" onclick="editField('email')">Edit</button>
+                            <button class="btn btn-outline-warning mt-2" id="edit-email">Edit</button>
+                            <button class="btn btn-outline-success mt-2" id="save-email"
+                                style="display: none;">Save</button>
                         </div>
 
                         <div class="form-group mt-3">
@@ -72,24 +82,30 @@
                     <div class="mt-4">
                         <h4>Linked Gaming Accounts</h4>
                         <div class="row">
+                            <!-- PSN ID -->
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
                                     class="img-fluid mb-2" width="50">
-                                    <input type="text" id="psn-id" class="form-control bg-secondary text-white" readonly>
-                                <button class="btn btn-outline-warning mt-2" onclick="editField('psn-id')">Edit</button>
+                                <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled>
+                                <button class="btn btn-outline-warning mt-2" id="edit-psn">Edit</button>
+                                <button class="btn btn-outline-success mt-2" id="save-psn"
+                                    style="display: none;">Save</button>
                             </div>
 
+                            <!-- Xbox ID -->
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2"
                                     width="50">
-                                    <input type="text" id="xbox-id" class="form-control bg-secondary text-white" readonly>
-                                <button class="btn btn-outline-warning mt-2" onclick="editField('xbox-id')">Edit</button>
+                                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled>
+                                <button class="btn btn-outline-warning mt-2" id="edit-xbox">Edit</button>
+                                <button class="btn btn-outline-success mt-2" id="save-xbox"
+                                    style="display: none;">Save</button>
                             </div>
 
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2"
                                     width="50">
-                                    <input type="text" id="steam-id" class="form-control bg-secondary text-white" readonly>
+                                <input type="text" id="steam-id" class="form-control bg-secondary text-white" readonly>
                                 <button class="btn btn-warning mt-2" onclick="linkSteamAccount()">Link Steam
                                     Account</button>
                             </div>
