@@ -39,10 +39,10 @@ To run this current version locally, you need:
  - pg v8.13.3 - PostgreSQL client for Node.js
  - nodemon v3.1.9 (devDependency) - For automatic server restarts during development
  - A local PostGreSQL database. Create it and call it uncg_lfg_db.
-    - Open the sql file named 'uncg_lfg_db_tables.sql. Copy and paste this script to the query console and run each sql query in order ONLY IF YOU STILL HAVENT MADE THE DATABASE YET.
+    - Open the sql file named 'uncg_lfg_db_tables.sql'. Copy and paste this script to the query console and run each sql query in order ONLY IF YOU STILL HAVENT MADE THE DATABASE YET.
     
     - If you already have the database made, run the queries to create tables you don't have (such as the newly created session table) and run the `ALTER TABLE` queries to alter the necessary tables. 
-    
+
 - Create a .env file in the root directory, in it paste the following: 
 
         DB_HOST=localhost
