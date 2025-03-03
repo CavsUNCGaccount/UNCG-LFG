@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const authRoutes = require('./routes/auth');
 const gamerProfileRouter = require("./routes/gamer-profile");
 const steamRoutes = require('./routes/steam');
+const communityRoutes = require('./routes/community');
 
 // Initialize Express app
 const app = express();
@@ -65,6 +66,7 @@ app.get('/view-game-achievements.html', (req, res) => {
 app.use('/auth', authRoutes);
 app.use("/gamer-profile", gamerProfileRouter);
 app.use('/steam', steamRoutes);
+app.use('/community', communityRoutes);
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {
