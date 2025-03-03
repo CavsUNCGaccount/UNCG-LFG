@@ -7,7 +7,7 @@ const pgSession = require('connect-pg-simple')(session);
 const bcrypt = require('bcryptjs');
 const authRoutes = require('./routes/auth');
 const gamerProfileRouter = require("./routes/gamer-profile");
-
+const steamRoutes = require('./routes/steam');
 
 // Initialize Express app
 const app = express();
@@ -48,8 +48,6 @@ app.use(
     })
 );
 
-
-
 // Serve index.html for the root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -59,9 +57,14 @@ app.get('/gamer-profile-page.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'gamer-profile-page.html'));
 });
 
+app.get('/view-game-achievements.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'view-game-achievements.html'));
+});
 
+// Use the routes
 app.use('/auth', authRoutes);
 app.use("/gamer-profile", gamerProfileRouter);
+app.use('/steam', steamRoutes);
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {
@@ -83,5 +86,6 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    console.log("Server is running and API routes are active!");
 });
 

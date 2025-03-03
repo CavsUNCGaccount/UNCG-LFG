@@ -31,9 +31,9 @@ router.post('/register', async (req, res) => {
 
         // Create a default gamer profile for the new user in the gamer_profiles table
         await pool.query(
-            `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_id, avatar_url) 
-             VALUES ($1, $2, $3, $4, $5)`,
-            [userId, 'N/A', 'N/A', 'N/A', 'images/default-avatar.png']
+            `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_username, steam64_id, avatar_url) 
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [userId, 'N/A', 'N/A', 'N/A', null, 'images/default-avatar.png']
         );
 
         res.status(201).json({ message: 'User registered successfully', user: newUser.rows[0] });

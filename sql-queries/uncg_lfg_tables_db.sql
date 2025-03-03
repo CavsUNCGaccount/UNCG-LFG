@@ -1,4 +1,4 @@
--- Create the first 4 tables needed
+-- Create the first 5 tables needed
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -32,6 +32,15 @@ CREATE TABLE gamer_profiles (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE gamer_profiles RENAME COLUMN steam_id TO steam_username;
+ALTER TABLE gamer_profiles ADD COLUMN steam64_id VARCHAR(50) DEFAULT 'N/A';
+
+ALTER TABLE gamer_profiles
+ALTER COLUMN steam64_id DROP NOT NULL;
+
+ALTER TABLE gamer_profiles
+ADD CONSTRAINT unique_steam64_id UNIQUE (steam64_id);
+
 CREATE TABLE community_membership (
     membership_id SERIAL PRIMARY KEY,
     gamer_id INT NOT NULL,
@@ -39,6 +48,12 @@ CREATE TABLE community_membership (
     joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (gamer_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (game_id) REFERENCES game_community(game_id) ON DELETE CASCADE
+);
+
+CREATE TABLE "session" (
+    "sid" VARCHAR PRIMARY KEY,
+    "sess" JSON NOT NULL,
+    "expire" TIMESTAMPTZ NOT NULL
 );
 
 -- Insert first 2 games

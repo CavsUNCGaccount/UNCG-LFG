@@ -70,6 +70,7 @@
                                 style="display: none;">Save</button>
                         </div>
 
+                        <!-- Password -->
                         <div class="form-group mt-3">
                             <label>Password:</label>
                             <input type="password" id="password" class="form-control bg-secondary text-white"
@@ -78,37 +79,41 @@
                         </div>
                     </div>
 
-                    <!-- Linked Gaming Accounts -->
+                    <!-- Gaming Accounts -->
                     <div class="mt-4">
-                        <h4>Linked Gaming Accounts</h4>
+                        <h4>Gaming Accounts</h4>
                         <div class="row">
-                            <!-- PSN ID -->
+                            <!-- PSN ID  (PSN Gamertag)-->
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
                                     class="img-fluid mb-2" width="50">
+                                <label for="psn-id">PSN Gamertag:</label>
                                 <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled>
                                 <button class="btn btn-outline-warning mt-2" id="edit-psn">Edit</button>
                                 <button class="btn btn-outline-success mt-2" id="save-psn"
                                     style="display: none;">Save</button>
                             </div>
 
-                            <!-- Xbox ID -->
+                            <!-- Xbox ID (Xbox Gamertag) -->
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2"
                                     width="50">
+                                <label for="xbox-id">Xbox Gamertag:</label>
                                 <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled>
                                 <button class="btn btn-outline-warning mt-2" id="edit-xbox">Edit</button>
                                 <button class="btn btn-outline-success mt-2" id="save-xbox"
                                     style="display: none;">Save</button>
                             </div>
 
+                            <!-- Steam ID number -->
                             <div class="col-md-4 text-center">
                                 <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2"
                                     width="50">
-                                <input type="text" id="steam-id" class="form-control bg-secondary text-white" readonly>
-                                <button class="btn btn-warning mt-2" onclick="linkSteamAccount()">Link Steam
-                                    Account</button>
+                                <label for="steam-id">Steam ID number:</label>
+                                <input type="text" id="steam-id" class="form-control bg-secondary text-white">
+                                <button class="btn btn-warning mt-2" id="link-steam">Link Steam Account</button>
                             </div>
+
                         </div>
                     </div>
 
@@ -120,6 +125,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Steam Account Info Section -->
+        <div class="text-center mt-4">
+            <h3 class="text-white">Steam Profile</h3>
+            <img id="steam-avatar" src="images/default-avatar.png" alt="Steam Avatar" class="rounded-circle img-fluid"
+                width="100">
+            <h4 id="steam-username" class="text-white mt-2">N/A</h4>
+            <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View
+                Steam Profile</a>
+        </div>
+
+        <!-- Steam Games Section -->
+        <section class="mt-5">
+            <h2 class="text-center">Your Steam Games</h2>
+            <div id="steam-games-container" class="row">
+                <!-- Dynamically loaded games will be inserted here -->
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -130,11 +154,6 @@
     <script>
         function changeAvatar() {
             alert("Avatar change functionality will be implemented later.");
-        }
-
-        function linkSteamAccount() {
-            alert("Redirecting to Steam for authentication...");
-            alert("Steam authentication will be implemented later.");
         }
 
         function editField(fieldId) {
@@ -159,39 +178,6 @@
         }
     </script>
 
-    <script>
-        // Fetch the profile data using the API route
-        fetch("/gamer-profile/api/profile", {
-            method: 'GET',
-            credentials: 'include' // Include cookies for session
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Unauthorized");
-                }
-                return response.json();
-            })
-            .then(profile => {
-                if (profile.error) {
-                    alert("No profile information available.");
-                } else {
-                    document.getElementById("username").value = profile.username;
-                    document.getElementById("email").value = profile.email;
-                    document.getElementById("psn-id").value = profile.psn_id || 'N/A';
-                    document.getElementById("xbox-id").value = profile.xbox_id || 'N/A';
-                    document.getElementById("steam-id").value = profile.steam_id || 'N/A';
-
-                    // Set avatar image or use default if none is set
-                    const avatarImg = document.querySelector("img[alt='User Avatar']");
-                    avatarImg.src = profile.avatar_url || 'images/default-avatar.png';
-                }
-            })
-            .catch(err => {
-                console.error("Error fetching profile:", err);
-                alert("You must be logged in to view this page.");
-                window.location.href = '/login.html'; // Redirect to login if not authorized
-            });
-    </script>
 
 </body>
 
