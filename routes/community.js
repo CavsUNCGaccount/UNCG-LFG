@@ -65,4 +65,25 @@ router.get('/game-id', async (req, res) => {
     }
 });
 
+// Get communities for the logged-in user
+router.get('/my-communities', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const user_id = req.session.user_id;
+
+    try {
+        const communitiesQuery = await pool.query(
+            "SELECT gc.game_name, gc.cover_image_url FROM community_membership cm JOIN game_community gc ON cm.game_id = gc.game_id WHERE cm.gamer_id = $1",
+            [user_id]
+        );
+
+        res.json({ communities: communitiesQuery.rows });
+    } catch (error) {
+        console.error("Error fetching communities:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 module.exports = router;

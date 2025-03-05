@@ -61,6 +61,9 @@ app.get('/gamer-profile-page.html', (req, res) => {
 app.get('/view-game-achievements.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'view-game-achievements.html'));
 });
+app.get('/community.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'community.html'));
+});
 
 // Use the routes
 app.use('/auth', authRoutes);

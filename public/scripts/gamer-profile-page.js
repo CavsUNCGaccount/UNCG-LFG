@@ -286,6 +286,86 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Successfully updated Steam Games UI.");
     }
 
+    // Fetch the profile data using the API route when page loads
+    fetch("/gamer-profile/api/profile", {
+        method: "GET",
+        credentials: "include" // Include session cookies
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Unauthorized");
+            }
+            return response.json();
+        })
+        .then(profile => {
+            if (profile.error) {
+                alert("No profile information available.");
+            } else {
+                document.getElementById("username").value = profile.username;
+                document.getElementById("email").value = profile.email;
+                document.getElementById("psn-id").value = profile.psn_id || "N/A";
+                document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
+                document.getElementById("steam-id").value = profile.steam64_id || "";
+
+                // Fetch Steam Profile if Steam64 ID exists
+                if (profile.steam64_id && profile.steam64_id !== "N/A") {
+                    fetchSteamProfile(profile.steam64_id);
+                    console.log("Calling fetchSteamProfile with ID:", profile.steam64_id);
+
+                    // Fetch Steam Games here after the profile is successfully retrieved
+                    fetchSteamGames(profile.steam64_id);
+                    console.log("Calling fetchSteamGames with ID:", profile.steam64_id);
+                } else {
+                    console.log("No Steam ID linked.");
+                    document.getElementById("steam-avatar").src = "images/default-avatar.png";
+                }
+                    // Fetch and display communities
+                    fetchCommunities();
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching profile:", err);
+                alert("You must be logged in to view this page.");
+                window.location.href = "/login.html"; // Redirect to login if not authorized
+            });
+    
+        // Function to fetch communities
+        async function fetchCommunities() {
+            try {
+                const response = await fetch('/community/my-communities', {
+                    method: 'GET',
+                    credentials: 'include' // Ensures cookies are sent with the request
+                });
+                const data = await response.json();
+                if (data.communities) {
+                    displayCommunities(data.communities);
+                } else {
+                    console.error('Error fetching communities:', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    
+        // Function to display communities
+        function displayCommunities(communities) {
+            const container = document.getElementById('communities-container');
+            container.innerHTML = ''; // Clear any existing content
+    
+            communities.forEach(community => {
+                const communityElement = document.createElement('a');
+                communityElement.className = 'community-item list-group-item list-group-item-action';
+                communityElement.href = `/community/${community.game_name}`; // Adjust the URL as needed
+                communityElement.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <img src="${community.cover_image_url}" alt="${community.game_name}" class="img-fluid rounded" width="50">
+                        <span class="ms-3">${community.game_name}</span>
+                    </div>
+                `;
+                container.appendChild(communityElement);
+            });
+        }
+
     // function to fetch Steam achievements for a specific game
     window.fetchGameAchievements = function (steamID, appID, gameName) {
         console.log(`Fetching achievements for Steam ID: ${steamID}, Game ID: ${appID}`);
