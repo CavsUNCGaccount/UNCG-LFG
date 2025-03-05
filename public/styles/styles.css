@@ -5,12 +5,24 @@ body {
     background-image: url("../images/Background_Index.jpg");
     background-size: 100%;
     color: white;
+    overflow-x: hidden;
 }
 
 /* Apply Orbitron for headings */
 h1, h2, h3 {
     font-family: 'Orbitron', sans-serif;
     text-transform: uppercase;
+}
+
+/* Ensure all elements use border-box sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Make images responsive */
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Navbar Customization */
@@ -152,6 +164,7 @@ h1, h2, h3 {
     flex-direction: column;
     justify-content: space-between;
     color: white; /* Ensures text is white */
+    width: 100%; /* Ensure the cards fit within their container */
 }
 
 /* Keep hover effect */
