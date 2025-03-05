@@ -74,7 +74,7 @@ img {
     height: 100%;
     object-fit: cover; /* Ensure the image covers the entire section */
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity .3s ease-in-out;
 }
 
 .slideshow img.active {
