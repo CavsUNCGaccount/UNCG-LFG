@@ -163,23 +163,16 @@ document.addEventListener("DOMContentLoaded", async function () {
                 document.getElementById("steam-id").value = steam64Id;
                 document.getElementById("steam-username").textContent = data.steamUsername || "Unknown";
 
+                // Set avatar image or use default if none is set
+                const avatarImg = document.querySelector("img[alt='User Avatar']");
+                avatarImg.src = data.avatar_url || "images/default-avatar.png";
+                console.log("Steam avatar updated:", data.avatar_url); // Debugging confirmation
+
                 console.log("Steam Profile Data:", data); // Debugging line
                 console.log("Full Steam Profile Data:", JSON.stringify(data, null, 2)); // Debugging line
                 console.log("Steam64 ID:", steam64Id); // Debugging line
                 console.log("Steam Username:", data.steamUsername); // Debugging line
-                console.log("Steam Avatar:", data.avatar); // Debugging line
 
-                // Ensure avatar is retrieved correctly
-                const steamAvatarElement = document.getElementById("steam-avatar");
-                console.log("Steam Avatar Element:", steamAvatarElement); // Debugging line
-
-                if (data.avatar || steamAvatarElement) {
-                    steamAvatarElement.src = data.avatar;
-                    console.log("Steam avatar updated:", data.avatar); // Debugging confirmation
-                } else {
-                    steamAvatarElement.src = "images/default-avatar.png";
-                    console.log("Using default avatar.");
-                }
 
                 document.getElementById("steam-profile-link").href = `https://steamcommunity.com/profiles/${steam64Id}`;
                 document.getElementById("steam-profile-link").style.display = "block"; // Make button visible
@@ -208,7 +201,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const steamProfile = await response.json();
 
             // Populate Steam profile section
-            document.getElementById("steam-avatar").src = steamProfile.avatar;
+            document.getElementById("steam-avatar").src = steamProfile.avatar_url;
             document.getElementById("steam-username").textContent = steamProfile.username;
             document.getElementById("steam-profile-link").href = steamProfile.profile_url;
             document.getElementById("steam-profile-link").style.display = "block"; // Make button visible

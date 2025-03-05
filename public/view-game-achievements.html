@@ -62,10 +62,9 @@
                 console.log("Achievement unlocked:", ach.unlocked);
                 console.log("Achievement unlock time:", ach.unlock_time);
 
-                // I commented out the image tag because the achievements data does not contain the icon URL
+                // I took out the image tag because the achievements data does not contain the icon URL
                 const achievementHTML = `
-                    <div class="achievement-card ${ach.unlocked ? 'unlocked' : 'locked'}">
-                        <!-- <img src="${ach.icon}" alt="${ach.name}" class="achievement-icon"> -->
+                    <div class="achievement-card-${ach.unlocked ? 'unlocked' : 'locked'}">
                         <div>
                             <h5>${ach.name}</h5>
                             <p>${ach.description}</p>
@@ -91,10 +90,12 @@
     <!-- Game Banner Section -->
     <section class="dark-background-element text-white text-center py-5">
         <div class="container">
-            <img src="images/game-covers/sample-game-cover.jpg" alt="Game Cover" class="img-fluid rounded"
-                style="max-width: 300px;">
             <h1 id="game-title" class="mt-3">Game Title</h1>
-            <p class="lead">View your achievements for this game</p>
+            <p class="lead">View your achievements for this game <br>
+                Achievements that are locked are highlighted in grey. <br>
+                Achievements that are unlocked are highlighted in green. 
+
+            </p>
         </div>
     </section>
 
