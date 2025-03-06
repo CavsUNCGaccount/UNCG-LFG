@@ -41,6 +41,43 @@ router.post('/join', async (req, res) => {
     }
 });
 
+// Leave a community
+router.post('/leave', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { game_id } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!game_id) {
+        return res.status(400).json({ message: "Game ID is required." });
+    }
+
+    try {
+        // Check if user is a member
+        const checkMembership = await pool.query(
+            "SELECT * FROM community_membership WHERE gamer_id = $1 AND game_id = $2",
+            [user_id, game_id]
+        );
+
+        if (checkMembership.rows.length === 0) {
+            return res.status(400).json({ message: "You are not a member of this community." });
+        }
+
+        // Remove user from community_membership table
+        await pool.query(
+            "DELETE FROM community_membership WHERE gamer_id = $1 AND game_id = $2",
+            [user_id, game_id]
+        );
+
+        res.status(200).json({ message: "Successfully left the community!" });
+    } catch (err) {
+        console.error("Error leaving community:", err);
+        res.status(500).json({ message: "Server error. Could not leave community." });
+    }
+});
+
 // Get game_id by game title
 router.get('/game-id', async (req, res) => {
     const { title } = req.query;
@@ -82,6 +119,32 @@ router.get('/my-communities', async (req, res) => {
         res.json({ communities: communitiesQuery.rows });
     } catch (error) {
         console.error("Error fetching communities:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Check membership status
+router.get('/membership-status', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { game_id } = req.query;
+    const user_id = req.session.user_id;
+
+    try {
+        const checkMembership = await pool.query(
+            "SELECT * FROM community_membership WHERE gamer_id = $1 AND game_id = $2",
+            [user_id, game_id]
+        );
+
+        if (checkMembership.rows.length > 0) {
+            res.json({ isMember: true });
+        } else {
+            res.json({ isMember: false });
+        }
+    } catch (error) {
+        console.error("Error checking membership status:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
