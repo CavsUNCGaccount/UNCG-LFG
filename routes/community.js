@@ -2,16 +2,28 @@ const express = require('express');
 const pool = require('../config/db');
 const router = express.Router();
 
+// Get a list of all the games in alphabetical order
+// GET http://localhost:5000/community/games
+router.get('/games', async (req, res) => {
+    try {
+        const gamesQuery = await pool.query("SELECT * FROM game_community ORDER BY game_name");
+        res.json({ games: gamesQuery.rows });
+    } catch (error) {
+        console.error("Error fetching games:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 // Join a community
 router.post('/join', async (req, res) => {
-    console.log("Session Data at /join:", req.session); // ✅ Debugging log
+    console.log("Session Data at /join:", req.session); // Debugging log
 
     if (!req.session.user_id) {  
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
     const { game_id } = req.body;
-    const user_id = req.session.user_id; // ✅ Ensure this is correct
+    const user_id = req.session.user_id; // Ensure this is correct
 
     if (!game_id) {
         return res.status(400).json({ message: "Game ID is required." });

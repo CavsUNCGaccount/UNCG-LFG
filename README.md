@@ -8,6 +8,8 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Static html prototyping complete.
 - Foundational tables in the PostGreSQL database setup.
 - Backend development (in progress):
+  - Basic login/logout functionality implemented.
+    - Gamers can also create an account through the sign up page.
   - Steam Achievement Tracking - implemented with mixed results.
     - Gamers must manually enter their Steam ID number (no Steam OAuth).
   - Gamers can now edit their email, username, psn id, and xbox id. 
