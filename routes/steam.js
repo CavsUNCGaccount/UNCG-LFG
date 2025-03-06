@@ -9,7 +9,7 @@ require("dotenv").config();
  * To fetch a Steam profile, we need to make a request to the Steam API.
  * The Steam API requires an API key, which you can get by creating a Steam account and registering a new application.
  * To test this route, you can use the following URL in your browser or on Postman:
- * GET http://localhost:5000/steam/profile/STEAM_ID_NUMBER
+ * GET http://localhost:3001/steam/profile/STEAM_ID_NUMBER
  * Replace STEAM_ID_NUMBER with your Steam ID number.
  */
 router.get("/profile/:steamId", async (req, res) => {
@@ -94,7 +94,7 @@ router.get("/profile/:steamId", async (req, res) => {
 });
 
 // Route to fetch Steam games
-// http://localhost:5000/steam/games/YOUR_STEAM_ID
+// http://localhost:3001/steam/games/YOUR_STEAM_ID
 router.get("/games/:steamid", async (req, res) => {
     const steamID = req.params.steamid;
     console.log(`Fetching Steam games for Steam ID: ${steamID}`);
@@ -118,7 +118,7 @@ router.get("/games/:steamid", async (req, res) => {
 
 /**
  * Route to fetch Steam achievements for a specific game
- * Example usage: http://localhost:5000/steam/achievements/YOUR_STEAM_ID/GAME_APP_ID
+ * Example usage: http://localhost:3001/steam/achievements/YOUR_STEAM_ID/GAME_APP_ID
  * Note: Some older games like Call of Duty 2 (2005) do not have achievement support.
  *  Also, the achievement icons do not work, so I tried to use default icons I ended up just commenting out the icon part
  * */

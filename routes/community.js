@@ -3,7 +3,7 @@ const pool = require('../config/db');
 const router = express.Router();
 
 // Get a list of all the games in alphabetical order
-// GET http://localhost:5000/community/games
+// GET http:///localhost:3001/community/games
 router.get('/games', async (req, res) => {
     try {
         const gamesQuery = await pool.query("SELECT * FROM game_community ORDER BY game_name");

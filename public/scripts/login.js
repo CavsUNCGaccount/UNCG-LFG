@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = document.querySelector('input[type="password"]').value;
 
         try {
-            const response = await fetch("http://localhost:5000/auth/login", {
+            // Change the port number if you need to use a different port (5000 is the default)
+            const response = await fetch("http://localhost:3001/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

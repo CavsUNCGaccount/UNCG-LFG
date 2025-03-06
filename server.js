@@ -15,7 +15,7 @@ const app = express();
 
 // Cors Middleware (Before session middleware)
 app.use(cors({
-    origin: 'http://localhost:5000', // Adjust this if using a different port or domain
+    origin: 'http://localhost:3001', // Adjust this if using a different port or domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -85,10 +85,10 @@ app.use((err, req, res, next) => {
 /**
  * Run the app with nodemon server.js (developer mode)
  * Run the app with node server.js (production mode)
- * Open http://localhost:5000 in your browser
+ * Open http://localhost:3001 in your browser
  * Kill the app with ctrl + c
  */
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log("Server is running and API routes are active!");

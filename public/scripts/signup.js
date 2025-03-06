@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             // Change the port number if you need to use a different port (5000 is the default)
-            const response = await fetch("http://localhost:5000/auth/register", {
+            const response = await fetch("http://localhost:3001/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

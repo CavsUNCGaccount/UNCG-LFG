@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
     try {
-        // Change the port number if you need to use a different port (5000 is the default)
-        const response = await fetch("http://localhost:5000/auth/me", { 
+        // Change the port number if you need to use a different port (3001 is the default)
+        const response = await fetch("http://localhost:3001/auth/me", { 
             method: "GET",
             credentials: "include"
         });

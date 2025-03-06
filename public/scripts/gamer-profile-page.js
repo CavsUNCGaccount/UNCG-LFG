@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const newUsername = document.querySelector("#username").value;
 
         try {
-            const response = await fetch("http://localhost:5000/gamer-profile/update-username", {
+            const response = await fetch("http://localhost:3001/gamer-profile/update-username", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const newEmail = document.querySelector("#email").value;
 
         try {
-            const response = await fetch("http://localhost:5000/gamer-profile/update-email", {
+            const response = await fetch("http://localhost:3001/gamer-profile/update-email", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const newXbox = document.querySelector("#xbox-id").value;
 
         try {
-            const response = await fetch("http://localhost:5000/gamer-profile/update-xbox", {
+            const response = await fetch("http://localhost:3001/gamer-profile/update-xbox", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Note: This function is not working properly for some reason. Come back and fix if you have time.
     async function fetchSteamProfile(steamId) {
         try {
-            const response = await fetch(`http://localhost:5000/steam/profile/${steamId}`);
+            const response = await fetch(`http://localhost:3001/steam/profile/${steamId}`);
             console.log("Steam API Response Status:", response.status); // Debugging line
             if (!response.ok) {
                 throw new Error("Steam profile not found or API error.");

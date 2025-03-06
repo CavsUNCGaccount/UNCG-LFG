@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch game_id from the database using gameTitle
     let game_id;
     try {
-        const response = await fetch(`http://localhost:5000/community/game-id?title=${encodeURIComponent(gameTitle)}`);
+        const response = await fetch(`http://localhost:3001/community/game-id?title=${encodeURIComponent(gameTitle)}`);
         const data = await response.json();
         if (response.ok) {
             game_id = data.game_id;
@@ -33,12 +33,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to update button state
     async function updateButtonState() {
         try {
-            const userResponse = await fetch("http://localhost:5000/auth/me", { credentials: "include" });
+            const userResponse = await fetch("http://localhost:3001/auth/me", { credentials: "include" });
             const userData = await userResponse.json();
 
             if (userResponse.ok) {
                 // Check if user is already a member
-                const membershipResponse = await fetch(`http://localhost:5000/community/membership-status?game_id=${game_id}`, {
+                const membershipResponse = await fetch(`http://localhost:3001/community/membership-status?game_id=${game_id}`, {
                     credentials: "include"
                 });
                 const membershipData = await membershipResponse.json();
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to join community
     async function joinCommunity() {
         try {
-            const joinResponse = await fetch("http://localhost:5000/community/join", {
+            const joinResponse = await fetch("http://localhost:3001/community/join", {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to leave community
     async function leaveCommunity() {
         try {
-            const leaveResponse = await fetch("http://localhost:5000/community/leave", {
+            const leaveResponse = await fetch("http://localhost:3001/community/leave", {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },

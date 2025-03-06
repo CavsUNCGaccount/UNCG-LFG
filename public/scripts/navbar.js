@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Check if user is logged in
     try {
-        const response = await fetch("http://localhost:5000/auth/me", {
+        const response = await fetch("http://localhost:3001/auth/me", {
             method: "GET",
             credentials: "include"
         });
