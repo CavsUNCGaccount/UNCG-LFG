@@ -158,3 +158,13 @@ values ('Valorant', 'images/game-covers/Valorant_cover_art.jpg',
     "sess" JSON NOT NULL,
     "expire" TIMESTAMPTZ NOT NULL
 );
+
+CREATE TABLE user_posts (
+    post_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    community_id INT NOT NULL,
+    post_content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (community_id) REFERENCES game_community(game_id) ON DELETE CASCADE
+);
