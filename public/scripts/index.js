@@ -58,7 +58,6 @@ function displayGames(games) {
     container.innerHTML = ''; // Clear any existing content
 
     // Loop through games and add to the container
-    // Note: I still need to update line 70 so that it redirects to the correct game community page with a route parameter
     games.forEach(game => {
         const gameElement = document.createElement('div');
         gameElement.className = 'col';
@@ -67,7 +66,7 @@ function displayGames(games) {
                 <img src="${game.cover_image_url}" class="card-img-top" alt="${game.game_name}">
                 <div class="card-body text-center">
                     <h5 class="card-title">${game.game_name}</h5> 
-                    <a href="community.html?game=${encodeURIComponent(game.game_name)}&image=${encodeURIComponent(game.cover_image_url)}" class="btn btn-primary">Visit Community</a>
+                   <a href="community.html?game_name=${game.game_name}" class="btn btn-primary">Visit Community</a>
                 </div>
             </div>
         `;

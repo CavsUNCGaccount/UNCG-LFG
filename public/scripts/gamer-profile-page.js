@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             communities.forEach(community => {
                 const communityElement = document.createElement('a');
                 communityElement.className = 'community-item list-group-item list-group-item-action';
-                communityElement.href = `/community/${community.game_name}`; // Adjust the URL as needed
+                communityElement.href = `/community.html?game_name=${community.game_name}`; // Adjust the URL as needed
                 communityElement.innerHTML = `
                     <div class="d-flex align-items-center">
                         <img src="${community.cover_image_url}" alt="${community.game_name}" class="img-fluid rounded" width="50">

@@ -1,30 +1,30 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
-    const gameTitle = params.get("game");
-    const gameImage = params.get("image");
+    const gameName = params.get("game_name");
+    const game_id = params.get("game_id");
 
-    if (gameTitle) {
-        document.getElementById("game-title").textContent = gameTitle;
+    if (!gameName) {
+        alert("Game name is missing.");
+        return;
     }
 
-    if (gameImage) {
-        document.getElementById("game-cover-img").src = gameImage;
-    }
-
-    // Fetch game_id from the database using gameTitle
-    let game_id;
     try {
-        const response = await fetch(`http://localhost:3001/community/game-id?title=${encodeURIComponent(gameTitle)}`);
+        const response = await fetch(`http://localhost:3001/community/games/${gameName}`);
         const data = await response.json();
+        console.log("Game data:", data); // Debugging log
+
         if (response.ok) {
-            game_id = data.game_id;
+            document.getElementById("game-title").textContent = data.game.game_name;
+            document.getElementById("game-cover-img").src = data.game.cover_image_url;
+            document.getElementById("game-description").innerHTML = `
+                <p>${data.game.description}</p>
+                
+            `;
         } else {
-            console.error("Error fetching game ID:", data.message);
-            return;
+            alert("Error fetching game community information.");
         }
     } catch (error) {
-        console.error("Failed to fetch game ID:", error);
-        return;
+        console.error("Error fetching game community information:", error);
     }
 
     // Get the join button

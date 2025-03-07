@@ -2,8 +2,8 @@ const express = require('express');
 const pool = require('../config/db');
 const router = express.Router();
 
-// Get a list of all the games in alphabetical order
-// GET http:///localhost:3001/community/games
+// Get a list of all the games in alphabetical order (Working)
+// GET http://localhost:3001/community/games
 router.get('/games', async (req, res) => {
     try {
         const gamesQuery = await pool.query("SELECT * FROM game_community ORDER BY game_name");
@@ -14,12 +14,12 @@ router.get('/games', async (req, res) => {
     }
 });
 
-// Get a single game community by game_id
-// GET http:///localhost:3001/community/games/:game_id (Replace :game_id with the actual game ID)
-router.get('/games/:game_id', async (req, res) => {
+// Get a single game community by game name (Working)
+// GET http://localhost:3001/community/games/:game_name (Replace :game_name with the actual game name)
+router.get('/games/:game_name', async (req, res) => {
     try {
-        const { game_id } = req.params;
-        const gameQuery = await pool.query("SELECT * FROM game_community WHERE game_id = $1", [game_id]);
+        const { game_name } = req.params;
+        const gameQuery = await pool.query("SELECT * FROM game_community WHERE game_name = $1", [game_name]);
 
         if (gameQuery.rows.length === 0) {
             return res.status(404).json({ message: "Game not found" });
@@ -33,16 +33,21 @@ router.get('/games/:game_id', async (req, res) => {
     }
 });
 
-// Join a community
-router.post('/join', async (req, res) => {
+// Join a community (working)
+// To test in Postman, you first need to log in on Postman and copy the session cookie to the headers.
+// POST http://localhost:3001/community/games/:game_id/join (Requires user to be logged in. Replace :game_id with the actual game ID) 
+console.log("Registering join community route: /games/:game_id/join"); // Debugging log
+router.post('/games/:game_id/join', async (req, res) => {
+
+    console.log("Join community request received:", req.params); // Debugging log
     console.log("Session Data at /join:", req.session); // Debugging log
 
-    if (!req.session.user_id) {  
+    if (!req.session.user_id) {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_id } = req.body;
-    const user_id = req.session.user_id; // Ensure this is correct
+    const { game_id } = req.params;
+    const user_id = req.session.user_id; 
 
     if (!game_id) {
         return res.status(400).json({ message: "Game ID is required." });
@@ -72,13 +77,20 @@ router.post('/join', async (req, res) => {
     }
 });
 
-// Leave a community
-router.post('/leave', async (req, res) => {
+// Leave a community (working)
+// To test in Postman, you first need to log in on Postman and copy the session cookie to the headers.
+// DELETE http://localhost:3001/community/games/:game_id/leave (Requires user to be logged in. Replace :game_id with the actual game ID)
+console.log("Registering leave community route: /games/:game_id/leave"); // Debugging log
+router.delete('/games/:game_id/leave', async (req, res) => {
+
+    console.log("Leave community request received:", req.params); // Debugging log
+    console.log("Session Data at /leave:", req.session); // Debugging log
+
     if (!req.session.user_id) {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_id } = req.body;
+    const { game_id } = req.params;
     const user_id = req.session.user_id;
 
     if (!game_id) {
@@ -102,14 +114,15 @@ router.post('/leave', async (req, res) => {
             [user_id, game_id]
         );
 
-        res.status(200).json({ message: "Successfully left the community!" });
+        res.status(200).json({ message: "Successfully left the community." });
     } catch (err) {
         console.error("Error leaving community:", err);
         res.status(500).json({ message: "Server error. Could not leave community." });
     }
 });
 
-// Get game_id by game title
+// Get game_id by game title (Working)
+// GET http://localhost:3001/community/game-id?title=Game%20Title (Replace Game%20Title with the actual game title)
 router.get('/game-id', async (req, res) => {
     const { title } = req.query;
     if (!title) {
@@ -133,7 +146,8 @@ router.get('/game-id', async (req, res) => {
     }
 });
 
-// Get communities for the logged-in user
+// Get communities for the logged-in user (Working)
+// GET http://localhost:3001/community/my-communities (Requires user to be logged in)
 router.get('/my-communities', async (req, res) => {
     if (!req.session.user_id) {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
@@ -154,7 +168,8 @@ router.get('/my-communities', async (req, res) => {
     }
 });
 
-// Check membership status
+// Check membership status (Working)
+// GET http://localhost:3001/community/membership-status?game_id=1 (Requires user to be logged in)
 router.get('/membership-status', async (req, res) => {
     if (!req.session.user_id) {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
