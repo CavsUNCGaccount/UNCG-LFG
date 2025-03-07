@@ -52,12 +52,13 @@ async function fetchGames() {
     }
 }
 
+// Function to display games on the homepage (index.html)
 function displayGames(games) {
     const container = document.querySelector('#games .row');
     container.innerHTML = ''; // Clear any existing content
 
     // Loop through games and add to the container
-    // Note: I still need to update line 68 so that it redirects to the correct game community page with a route parameter
+    // Note: I still need to update line 70 so that it redirects to the correct game community page with a route parameter
     games.forEach(game => {
         const gameElement = document.createElement('div');
         gameElement.className = 'col';

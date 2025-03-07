@@ -14,6 +14,25 @@ router.get('/games', async (req, res) => {
     }
 });
 
+// Get a single game community by game_id
+// GET http:///localhost:3001/community/games/:game_id (Replace :game_id with the actual game ID)
+router.get('/games/:game_id', async (req, res) => {
+    try {
+        const { game_id } = req.params;
+        const gameQuery = await pool.query("SELECT * FROM game_community WHERE game_id = $1", [game_id]);
+
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+
+        res.json({ game: gameQuery.rows[0] });
+    }
+    catch (error) {
+        console.error("Error fetching game:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 // Join a community
 router.post('/join', async (req, res) => {
     console.log("Session Data at /join:", req.session); // Debugging log
