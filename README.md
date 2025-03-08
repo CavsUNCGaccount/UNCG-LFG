@@ -12,7 +12,10 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
     - Gamers can also create an account through the sign up page.
   - Steam Achievement Tracking - implemented with mixed results.
     - Gamers must manually enter their Steam ID number (no Steam OAuth).
-  - Gamers can now edit their email, username, psn id, and xbox id. 
+  - Gamers can now edit their email, username, psn id, and xbox id.
+  - Homepage now displaying games from the database.
+  - Community page is now fully dynamic and displays game info.
+    - Gamers can now join or leave a gaming community from the community page.
 
 ## Features (Planned)
 - Dynamic Game Community Pages for 20 popular Steam, PlayStation, and Xbox games.
