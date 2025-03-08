@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
     const gameName = params.get("game_name");
-    const game_id = params.get("game_id");
+    let game_id =  params.get("game_id");
+
+    console.log("Game Name:", gameName); // Debugging log
+    console.log("Game ID:", game_id); // Debugging log
 
     if (!gameName) {
         alert("Game name is missing.");
@@ -20,6 +23,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <p>${data.game.description}</p>
                 
             `;
+
+             // Update game_id now that we have the game data
+             game_id = data.game.game_id;
+             console.log("Updated Game ID from API:", game_id); // Debugging log
+
+            document.getElementById("join-button").addEventListener("click", joinCommunity);
+            document.getElementById("leave-button").addEventListener("click", leaveCommunity);
+
         } else {
             alert("Error fetching game community information.");
         }
@@ -64,11 +75,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to join community
     async function joinCommunity() {
         try {
-            const joinResponse = await fetch("http://localhost:3001/community/join", {
+            const joinResponse = await fetch(`http://localhost:3001/community/games/${game_id}/join`, {
                 method: "POST",
                 credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ game_id })
+                headers: { "Content-Type": "application/json" }
             });
 
             const joinData = await joinResponse.json();
@@ -87,12 +97,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to leave community
     async function leaveCommunity() {
+        console.log("Game ID before sending leave request:", game_id); // Debugging log
+
         try {
-            const leaveResponse = await fetch("http://localhost:3001/community/leave", {
-                method: "POST",
+            const leaveResponse = await fetch(`http://localhost:3001/community/games/${game_id}/leave`, {
+                method: "DELETE",
                 credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ game_id })
+                headers: { "Content-Type": "application/json" }
             });
 
             const leaveData = await leaveResponse.json();
