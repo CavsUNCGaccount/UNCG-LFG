@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
     const gameName = params.get("game_name");
-    let game_id =  params.get("game_id");
+    let game_id = params.get("game_id");
 
     console.log("Game Name:", gameName); // Debugging log
     console.log("Game ID:", game_id); // Debugging log
@@ -19,27 +19,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (response.ok) {
             document.getElementById("game-title").textContent = data.game.game_name;
             document.getElementById("game-cover-img").src = data.game.cover_image_url;
-            document.getElementById("game-description").innerHTML = `
-                <p>${data.game.description}</p>
-                
-            `;
+            document.getElementById("game-description").innerHTML = `<p>${data.game.description}</p>`;
 
-             // Update game_id now that we have the game data
-             game_id = data.game.game_id;
-             console.log("Updated Game ID from API:", game_id); // Debugging log
+            // Update game_id now that we have the game data
+            game_id = data.game.game_id;
+            console.log("Updated Game ID from API:", game_id); // Debugging log
 
-            document.getElementById("join-button").addEventListener("click", joinCommunity);
-            document.getElementById("leave-button").addEventListener("click", leaveCommunity);
+            // Ensure buttons exist before adding event listeners
+            const joinButton = document.querySelector(".btn-warning");
+            if (joinButton) {
+                joinButton.addEventListener("click", joinCommunity);
+            } else {
+                console.error("Join button not found");
+            }
 
+            const leaveButton = document.getElementById("leave-button");
+            if (leaveButton) {
+                leaveButton.addEventListener("click", leaveCommunity);
+            } else {
+                console.error("Leave button not found");
+            }
         } else {
             alert("Error fetching game community information.");
         }
     } catch (error) {
         console.error("Error fetching game community information:", error);
     }
-
-    // Get the join button
-    const joinButton = document.querySelector(".btn-warning");
 
     // Function to update button state
     async function updateButtonState() {
@@ -54,6 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
                 const membershipData = await membershipResponse.json();
 
+                const joinButton = document.querySelector(".btn-warning");
                 if (membershipData.isMember) {
                     joinButton.textContent = "Leave Community";
                     joinButton.addEventListener("click", leaveCommunity);
@@ -62,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     joinButton.addEventListener("click", joinCommunity);
                 }
             } else {
+                const joinButton = document.querySelector(".btn-warning");
                 joinButton.textContent = "Login to Join";
                 joinButton.addEventListener("click", () => {
                     window.location.href = "login.html";
@@ -84,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const joinData = await joinResponse.json();
             if (joinResponse.ok) {
                 alert(joinData.message);
+                const joinButton = document.querySelector(".btn-warning");
                 joinButton.textContent = "Leave Community";
                 joinButton.removeEventListener("click", joinCommunity);
                 joinButton.addEventListener("click", leaveCommunity);
@@ -109,6 +117,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const leaveData = await leaveResponse.json();
             if (leaveResponse.ok) {
                 alert(leaveData.message);
+                const joinButton = document.querySelector(".btn-warning");
                 joinButton.textContent = "Join Community";
                 joinButton.removeEventListener("click", leaveCommunity);
                 joinButton.addEventListener("click", joinCommunity);

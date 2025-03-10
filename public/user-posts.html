@@ -25,7 +25,7 @@
     <script src="scripts/navbar.js" defer></script>
 
     <!-- Page Script -->
-    <script defer src="scripts/game-community.js"></script>
+    <script defer src="scripts/user-posts.js"></script>
 </head>
 
 <!-- d-flex flex-column min-vh-100: along with mt-auto for the footer, it makes footer stay at the bottom of the page. -->
@@ -37,74 +37,22 @@
 
     <main class="container my-4">
         <!-- Page Title -->
-        <h2 class="text-center text-white mb-4">Fortnite User Posts</h2>
+        <h2 class="text-center text-white mb-4">User Posts</h2>
 
-        <!-- Post A -->
+        <!-- Post Form -->
         <div class="card mb-3 bg-dark text-white">
             <div class="card-body">
-                <div class="d-flex justify-content-between">
-
-                    <!-- h5 card-title: Username of the gamer-->
-                    <!-- h6 card-text: Gamer tag of the gamer-->
-                    <h5 class="card-title">JohnDoe</h5>
-                    <h6 class="card-text">SteamGamer789</h6>
-                    <small>2/3/2025 9:30 PM <img src="images/platform-logos/steam-logo.jpg" alt="Steam"
-                            width="25"></small>
-                </div>
-                <p class="card-text">Need 1 more for Battle Royale, please have a mic.</p>
+                <form id="post-form">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="post-content" rows="3" placeholder="Write your post here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
             </div>
         </div>
 
-        <!-- Post B -->
-        <div class="card mb-3 bg-dark text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-
-                    <!-- h5 card-title: Username of the gamer-->
-                    <!-- h6 card-text: Gamer tag of the gamer-->
-                    <h5 class="card-title">JaeSpeedy</h5>
-                    <h6 class="card-text">XboxGamer012</h6>
-                    <small>2/3/2025 9:00 PM <img src="images/platform-logos/xbox-logo.png" alt="Xbox"
-                            width="25"></small>
-                </div>
-                <p class="card-text">Need 2 players for Zero Build. Please have a mic. Message me on Xbox Live.</p>
-            </div>
-        </div>
-
-        <!-- Post C -->
-        <div class="card mb-3 bg-dark text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-
-                    <!-- h5 card-title: Username of the gamer-->
-                    <!-- h6 card-text: Gamer tag of the gamer-->
-                    <h5 class="card-title">ToastedBread</h5>
-                    <h6 class="card-text">PSNGamer423</h6>
-                    <small>2/3/2025 6:48 PM <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
-                            width="25"></small>
-                </div>
-                <p class="card-text">Need 4 players for Zero Build. Please have a mic. Message me on PSN @ PSNGamer423.
-                </p>
-            </div>
-        </div>
-
-        <!-- Post D: Crossplay -->
-        <div class="card mb-3 bg-dark text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-
-                    <!-- h5 card-title: Username of the gamer-->
-                    <!-- h6 card-text: Gamer tag of the gamer-->
-                    <h5 class="card-title">JaneDoe</h5>
-                    <h6 class="card-text">JaneDoeSteam</h6>
-                    <small>2/3/2025 6:00PM <img src="images/platform-logos/steam-logo.jpg" alt="Steam"
-                        width="25"></small>
-                </div>
-                <p class="card-text">Looking for players for a crossplay session. Any platform is welcome. Send me
-                    a friend request to my Epic Games username: CrossPlatformPlayer".</a></p>
-            </div>
-        </div>
-
+        <!-- Posts Container -->
+        <div id="posts-container"></div>
     </main>
 
     <!-- Footer -->

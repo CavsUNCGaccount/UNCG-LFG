@@ -195,4 +195,65 @@ router.get('/membership-status', async (req, res) => {
     }
 });
 
+// Create a new post
+router.post('/create-post', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { game_name, post_content } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!game_name || !post_content) {
+        return res.status(400).json({ message: "Game name and post content are required." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        const newPost = await pool.query(
+            "INSERT INTO user_posts (user_id, community_id, post_content) VALUES ($1, $2, $3) RETURNING *",
+            [user_id, community_id, post_content]
+        );
+
+        res.status(201).json(newPost.rows[0]);
+    } catch (err) {
+        console.error("Error creating post:", err);
+        res.status(500).json({ message: "Server error. Could not create post." });
+    }
+});
+
+// Get posts for a community
+router.get('/posts', async (req, res) => {
+    const { game_name } = req.query;
+
+    if (!game_name) {
+        return res.status(400).json({ message: "Game name is required." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        const posts = await pool.query(
+            "SELECT up.post_id, u.username, up.post_content, up.created_at, gc.game_name, gc.cover_image_url FROM user_posts up JOIN users u ON up.user_id = u.user_id JOIN game_community gc ON up.community_id = gc.game_id WHERE up.community_id = $1 ORDER BY up.created_at DESC",
+            [community_id]
+        );
+
+        res.json(posts.rows);
+    } catch (err) {
+        console.error("Error fetching posts:", err);
+        res.status(500).json({ message: "Server error. Could not fetch posts." });
+    }
+});
+
 module.exports = router;

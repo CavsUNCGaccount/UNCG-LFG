@@ -61,9 +61,9 @@
             <div class="col-md-6">
                 <section class="p-4 bg-dark rounded shadow">
                     <h2>User Posts</h2>
-                    <p>Don't need to organize a group of gamers and want to dive into the action
+                    <p>Don't need to organize a group of gamers and want to dive int the action
                         quickly? Make a post to find others to play with here!</p>
-                    <a href="user-posts.html" class="btn btn-warning btn-lg">View User Posts</Video></a>
+                    <a id="user-posts-link" class="btn btn-warning btn-lg">View User Posts</a>
                 </section>
             </div>
         </div>
@@ -73,6 +73,18 @@
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         Copyright © 2025 UNCG LFG. All rights reserved.
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const game_name = params.get("game_name");
+
+            if (game_name) {
+                const userPostsLink = document.getElementById("user-posts-link");
+                userPostsLink.href = `user-posts.html?game_name=${encodeURIComponent(game_name)}`;
+            }
+        });
+    </script>
 </body>
 
 </html>
