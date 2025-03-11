@@ -16,6 +16,8 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - Homepage now displaying games from the database.
   - Community page is now fully dynamic and displays game info.
     - Gamers can now join or leave a gaming community from the community page.
+  - User Posts now working
+    - Gamers can now make a post on the user posts page for a particular game.
 
 ## Features (Planned)
 - Dynamic Game Community Pages for 20 popular Steam, PlayStation, and Xbox games.
