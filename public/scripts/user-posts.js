@@ -1,11 +1,16 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
     const game_name = params.get("game_name");
+    console.log("Game name:", game_name); 
 
     if (!game_name) {
         console.error("Game name is required.");
         return;
     }
+
+    // Set the game name in the page title
+    const gameNameElement = document.getElementById("game-name");
+    gameNameElement.textContent = `${game_name} - User Posts`;
 
     const postForm = document.getElementById("post-form");
     const postContent = document.getElementById("post-content");

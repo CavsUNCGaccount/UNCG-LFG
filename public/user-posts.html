@@ -37,14 +37,48 @@
 
     <main class="container my-4">
         <!-- Page Title -->
-        <h2 class="text-center text-white mb-4">User Posts</h2>
+        <h2 id="game-name" class="text-center text-white mb-4">User Posts</h2>
+
+        <h3 class="text-center text-white mb-4">Welcome to the User Posts page!</h3>
+
+        <section id="user-posts-about-section" class="card bg-dark text-white mb-4 px-3 py-3">
+            <p>This page is for gamers to make a post to find others to play with.
+                Jump into the action quicker without creating and organizing a full group.</p>
+
+            <p>To post, simply type your message in the text area below and click the <strong>"Post"</strong> button.
+            </p>
+
+            <p>
+                <a class="btn btn-outline-light btn-sm" data-bs-toggle="collapse" href="#postGuidelines" role="button"
+                    aria-expanded="false" aria-controls="postGuidelines">
+                    Click here to see suggestions on what to include in your post
+                </a>
+            </p>
+
+            <div class="collapse" id="postGuidelines">
+                <ul>
+                    <li>The platform you are playing on (PlayStation, Xbox, or Steam).</li>
+                    <li>How many other gamers you need for a gaming session.</li>
+                    <li>If you would like other gamers to have a mic or not.</li>
+                    <li>Your region or time zone (to find players who can play at the same time).</li>
+                    <li>Skill level or experience (Casual, Competitive, Pro, New Players welcome).</li>
+                    <li>Preferred game mode (Co-op, Ranked, Casual, PvP, PvE).</li>
+                    <li>When you are usually online (specific days or times).</li>
+                    <li>Any other preferences (e.g., "Chill players only", "No toxic behavior", "Beginner-friendly").
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
 
         <!-- Post Form -->
         <div class="card mb-3 bg-dark text-white">
             <div class="card-body">
                 <form id="post-form">
                     <div class="mb-3">
-                        <textarea class="form-control" id="post-content" rows="3" placeholder="Write your post here..."></textarea>
+                        <textarea class="form-control" id="post-content" rows="3"
+                            placeholder="Write your post here..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Post</button>
                 </form>

@@ -265,3 +265,22 @@ footer {
     height: auto; /* Ensure the image is rectangle */
     border-radius: 8px; /* Match the card's rounded corners */
 }
+
+/* ===== User Posts Page Styles ===== */
+/* Custom styles for user posts */
+.card-body, #user-posts-about-section {
+    box-shadow: 0 0 10px rgba(31, 123, 204, 0.711);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.card-body:hover {
+    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+    transition: background 0.3s ease;
+}
+
+.card-title {
+    color: #00d9ff; /* Light neon blue */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
