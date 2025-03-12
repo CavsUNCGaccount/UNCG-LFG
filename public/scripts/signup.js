@@ -15,7 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
+<<<<<<< HEAD
             // Change the port number if you need to use a different port (5000 is the default)
+=======
+>>>>>>> 6bdf4dc (updated admin features & styling)
             const response = await fetch("http://localhost:3001/auth/register", {
                 method: "POST",
                 headers: {

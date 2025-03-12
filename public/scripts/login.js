@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = document.querySelector('input[type="password"]').value;
 
         try {
+<<<<<<< HEAD
             // Change the port number if you need to use a different port (5000 is the default)
+=======
+>>>>>>> 6bdf4dc (updated admin features & styling)
             const response = await fetch("http://localhost:3001/auth/login", {
                 method: "POST",
                 headers: {
@@ -23,8 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 alert("Login successful!");
-                localStorage.setItem("user", JSON.stringify(data.user)); // Store user data locally
-                window.location.href = "gamer-profile-page.html"; // Redirect to account page
+
+                // Store user details locally
+                localStorage.setItem("user", JSON.stringify(data.user));
+
+                // Redirect user based on role
+                if (data.user && data.user.role === "Admin") {
+                    window.location.href = "admin-profile-page.html"; // Admin page
+                } else {
+                    window.location.href = "gamer-profile-page.html"; // Gamer page
+                }
+
             } else {
                 alert(data.message || "Invalid credentials. Please try again.");
             }

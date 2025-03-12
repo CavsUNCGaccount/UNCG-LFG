@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body; // Accept role if provided
 
     try {
         // Check if user already exists
@@ -20,21 +20,26 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Insert user into database
+        // Default role to 'Gamer' if not provided
+        const userRole = role && role === "Admin" ? "Admin" : "Gamer";
+
+        // Insert user into database with role
         const newUser = await pool.query(
-            'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING user_id, username, email',
-            [username, email, hashedPassword]
+            'INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING user_id, username, email, role',
+            [username, email, hashedPassword, userRole]
         );
 
         // Get the newly created user ID
         const userId = newUser.rows[0].user_id;
 
-        // Create a default gamer profile for the new user in the gamer_profiles table
-        await pool.query(
-            `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_username, steam64_id, avatar_url) 
-             VALUES ($1, $2, $3, $4, $5, $6)`,
-            [userId, 'N/A', 'N/A', 'N/A', null, 'images/default-avatar.png']
-        );
+        // If user is a gamer, create a gamer profile
+        if (userRole === "Gamer") {
+            await pool.query(
+                `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_username, steam64_id, avatar_url) 
+                 VALUES ($1, $2, $3, $4, $5, $6)`,
+                [userId, 'N/A', 'N/A', 'N/A', null, 'images/default-avatar.png']
+            );
+        }
 
         res.status(201).json({ message: 'User registered successfully', user: newUser.rows[0] });
     } catch (err) {
@@ -60,20 +65,16 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        
-        // Save session
+        // Save session data
         req.session.user_id = user.rows[0].user_id;
         req.session.username = user.rows[0].username;
         req.session.email = user.rows[0].email;
+        req.session.role = user.rows[0].role; // Store user role in session
 
-        // Save session
-        //req.session.user = {
-        //    user_id: user.rows[0].user_id,
-        //    username: user.rows[0].username,
-        //    email: user.rows[0].email,
-        //};
+        // Determine redirect page based on role
+        const redirectPage = user.rows[0].role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
 
-        res.status(200).json({ message: 'Login successful', user: req.session.user });
+        res.status(200).json({ message: 'Login successful', redirect: redirectPage, user: req.session });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
@@ -97,7 +98,9 @@ router.get('/me', (req, res) => {
         res.status(200).json({
             user_id: req.session.user_id,
             username: req.session.username,
-            email: req.session.email,});
+            email: req.session.email,
+            role: req.session.role // Return role
+        });
     } else {
         res.status(401).json({ message: 'Not authenticated' });
     }

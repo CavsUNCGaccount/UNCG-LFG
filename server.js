@@ -9,9 +9,18 @@ const authRoutes = require('./routes/auth');
 const gamerProfileRouter = require("./routes/gamer-profile");
 const steamRoutes = require('./routes/steam');
 const communityRoutes = require('./routes/community');
+const adminRoutes = require('./routes/admin'); // ✅ Import admin routes
 
 // Initialize Express app
 const app = express();
+
+// ✅ Middleware to check if the user is an admin
+function isAdmin(req, res, next) {
+    if (!req.session.user_id || req.session.role !== "Admin") {
+        return res.status(403).json({ message: "Access denied. Admins only." });
+    }
+    next();
+}
 
 // Cors Middleware (Before session middleware)
 app.use(cors({
@@ -49,6 +58,11 @@ app.use(
     })
 );
 
+// ✅ Restrict Access to Admin Pages
+app.get('/admin-profile-page.html', isAdmin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin-profile-page.html'));
+});
+
 // Serve index.html for the root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -65,15 +79,21 @@ app.get('/community.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'community.html'));
 });
 
-// Use the routes
+// ✅ Use the routes
 app.use('/auth', authRoutes);
 app.use("/gamer-profile", gamerProfileRouter);
 app.use('/steam', steamRoutes);
 app.use('/community', communityRoutes);
+app.use('/admin', adminRoutes); // ✅ Register admin routes
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
+    res.header("Access-Control-Allow-Origin", "http://localhost:3001"); // Allow frontend access
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();   
 });
 
 // Global Error Handler
@@ -93,4 +113,3 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log("Server is running and API routes are active!");
 });
-

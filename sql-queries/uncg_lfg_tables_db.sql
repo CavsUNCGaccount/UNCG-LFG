@@ -50,7 +50,7 @@ CREATE TABLE community_membership (
     FOREIGN KEY (game_id) REFERENCES game_community(game_id) ON DELETE CASCADE
 );
 
-CREATE TABLE "session" (
+CREATE TABLE IF NOT EXISTS "session" (
     "sid" VARCHAR PRIMARY KEY,
     "sess" JSON NOT NULL,
     "expire" TIMESTAMPTZ NOT NULL

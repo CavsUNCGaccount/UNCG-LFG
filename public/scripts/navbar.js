@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    // This displays the default navbar; it shows the login and signup buttons when a user is not logged in 
+    // Display default navbar structure
     document.getElementById("navbar-container").innerHTML = `
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -26,22 +26,34 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Check if user is logged in
     try {
+<<<<<<< HEAD
         const response = await fetch("http://localhost:3001/auth/me", {
+=======
+        const response = await fetch("http://localhost:3001/auth/me", {  // ✅ Ensure correct backend port
+>>>>>>> 6bdf4dc (updated admin features & styling)
             method: "GET",
             credentials: "include"
         });
 
+        if (!response.ok) {
+            throw new Error("Session not found");
+        }
+
         const data = await response.json();
 
-        // Check if user_id exists in the response
+        // ✅ Check if user is an Admin or Gamer
         if (data.user_id) {
-            // If logged in, show avatar and username
+            let profilePage = data.role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
+
+            // Show avatar, username, and logout button
             document.getElementById("navbar-login").innerHTML = `
                 <img src="images/default-avatar.png" alt="Profile" class="nav-avatar" id="profile-link" title="${data.username}">
+                <button class="btn btn-danger ms-2" onclick="logout()">Logout</button>
             `;
 
+            // Redirect to the correct profile page
             document.getElementById("profile-link").addEventListener("click", () => {
-                window.location.href = "gamer-profile-page.html";
+                window.location.href = profilePage;
             });
         } else {
             // If not logged in, show login/signup buttons
@@ -52,11 +64,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     } catch (error) {
         console.error("Error checking session:", error);
-        // Default to logged out state in case of an error
+
+        // Default to logged-out state in case of an error
         document.getElementById("navbar-login").innerHTML = `
             <a href="login.html" class="btn btn-outline-light">Login</a>
             <a href="signup.html" class="btn btn-warning">Sign Up</a>
         `;
     }
-
 });
+
+// ✅ Logout function
+function logout() {
+    fetch("http://localhost:3001/auth/logout", {
+        method: "POST",
+        credentials: "include"
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || "Logged out");
+        window.location.href = "index.html"; // Redirect to homepage after logout
+    })
+    .catch(error => console.error("Error logging out:", error));
+}
