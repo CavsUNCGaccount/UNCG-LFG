@@ -1,3 +1,5 @@
 .env
 node_modules/.evn
 node_modules/
+public/uploads/*
+!public/uploads/.gitkeep

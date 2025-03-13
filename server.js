@@ -9,12 +9,12 @@ const authRoutes = require('./routes/auth');
 const gamerProfileRouter = require("./routes/gamer-profile");
 const steamRoutes = require('./routes/steam');
 const communityRoutes = require('./routes/community');
-const adminRoutes = require('./routes/admin'); // ✅ Import admin routes
+const adminRoutes = require('./routes/admin'); // Import admin routes
 
 // Initialize Express app
 const app = express();
 
-// ✅ Middleware to check if the user is an admin
+// Middleware to check if the user is an admin
 function isAdmin(req, res, next) {
     if (!req.session.user_id || req.session.role !== "Admin") {
         return res.status(403).json({ message: "Access denied. Admins only." });
@@ -61,7 +61,7 @@ app.use(
     })
 );
 
-// ✅ Restrict Access to Admin Pages
+// Restrict Access to Admin Pages
 app.get('/admin-profile-page.html', isAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin-profile-page.html'));
 });
@@ -82,12 +82,12 @@ app.get('/community.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'community.html'));
 });
 
-// ✅ Use the routes
+// Use the routes
 app.use('/auth', authRoutes);
 app.use("/gamer-profile", gamerProfileRouter);
 app.use('/steam', steamRoutes);
 app.use('/community', communityRoutes);
-app.use('/admin', adminRoutes); // ✅ Register admin routes
+app.use('/admin', adminRoutes); // Register admin routes
 
 // 404 Handler for Undefined Routes
 app.use((req, res) => {

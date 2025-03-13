@@ -14,6 +14,9 @@ ALTER COLUMN role SET DEFAULT 'Gamer';
 ALTER TABLE users
 ADD CONSTRAINT role_check CHECK (role IN ('Gamer', 'Admin'));
 
+ALTER TABLE users ADD COLUMN profile_picture VARCHAR(255) DEFAULT
+'uploads/default-avatar.png';
+
 CREATE TABLE game_community (
     game_id SERIAL PRIMARY KEY,
     game_name VARCHAR(100) NOT NULL,
@@ -55,6 +58,22 @@ CREATE TABLE IF NOT EXISTS "session" (
     "sess" JSON NOT NULL,
     "expire" TIMESTAMPTZ NOT NULL
 );
+
+-- Create the reports table
+CREATE TABLE reports (
+    report_id SERIAL PRIMARY KEY,
+    reported_user_id INT NOT NULL,
+    reported_by_user_id INT NOT NULL,
+    reason TEXT NOT NULL,
+    status VARCHAR(20) CHECK (status IN ('Pending', 'Reviewed', 'Action Taken')) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (reported_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (reported_by_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Insert test data in reports (change the report user_ids if needed)
+INSERT INTO reports (reported_user_id, reported_by_user_id, reason, status)
+VALUES (6, 5, 'Toxic behavior in chat', 'Pending');
 
 -- Insert first 2 games
 insert into game_community (game_name, cover_image_url, description, created_at)

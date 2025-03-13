@@ -19,6 +19,11 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - User Posts now working
     - Gamers can now make a post on the user posts page for a particular game.
 
+  - Admin login page now working
+    - Admin can now login and log out
+    - Admin can now change their username, email, or password.
+    - Admin can now upload a profile picture. 
+
 ## Features (Planned)
 - Dynamic Game Community Pages for 20 popular Steam, PlayStation, and Xbox games.
 - Group creation for matchmaking and organizing a group of gamers to play with.
@@ -42,7 +47,9 @@ To run this current version locally, you need:
  - dotenv v16.4.7 - For loading environment variables
  - express v4.21.2 - Web framework for Node.js
  - express-session 1.18.1 - To manage user sessions
+ - fs security 0.0.1 - For security
  - jsonwebtoken 9.0.2 - Web tokens to manage user sessions
+ - multer v1.4.5-lts.1 - For profile picture uploads
  - pg v8.13.3 - PostgreSQL client for Node.js
  - nodemon v3.1.9 (devDependency) - For automatic server restarts during development
  - A local PostGreSQL database. Create it and call it uncg_lfg_db.
@@ -65,3 +72,6 @@ Replace "your postgres password" with the password you set when you installed Po
 Replace YOUR_STEAM_API_KEY with your actual steam API key.
 
 To install all the required dependencies, run the command: npm install.
+
+Refer to the packages.json for more details on the dependencies.
+Refer to the Admin setup.pdf for details on how to get Admin login page working.
