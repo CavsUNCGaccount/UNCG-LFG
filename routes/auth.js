@@ -65,21 +65,31 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // Save session data
+
+
+        // Save session with profile picture
         req.session.user_id = user.rows[0].user_id;
         req.session.username = user.rows[0].username;
         req.session.email = user.rows[0].email;
-        req.session.role = user.rows[0].role; // Store user role in session
+        req.session.role = user.rows[0].role;
+        req.session.profile_picture = user.rows[0].profile_picture;
 
-        // Determine redirect page based on role
-        const redirectPage = user.rows[0].role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
-
-        res.status(200).json({ message: 'Login successful', redirect: redirectPage, user: req.session });
+        res.status(200).json({
+            message: 'Login successful',
+            user: {
+                user_id: user.rows[0].user_id,
+                username: user.rows[0].username,
+                email: user.rows[0].email,
+                role: user.rows[0].role,
+                profile_picture: user.rows[0].profile_picture
+            }
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 // Logout a user
 router.post('/logout', (req, res) => {
@@ -92,18 +102,28 @@ router.post('/logout', (req, res) => {
     });
 });
 
-// Check if user is logged in
-router.get('/me', (req, res) => {
-    if (req.session.user_id) {
-        res.status(200).json({
-            user_id: req.session.user_id,
-            username: req.session.username,
-            email: req.session.email,
-            role: req.session.role // Return role
-        });
-    } else {
-        res.status(401).json({ message: 'Not authenticated' });
+// ✅ Check if user is logged in
+router.get('/me', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: 'Not authenticated' });
+    }
+
+    try {
+        const user = await pool.query(
+            "SELECT user_id, username, email, role, profile_picture FROM users WHERE user_id = $1",
+            [req.session.user_id]
+        );
+
+        if (user.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user.rows[0]); // ✅ Return profile_picture field too
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
+
 
 module.exports = router;

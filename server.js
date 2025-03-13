@@ -22,6 +22,9 @@ function isAdmin(req, res, next) {
     next();
 }
 
+app.use('/uploads', express.static('public/uploads'));
+
+
 // Cors Middleware (Before session middleware)
 app.use(cors({
     origin: 'http://localhost:3001', // Adjust this if using a different port or domain

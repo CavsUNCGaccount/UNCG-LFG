@@ -26,11 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Check if user is logged in
     try {
-<<<<<<< HEAD
         const response = await fetch("http://localhost:3001/auth/me", {
-=======
-        const response = await fetch("http://localhost:3001/auth/me", {  // ✅ Ensure correct backend port
->>>>>>> 6bdf4dc (updated admin features & styling)
             method: "GET",
             credentials: "include"
         });
@@ -41,13 +37,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const data = await response.json();
 
-        // ✅ Check if user is an Admin or Gamer
+        // ✅ Determine user role and profile redirection
         if (data.user_id) {
             let profilePage = data.role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
+            let profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "images/default-avatar.png";
 
             // Show avatar, username, and logout button
             document.getElementById("navbar-login").innerHTML = `
-                <img src="images/default-avatar.png" alt="Profile" class="nav-avatar" id="profile-link" title="${data.username}">
+                <img src="${profilePicture}" 
+                     alt="Profile" class="nav-avatar rounded-circle" id="profile-link" title="${data.username}">
                 <button class="btn btn-danger ms-2" onclick="logout()">Logout</button>
             `;
 
