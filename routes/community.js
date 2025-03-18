@@ -231,6 +231,7 @@ router.post('/create-post', async (req, res) => {
 // Get posts for a community
 router.get('/posts', async (req, res) => {
     const { game_name } = req.query;
+    const user_id = req.session.user_id;
 
     if (!game_name) {
         return res.status(400).json({ message: "Game name is required." });
@@ -245,14 +246,63 @@ router.get('/posts', async (req, res) => {
         const community_id = gameQuery.rows[0].game_id;
 
         const posts = await pool.query(
-            "SELECT up.post_id, u.username, up.post_content, up.created_at, gc.game_name, gc.cover_image_url FROM user_posts up JOIN users u ON up.user_id = u.user_id JOIN game_community gc ON up.community_id = gc.game_id WHERE up.community_id = $1 ORDER BY up.created_at DESC",
-            [community_id]
+            `SELECT 
+                up.post_id, 
+                u.username, 
+                up.post_content, 
+                up.created_at, 
+                gc.game_name, 
+                gc.cover_image_url,
+                CASE WHEN up.user_id = $2 THEN true ELSE false END AS is_owner
+            FROM user_posts up 
+            JOIN users u ON up.user_id = u.user_id 
+            JOIN game_community gc ON up.community_id = gc.game_id 
+            WHERE up.community_id = $1 
+            ORDER BY up.created_at DESC`,
+            [community_id, user_id]
         );
 
         res.json(posts.rows);
     } catch (err) {
         console.error("Error fetching posts:", err);
         res.status(500).json({ message: "Server error. Could not fetch posts." });
+    }
+});
+
+// Update a post
+router.put('/edit-post', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { post_id, post_content } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!post_id || !post_content) {
+        return res.status(400).json({ message: "Post ID and new content are required." });
+    }
+
+    try {
+        // Ensure the post belongs to the logged-in user
+        const postQuery = await pool.query(
+            "SELECT * FROM user_posts WHERE post_id = $1 AND user_id = $2",
+            [post_id, user_id]
+        );
+
+        if (postQuery.rows.length === 0) {
+            return res.status(403).json({ message: "You can only edit your own posts." });
+        }
+
+        // Update the post content
+        const updatedPost = await pool.query(
+            "UPDATE user_posts SET post_content = $1 WHERE post_id = $2 RETURNING *",
+            [post_content, post_id]
+        );
+
+        res.status(200).json(updatedPost.rows[0]);
+    } catch (err) {
+        console.error("Error updating post:", err);
+        res.status(500).json({ message: "Server error. Could not update post." });
     }
 });
 
