@@ -4,7 +4,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });  // Ensu
 const { Pool } = require('pg');
 
 // Check if environment variables are loaded
-console.log("🔍 DB Config:", {
+console.log("DB Config:", {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
@@ -23,11 +23,11 @@ const pool = new Pool({
 // Test connection
 pool.connect()
     .then(client => {
-        console.log('✅ Connected to PostgreSQL');
+        console.log('Connected to PostgreSQL');
         client.release();
     })
     .catch(err => {
-        console.error('❌ Database connection error:', err.stack);
+        console.error('Database connection error:', err.stack);
     });
 
 module.exports = pool;
