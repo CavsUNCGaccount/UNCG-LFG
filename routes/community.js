@@ -269,6 +269,44 @@ router.get('/posts', async (req, res) => {
     }
 });
 
+// Get the top 5 most recent posts for a game
+router.get('/recent-posts', async (req, res) => {
+    const { game_name } = req.query;
+
+    if (!game_name) {
+        return res.status(400).json({ message: "Game name is required." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        // Fetch the top 5 most recent posts
+        const posts = await pool.query(
+            `SELECT 
+                up.post_id, 
+                u.username, 
+                up.post_content, 
+                up.created_at 
+            FROM user_posts up 
+            JOIN users u ON up.user_id = u.user_id 
+            WHERE up.community_id = $1 
+            ORDER BY up.created_at DESC 
+            LIMIT 5`,
+            [community_id]
+        );
+
+        res.json(posts.rows);
+    } catch (err) {
+        console.error("Error fetching recent posts:", err);
+        res.status(500).json({ message: "Server error. Could not fetch recent posts." });
+    }
+});
+
 // Update a post
 router.put('/edit-post', async (req, res) => {
     if (!req.session.user_id) {

@@ -61,9 +61,15 @@
             <div class="col-md-6">
                 <section class="p-4 bg-dark rounded shadow">
                     <h2>User Posts</h2>
-                    <p>Don't need to organize a group of gamers and want to dive int the action
+                    <p>Don't need to organize a group of gamers and want to dive into the action
                         quickly? Make a post to find others to play with here!</p>
                     <a id="user-posts-link" class="btn btn-warning btn-lg">View User Posts</a>
+                </section>
+
+                <!-- Recent Posts Section -->
+                <section id="recent-posts-section" class="mt-4">
+                    <h3 class="text-white">Recent Posts</h3>
+                    <div id="recent-posts-container" class="list-group"></div>
                 </section>
             </div>
         </div>
@@ -82,6 +88,39 @@
             if (game_name) {
                 const userPostsLink = document.getElementById("user-posts-link");
                 userPostsLink.href = `user-posts.html?game_name=${encodeURIComponent(game_name)}`;
+
+                // Fetch and display recent posts
+                fetchRecentPosts(game_name);
+            }
+
+            async function fetchRecentPosts(game_name) {
+                try {
+                    const response = await fetch(`/community/recent-posts?game_name=${encodeURIComponent(game_name)}`);
+                    const posts = await response.json();
+
+                    const recentPostsContainer = document.getElementById("recent-posts-container");
+                    recentPostsContainer.innerHTML = "";
+
+                    if (posts.length === 0) {
+                        recentPostsContainer.innerHTML = `<p class="text-white">No recent posts available.</p>`;
+                        return;
+                    }
+
+                    posts.forEach(post => {
+                        const postElement = document.createElement("a");
+                        postElement.className = "list-group-item list-group-item-action bg-dark text-white mb-2";
+                        postElement.innerHTML = `
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-1">${post.username}</h5>
+                                <small>${new Date(post.created_at).toLocaleString()}</small>
+                            </div>
+                            <p class="mb-1">${post.post_content}</p>
+                        `;
+                        recentPostsContainer.appendChild(postElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching recent posts:", error);
+                }
             }
         });
     </script>
