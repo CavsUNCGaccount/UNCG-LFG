@@ -84,6 +84,32 @@ CREATE TABLE user_posts_replies (
     FOREIGN KEY (parent_reply_id) REFERENCES user_posts_replies(reply_id) ON DELETE CASCADE
 );
 
+-- Create the groups table
+CREATE TABLE groups (
+    group_id SERIAL PRIMARY KEY,
+    community_id INTEGER NOT NULL,
+    host_user_id INTEGER NOT NULL,
+    session_type VARCHAR(20) CHECK (session_type IN ('Casual', 'Competitive', 'Boosting')),
+    session_status VARCHAR(10) CHECK (session_status IN ('Open', 'Closed')),
+    max_players INTEGER NOT NULL CHECK (max_players > 0),
+    current_players INTEGER DEFAULT 1 CHECK (current_players >= 1),
+    start_time TIMESTAMP NOT NULL,
+    duration INTEGER NOT NULL CHECK (duration > 0), -- duration in minutes
+    FOREIGN KEY (community_id) REFERENCES game_community(game_id) ON DELETE CASCADE,
+    FOREIGN KEY (host_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Create the group_messages table
+CREATE TABLE group_messages (
+    message_id SERIAL PRIMARY KEY,
+    group_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    message_content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 -- Insert test data in reports (change the report user_ids if needed)
 INSERT INTO reports (reported_user_id, reported_by_user_id, reason, status)
 VALUES (6, 5, 'Toxic behavior in chat', 'Pending');
