@@ -344,4 +344,60 @@ router.put('/edit-post', async (req, res) => {
     }
 });
 
+// Create a reply to a post
+router.post('/create-reply', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { post_id, reply_content, parent_reply_id } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!post_id || !reply_content) {
+        return res.status(400).json({ message: "Post ID and reply content are required." });
+    }
+
+    try {
+        const newReply = await pool.query(
+            "INSERT INTO user_posts_replies (user_id, post_id, reply_content, parent_reply_id) VALUES ($1, $2, $3, $4) RETURNING *",
+            [user_id, post_id, reply_content, parent_reply_id || null]
+        );
+
+        res.status(201).json(newReply.rows[0]);
+    } catch (err) {
+        console.error("Error creating reply:", err);
+        res.status(500).json({ message: "Server error. Could not create reply." });
+    }
+});
+
+// Get replies for a post
+router.get('/replies', async (req, res) => {
+    const { post_id } = req.query;
+
+    if (!post_id) {
+        return res.status(400).json({ message: "Post ID is required." });
+    }
+
+    try {
+        const replies = await pool.query(
+            `SELECT 
+                r.reply_id, 
+                r.reply_content, 
+                r.created_at, 
+                r.parent_reply_id, 
+                u.username 
+            FROM user_posts_replies r 
+            JOIN users u ON r.user_id = u.user_id 
+            WHERE r.post_id = $1 
+            ORDER BY r.created_at ASC`,
+            [post_id]
+        );
+
+        res.json(replies.rows);
+    } catch (err) {
+        console.error("Error fetching replies:", err);
+        res.status(500).json({ message: "Server error. Could not fetch replies." });
+    }
+});
+
 module.exports = router;
