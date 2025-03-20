@@ -71,6 +71,19 @@ CREATE TABLE reports (
     FOREIGN KEY (reported_by_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- Create the user_posts_replies table
+CREATE TABLE user_posts_replies (
+    reply_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    reply_content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    parent_reply_id INT, 
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES user_posts(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_reply_id) REFERENCES user_posts_replies(reply_id) ON DELETE CASCADE
+);
+
 -- Insert test data in reports (change the report user_ids if needed)
 INSERT INTO reports (reported_user_id, reported_by_user_id, reason, status)
 VALUES (6, 5, 'Toxic behavior in chat', 'Pending');
