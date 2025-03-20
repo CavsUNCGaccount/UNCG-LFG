@@ -16,8 +16,10 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - Homepage now displaying games from the database.
   - Community page is now fully dynamic and displays game info.
     - Gamers can now join or leave a gaming community from the community page.
+    - The community page now displays the 5 most recent posts made.
   - User Posts now working
     - Gamers can now make a post on the user posts page for a particular game.
+    - Gamers can now reply to posts made on the user posts page and reply back to a reply.
 
   - Admin login page now working
     - Admin can now login and log out
