@@ -124,12 +124,24 @@ async function handleViewReplies(event) {
     const postId = event.target.getAttribute("data-post-id");
     const repliesContainer = document.getElementById(`replies-container-${postId}`);
 
+    // Toggle visibility of replies
+    if (repliesContainer.style.display === "block") {
+        repliesContainer.style.display = "none";
+        event.target.textContent = "View Replies";
+        return;
+    }
+
+    event.target.textContent = "Hide Replies";
+    repliesContainer.style.display = "block";
+
     // Fetch replies for the post
     try {
         const response = await fetch(`/community/replies?post_id=${postId}`);
         const replies = await response.json();
 
         repliesContainer.innerHTML = "";
+
+        // Render replies
         replies.forEach(reply => {
             const replyElement = document.createElement("div");
             replyElement.className = "card bg-secondary text-white mb-2";
@@ -140,12 +152,14 @@ async function handleViewReplies(event) {
                         <small>${new Date(reply.created_at).toLocaleString()}</small>
                     </div>
                     <p class="card-text">${reply.reply_content}</p>
+                    <button class="btn btn-sm btn-light reply-to-reply-btn" data-reply-id="${reply.reply_id}" data-post-id="${postId}">Reply</button>
+                    <div class="nested-replies-container mt-3" id="nested-replies-container-${reply.reply_id}"></div>
                 </div>
             `;
             repliesContainer.appendChild(replyElement);
         });
 
-        // Add a reply form
+        // Add reply form at the bottom of the replies
         repliesContainer.innerHTML += `
             <form class="reply-form mt-3">
                 <textarea class="form-control mb-2" placeholder="Write your reply..."></textarea>
@@ -153,7 +167,12 @@ async function handleViewReplies(event) {
             </form>
         `;
 
-        // Add event listener to the reply form
+        // Add event listeners for reply buttons
+        document.querySelectorAll(".reply-to-reply-btn").forEach(button => {
+            button.addEventListener("click", handleReplyToReply);
+        });
+
+        // Add event listener for the reply form
         const replyForm = repliesContainer.querySelector(".reply-form");
         replyForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -180,5 +199,47 @@ async function handleViewReplies(event) {
         });
     } catch (error) {
         console.error("Error fetching replies:", error);
+    }
+}
+
+async function handleReplyToReply(event) {
+    const replyId = event.target.getAttribute("data-reply-id");
+    const postId = event.target.getAttribute("data-post-id");
+    const nestedRepliesContainer = document.getElementById(`nested-replies-container-${replyId}`);
+
+    // Add a reply form if it doesn't already exist
+    if (!nestedRepliesContainer.querySelector(".nested-reply-form")) {
+        nestedRepliesContainer.innerHTML = `
+            <form class="nested-reply-form mt-3">
+                <textarea class="form-control mb-2" placeholder="Write your reply..."></textarea>
+                <button type="submit" class="btn btn-primary btn-sm">Reply</button>
+            </form>
+        `;
+
+        // Add event listener for the nested reply form
+        const nestedReplyForm = nestedRepliesContainer.querySelector(".nested-reply-form");
+        nestedReplyForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const replyContent = nestedReplyForm.querySelector("textarea").value;
+
+            try {
+                const response = await fetch("/community/create-reply", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ post_id: postId, reply_content: replyContent, parent_reply_id: replyId })
+                });
+
+                if (response.ok) {
+                    nestedReplyForm.querySelector("textarea").value = "";
+                    handleViewReplies({ target: document.querySelector(`.view-replies-btn[data-post-id="${postId}"]`) }); // Refresh replies
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.message);
+                }
+            } catch (error) {
+                console.error("Error creating nested reply:", error);
+            }
+        });
     }
 }
