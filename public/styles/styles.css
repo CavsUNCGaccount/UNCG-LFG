@@ -285,6 +285,18 @@ footer {
     font-weight: bold;
 }
 
+.replies-container {
+    margin-left: 20px;
+    border-left: 2px solid #444;
+    padding-left: 10px;
+}
+
+.nested-replies-container {
+    margin-left: 20px;
+    border-left: 2px solid #ccc;
+    padding-left: 10px;
+}
+
 
 
 
