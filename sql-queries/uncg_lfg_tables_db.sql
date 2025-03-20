@@ -99,6 +99,10 @@ CREATE TABLE groups (
     FOREIGN KEY (host_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- Alter the groups table to add a created_at column
+ALTER TABLE groups 
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
 -- Create the group_messages table
 CREATE TABLE group_messages (
     message_id SERIAL PRIMARY KEY,
