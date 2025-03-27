@@ -1,3 +1,14 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const game_name = params.get("game_name");
+
+    if (game_name) {
+        fetchGroupSessions(game_name);
+    } else {
+        console.error("Game name is missing in the URL.");
+    }
+});
+
 document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
     const game_name = params.get("game_name");
@@ -31,8 +42,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             const response = await fetch(`/community/group-sessions?game_name=${encodeURIComponent(game_name)}`);
             const sessions = await response.json();
 
+            console.log("Fetched sessions:", sessions); // Debugging
+
             const container = document.getElementById("group-sessions-container");
-            container.innerHTML = "";
+            container.innerHTML = ""; // Clear the container before rendering
 
             if (sessions.length === 0) {
                 container.innerHTML = `<p class="text-white">No group sessions available. Be the first to create one!</p>`;
@@ -45,31 +58,53 @@ document.addEventListener("DOMContentLoaded", async function () {
                 sessionElement.innerHTML = `
                     <div class="row g-0">
                         <div class="col-md-2">
-                            <img src="${session.cover_image_url || 'images/default-cover.jpg'}" class="img-fluid rounded-start" alt="${session.game_name}">
+                            <img src="images/default-cover.jpg" class="img-fluid rounded-start" alt="Group Image">
                         </div>
                         <div class="col-md-10">
                             <div class="card-body">
-                                <h5 class="card-title">${session.session_title} with ${session.username} 
-                                    <img src="images/platform-logos/${session.platform.toLowerCase()}-logo.png" alt="${session.platform}" width="30">
-                                </h5>
-                                <p class="card-text">${session.session_description}</p>
-                                <div class="mb-2">
-                                    <span class="badge bg-primary">${session.spaces_left} Spaces Left</span>
-                                    <span class="badge bg-info">${session.session_date} - ${session.start_time}</span>
-                                </div>
-                                <p class="card-text"><small class="text-muted">Duration: ${session.duration} hours</small></p>
-                                <div>
-                                    <button class="btn btn-outline-warning me-2">Join Session</button>
-                                    <button class="btn btn-outline-light" onclick="location.href='view-group-info.html?session_id=${session.session_id}';">View Session</button>
-                                </div>
+                                <h5 class="card-title">${session.session_type} Session hosted by ${session.host_username}</h5>
+                                <p class="card-text">Status: ${session.session_status}</p>
+                                <p class="card-text">Players: ${session.current_players}/${session.max_players}</p>
+                                <p class="card-text">Start Time: ${new Date(session.start_time).toLocaleString()}</p>
+                                <p class="card-text">Duration: ${session.duration} minutes</p>
+                                <button class="btn btn-outline-warning join-group-btn" data-group-id="${session.group_id}">Join Group</button>
                             </div>
                         </div>
                     </div>
                 `;
                 container.appendChild(sessionElement);
             });
+
+            // Add event listeners to "Join Group" buttons
+            document.querySelectorAll(".join-group-btn").forEach(button => {
+                button.addEventListener("click", handleJoinGroup);
+            });
         } catch (error) {
             console.error("Error fetching group sessions:", error);
+        }
+    }
+
+    async function handleJoinGroup(event) {
+        const groupId = event.target.getAttribute("data-group-id");
+
+        try {
+            const response = await fetch("/community/join-group", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ group_id: groupId }),
+            });
+
+            if (response.ok) {
+                alert("Successfully joined the group!");
+                const params = new URLSearchParams(window.location.search);
+                fetchGroupSessions(params.get("game_name")); // Refresh the group list
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message);
+            }
+        } catch (error) {
+            console.error("Error joining group:", error);
         }
     }
 

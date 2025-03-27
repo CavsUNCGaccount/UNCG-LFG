@@ -479,7 +479,7 @@ router.post('/create-group-session', async (req, res) => {
 });
 
 // Join a group session
-router.post('/join-group-session', async (req, res) => {
+router.post('/join-group', async (req, res) => {
     if (!req.session.user_id) {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
@@ -505,7 +505,7 @@ router.post('/join-group-session', async (req, res) => {
 
         // Add the user to the group
         await pool.query(
-            "INSERT INTO group_session_members (group_id, user_id) VALUES ($1, $2)",
+            "INSERT INTO group_members (group_id, user_id) VALUES ($1, $2)",
             [group_id, user_id]
         );
 
@@ -515,10 +515,10 @@ router.post('/join-group-session', async (req, res) => {
             [group_id]
         );
 
-        res.status(200).json({ message: "Successfully joined the group session." });
+        res.status(200).json({ message: "Successfully joined the group." });
     } catch (err) {
-        console.error("Error joining group session:", err);
-        res.status(500).json({ message: "Server error. Could not join group session." });
+        console.error("Error joining group:", err);
+        res.status(500).json({ message: "Server error. Could not join group." });
     }
 });
 
