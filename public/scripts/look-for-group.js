@@ -72,4 +72,49 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error fetching group sessions:", error);
         }
     }
+
+    const createSessionBtn = document.getElementById("create-session-btn");
+    const createSessionForm = document.getElementById("create-session-form");
+
+    // Show the modal when the "Create New Session" button is clicked
+    createSessionBtn.addEventListener("click", function () {
+        const createSessionModal = new bootstrap.Modal(document.getElementById("createSessionModal"));
+        createSessionModal.show();
+    });
+
+    // Handle form submission
+    createSessionForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const params = new URLSearchParams(window.location.search);
+        const game_name = params.get("game_name");
+
+        const sessionData = {
+            game_name,
+            session_type: document.getElementById("session-type").value,
+            session_status: document.getElementById("session-status").value,
+            max_players: document.getElementById("max-players").value,
+            start_time: document.getElementById("start-time").value,
+            duration: document.getElementById("duration").value,
+        };
+
+        try {
+            const response = await fetch("/community/create-group-session", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(sessionData),
+            });
+
+            if (response.ok) {
+                alert("Group session created successfully!");
+                location.reload(); // Reload the page to show the new session
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message);
+            }
+        } catch (error) {
+            console.error("Error creating group session:", error);
+        }
+    });
 });

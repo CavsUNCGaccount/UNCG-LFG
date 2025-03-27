@@ -419,19 +419,18 @@ router.get('/group-sessions', async (req, res) => {
         // Fetch group sessions for the game
         const sessions = await pool.query(
             `SELECT 
-                gs.session_id, 
-                gs.session_title, 
-                gs.session_description, 
-                gs.session_date, 
-                gs.start_time, 
-                gs.duration, 
-                gs.platform, 
-                gs.spaces_left, 
-                u.username 
-            FROM group_sessions gs 
-            JOIN users u ON gs.user_id = u.user_id 
-            WHERE gs.community_id = $1 
-            ORDER BY gs.session_date, gs.start_time`,
+                g.group_id, 
+                g.session_type, 
+                g.session_status, 
+                g.max_players, 
+                g.current_players, 
+                g.start_time, 
+                g.duration, 
+                u.username AS host_username 
+            FROM groups g 
+            JOIN users u ON g.host_user_id = u.user_id 
+            WHERE g.community_id = $1 
+            ORDER BY g.start_time`,
             [community_id]
         );
 
@@ -448,10 +447,10 @@ router.post('/create-group-session', async (req, res) => {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_name, session_title, session_description, session_date, start_time, duration, platform, spaces_left } = req.body;
+    const { game_name, session_type, session_status, max_players, start_time, duration } = req.body;
     const user_id = req.session.user_id;
 
-    if (!game_name || !session_title || !session_date || !start_time || !duration || !platform) {
+    if (!game_name || !session_type || !session_status || !max_players || !start_time || !duration) {
         return res.status(400).json({ message: "All required fields must be provided." });
     }
 
@@ -463,19 +462,63 @@ router.post('/create-group-session', async (req, res) => {
         }
         const community_id = gameQuery.rows[0].game_id;
 
-        // Insert the new group session
-        const newSession = await pool.query(
-            `INSERT INTO group_sessions 
-                (user_id, community_id, session_title, session_description, session_date, start_time, duration, platform, spaces_left) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+        // Insert the new group session into the `groups` table
+        const newGroup = await pool.query(
+            `INSERT INTO groups 
+                (community_id, host_user_id, session_type, session_status, max_players, start_time, duration) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7) 
              RETURNING *`,
-            [user_id, community_id, session_title, session_description, session_date, start_time, duration, platform, spaces_left]
+            [community_id, user_id, session_type, session_status, max_players, start_time, duration]
         );
 
-        res.status(201).json(newSession.rows[0]);
+        res.status(201).json(newGroup.rows[0]);
     } catch (err) {
         console.error("Error creating group session:", err);
         res.status(500).json({ message: "Server error. Could not create group session." });
+    }
+});
+
+// Join a group session
+router.post('/join-group-session', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { group_id } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!group_id) {
+        return res.status(400).json({ message: "Group ID is required." });
+    }
+
+    try {
+        // Check if the group exists and has available spaces
+        const groupQuery = await pool.query("SELECT max_players, current_players FROM groups WHERE group_id = $1", [group_id]);
+        if (groupQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Group not found." });
+        }
+
+        const { max_players, current_players } = groupQuery.rows[0];
+        if (current_players >= max_players) {
+            return res.status(400).json({ message: "No spaces left in this group." });
+        }
+
+        // Add the user to the group
+        await pool.query(
+            "INSERT INTO group_session_members (group_id, user_id) VALUES ($1, $2)",
+            [group_id, user_id]
+        );
+
+        // Increment the current players count
+        await pool.query(
+            "UPDATE groups SET current_players = current_players + 1 WHERE group_id = $1",
+            [group_id]
+        );
+
+        res.status(200).json({ message: "Successfully joined the group session." });
+    } catch (err) {
+        console.error("Error joining group session:", err);
+        res.status(500).json({ message: "Server error. Could not join group session." });
     }
 });
 
