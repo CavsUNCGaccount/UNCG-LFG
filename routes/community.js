@@ -400,4 +400,83 @@ router.get('/replies', async (req, res) => {
     }
 });
 
+// Get group sessions for a game
+router.get('/group-sessions', async (req, res) => {
+    const { game_name } = req.query;
+
+    if (!game_name) {
+        return res.status(400).json({ message: "Game name is required." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        // Fetch group sessions for the game
+        const sessions = await pool.query(
+            `SELECT 
+                gs.session_id, 
+                gs.session_title, 
+                gs.session_description, 
+                gs.session_date, 
+                gs.start_time, 
+                gs.duration, 
+                gs.platform, 
+                gs.spaces_left, 
+                u.username 
+            FROM group_sessions gs 
+            JOIN users u ON gs.user_id = u.user_id 
+            WHERE gs.community_id = $1 
+            ORDER BY gs.session_date, gs.start_time`,
+            [community_id]
+        );
+
+        res.json(sessions.rows);
+    } catch (err) {
+        console.error("Error fetching group sessions:", err);
+        res.status(500).json({ message: "Server error. Could not fetch group sessions." });
+    }
+});
+
+// Create a new group session
+router.post('/create-group-session', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const { game_name, session_title, session_description, session_date, start_time, duration, platform, spaces_left } = req.body;
+    const user_id = req.session.user_id;
+
+    if (!game_name || !session_title || !session_date || !start_time || !duration || !platform) {
+        return res.status(400).json({ message: "All required fields must be provided." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        // Insert the new group session
+        const newSession = await pool.query(
+            `INSERT INTO group_sessions 
+                (user_id, community_id, session_title, session_description, session_date, start_time, duration, platform, spaces_left) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+             RETURNING *`,
+            [user_id, community_id, session_title, session_description, session_date, start_time, duration, platform, spaces_left]
+        );
+
+        res.status(201).json(newSession.rows[0]);
+    } catch (err) {
+        console.error("Error creating group session:", err);
+        res.status(500).json({ message: "Server error. Could not create group session." });
+    }
+});
+
 module.exports = router;
