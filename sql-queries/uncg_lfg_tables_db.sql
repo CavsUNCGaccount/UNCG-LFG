@@ -103,6 +103,12 @@ CREATE TABLE groups (
 ALTER TABLE groups 
 ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
+-- Add 3 more columns to the groups table
+ALTER TABLE groups
+ADD COLUMN session_title VARCHAR(100),
+ADD COLUMN session_description TEXT,
+ADD COLUMN platform VARCHAR(20) CHECK (platform IN ('PlayStation', 'Xbox', 'Steam'));
+
 -- Create the group_messages table
 CREATE TABLE group_messages (
     message_id SERIAL PRIMARY KEY,

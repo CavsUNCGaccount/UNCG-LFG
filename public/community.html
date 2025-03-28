@@ -28,6 +28,7 @@
 </head>
 
 <!-- d-flex flex-column min-vh-100: along with mt-auto for the footer, it makes footer stay at the bottom of the page. -->
+
 <body class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <div id="navbar-container"></div>
@@ -55,8 +56,14 @@
                     <p>Find other players looking for a group to play with here! Joing a group or make your own!</p>
                     <a id="view-groups-link" class="btn btn-warning btn-lg">View Groups</a>
                 </section>
+
+                <!-- Recent Groups Section -->
+                <section id="recent-groups-section" class="mt-4">
+                    <h3 class="text-white">Recent Groups</h3>
+                    <div id="recent-groups-container" class="list-group"></div>
+                </section>
             </div>
-            
+
             <!-- User Posts Section -->
             <div class="col-md-6">
                 <section class="p-4 bg-dark rounded shadow">
@@ -94,12 +101,15 @@
 
                 // Fetch and display recent posts
                 fetchRecentPosts(game_name);
+                fetchRecentGroups(game_name);
             }
 
+            // Fetch and display recent posts
             async function fetchRecentPosts(game_name) {
                 try {
                     const response = await fetch(`/community/recent-posts?game_name=${encodeURIComponent(game_name)}`);
                     const posts = await response.json();
+                    console.log("Posts:", posts); // Debugging line
 
                     const recentPostsContainer = document.getElementById("recent-posts-container");
                     recentPostsContainer.innerHTML = "";
@@ -125,8 +135,41 @@
                     console.error("Error fetching recent posts:", error);
                 }
             }
+
+            // Fetch and display recent groups
+            async function fetchRecentGroups(game_name) {
+                try {
+                    const response = await fetch(`/community/recent-groups?game_name=${encodeURIComponent(game_name)}`);
+                    const groups = await response.json();
+                    console.log("Groups:", groups); // Debugging line
+
+                    const recentGroupsContainer = document.getElementById("recent-groups-container");
+                    recentGroupsContainer.innerHTML = "";
+
+                    if (groups.length === 0) {
+                        recentGroupsContainer.innerHTML = `<p class="text-white">No recent groups available.</p>`;
+                        return;
+                    }
+
+                    groups.forEach(group => {
+                        const groupElement = document.createElement("a");
+                        groupElement.className = "list-group-item list-group-item-action bg-dark text-white mb-2";
+                        groupElement.innerHTML = `
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-1">${group.host_username}</h5>
+                                <small>${new Date(group.created_at).toLocaleString()}</small>
+                            </div>
+                            <p class="mb-1">${group.session_description}</p>
+                        `;
+                        recentGroupsContainer.appendChild(groupElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching recent groups:", error);
+                }
+            }
         });
     </script>
+
 </body>
 
 </html>

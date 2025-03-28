@@ -1,4 +1,4 @@
-const path = require('path');  // Add this
+const path = require('path'); // Import path module
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });  // Ensure .env loads from root
 
 const { Pool } = require('pg');

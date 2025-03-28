@@ -195,6 +195,7 @@ router.get('/membership-status', async (req, res) => {
     }
 });
 
+/* ========================= User Posts ========================= */
 // Create a new post
 router.post('/create-post', async (req, res) => {
     if (!req.session.user_id) {
@@ -400,6 +401,8 @@ router.get('/replies', async (req, res) => {
     }
 });
 
+/* ========================= Look for Groups ========================= */
+
 // Get group sessions for a game
 router.get('/group-sessions', async (req, res) => {
     const { game_name } = req.query;
@@ -420,6 +423,9 @@ router.get('/group-sessions', async (req, res) => {
         const sessions = await pool.query(
             `SELECT 
                 g.group_id, 
+                g.session_title,
+                g.session_description,
+                g.platform,
                 g.session_type, 
                 g.session_status, 
                 g.max_players, 
@@ -447,10 +453,10 @@ router.post('/create-group-session', async (req, res) => {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_name, session_type, session_status, max_players, start_time, duration } = req.body;
+    const { game_name, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration } = req.body;
     const user_id = req.session.user_id;
 
-    if (!game_name || !session_type || !session_status || !max_players || !start_time || !duration) {
+    if (!game_name || !session_title || !session_description || !platform || !session_type || !session_status || !max_players || !start_time || !duration) {
         return res.status(400).json({ message: "All required fields must be provided." });
     }
 
@@ -465,16 +471,62 @@ router.post('/create-group-session', async (req, res) => {
         // Insert the new group session into the `groups` table
         const newGroup = await pool.query(
             `INSERT INTO groups 
-                (community_id, host_user_id, session_type, session_status, max_players, start_time, duration) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                (community_id, host_user_id, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
              RETURNING *`,
-            [community_id, user_id, session_type, session_status, max_players, start_time, duration]
+            [community_id, user_id, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration]
         );
 
         res.status(201).json(newGroup.rows[0]);
     } catch (err) {
         console.error("Error creating group session:", err);
         res.status(500).json({ message: "Server error. Could not create group session." });
+    }
+});
+
+// Get the top 5 most recent group sessions for a game
+router.get('/recent-groups', async (req, res) => {
+    const { game_name } = req.query;
+
+    if (!game_name) {
+        return res.status(400).json({ message: "Game name is required." });
+    }
+
+    try {
+        // Get community_id from game_name
+        const gameQuery = await pool.query("SELECT game_id FROM game_community WHERE game_name = $1", [game_name]);
+        if (gameQuery.rows.length === 0) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        const community_id = gameQuery.rows[0].game_id;
+
+        // Fetch the top 5 most recent group sessions
+        const sessions = await pool.query(
+            `SELECT 
+                g.group_id, 
+                g.session_title, 
+                g.session_description, 
+                g.platform, 
+                g.session_type, 
+                g.session_status, 
+                g.max_players, 
+                g.current_players, 
+                g.start_time, 
+                g.duration,
+                g.created_at, 
+                u.username AS host_username 
+            FROM groups g 
+            JOIN users u ON g.host_user_id = u.user_id 
+            WHERE g.community_id = $1 
+            ORDER BY g.start_time DESC 
+            LIMIT 5`,
+            [community_id]
+        );
+
+        res.json(sessions.rows);
+    } catch (err) {
+        console.error("Error fetching recent group sessions:", err);
+        res.status(500).json({ message: "Server error. Could not fetch recent group sessions." });
     }
 });
 
