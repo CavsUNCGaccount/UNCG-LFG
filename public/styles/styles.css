@@ -297,6 +297,16 @@ footer {
     padding-left: 10px;
 }
 
+/* =================== View group info page styles =================== */
+
+/* Increase the size of the badges in the view group info page */
+.badge {
+    font-size: 1rem !important;
+    padding: 0.5em 0.75em !important;
+    margin-right: 5px;
+    border-radius: 8px;
+}
+
 
 
 

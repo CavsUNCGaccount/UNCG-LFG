@@ -1,4 +1,4 @@
--- Create the first 5 tables needed
+/* Create the tables needed for the database */
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -108,6 +108,15 @@ ALTER TABLE groups
 ADD COLUMN session_title VARCHAR(100),
 ADD COLUMN session_description TEXT,
 ADD COLUMN platform VARCHAR(20) CHECK (platform IN ('PlayStation', 'Xbox', 'Steam'));
+
+-- Create the group_members table
+CREATE TABLE group_members (
+    group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+    is_session_host BOOLEAN DEFAULT FALSE,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (group_id, user_id)
+);
 
 -- Create the group_messages table
 CREATE TABLE group_messages (

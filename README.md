@@ -20,8 +20,11 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - User Posts now working
     - Gamers can now make a post on the user posts page for a particular game.
     - Gamers can now reply to posts made on the user posts page and reply back to a reply.
-  - Look for Group partially working
+  - Rough version of Look for Groups working
     - Gamers can create groups on the look for group page.
+    - Gamers can see more details of a group in the view group info page.
+    - Gamers can now join or leave groups.
+    - Still need to check if a group is full or not and test that out.
 
   - Admin login page now working
     - Admin can now login and log out

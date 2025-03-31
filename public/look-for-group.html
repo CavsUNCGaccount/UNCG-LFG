@@ -46,6 +46,27 @@
             <button id="create-session-btn" class="btn btn-success">Create New Session</button>
         </div>
 
+        <!-- Description Guidelines Toggle -->
+        <div class="mb-3">
+            <button class="btn btn-outline-info" type="button" data-bs-toggle="collapse"
+                data-bs-target="#descriptionGuidelines" aria-expanded="false" aria-controls="descriptionGuidelines">
+                What should I write in the session description?
+            </button>
+            <div class="collapse mt-2" id="descriptionGuidelines">
+                <div class="card card-body bg-dark text-white">
+                    <ul class="mb-0">
+                        <li>The game mode or activity you're focusing on, depending on the game 
+                            (e.g., Ranked, Casual, Raids).</li>
+                        <li>Whether players need a mic or not.</li>
+                        <li>Any rules or expectations (e.g., no toxicity, mic required).</li>
+                        <li>Your skill level (optional) or goals for the session.</li>
+                        <li>Any specific requirements (e.g., DLC, expansions).</li>
+                        <li>If your group is open to crossplay, which varies from game to game.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- Group Sessions Container -->
         <div id="group-sessions-container" class="my-4"></div>
     </main>

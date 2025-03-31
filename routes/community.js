@@ -195,7 +195,7 @@ router.get('/membership-status', async (req, res) => {
     }
 });
 
-/* ========================= User Posts ========================= */
+/* ========================================== User Posts =============================================== */
 // Create a new post
 router.post('/create-post', async (req, res) => {
     if (!req.session.user_id) {
@@ -401,7 +401,7 @@ router.get('/replies', async (req, res) => {
     }
 });
 
-/* ========================= Look for Groups ========================= */
+/* ========================================= Look for Groups =========================================== */
 
 // Get group sessions for a game
 router.get('/group-sessions', async (req, res) => {
@@ -453,10 +453,10 @@ router.post('/create-group-session', async (req, res) => {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_name, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration } = req.body;
+    const { game_name, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform } = req.body;
     const user_id = req.session.user_id;
 
-    if (!game_name || !session_title || !session_description || !platform || !session_type || !session_status || !max_players || !start_time || !duration) {
+    if (!game_name || !session_type || !session_status || !max_players || !start_time || !duration || !session_title || !platform) {
         return res.status(400).json({ message: "All required fields must be provided." });
     }
 
@@ -468,16 +468,25 @@ router.post('/create-group-session', async (req, res) => {
         }
         const community_id = gameQuery.rows[0].game_id;
 
-        // Insert the new group session into the `groups` table
+        // Insert the new group session
         const newGroup = await pool.query(
             `INSERT INTO groups 
-                (community_id, host_user_id, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration) 
+                (community_id, host_user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
-             RETURNING *`,
-            [community_id, user_id, session_title, session_description, platform, session_type, session_status, max_players, start_time, duration]
+             RETURNING group_id`,
+            [community_id, user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform]
         );
 
-        res.status(201).json(newGroup.rows[0]);
+        const group_id = newGroup.rows[0].group_id;
+
+        // Insert session host as a member
+        await pool.query(
+            `INSERT INTO group_members (group_id, user_id, is_session_host) 
+             VALUES ($1, $2, TRUE)`,
+            [group_id, user_id]
+        );
+
+        res.status(201).json({ message: "Group session created successfully", group_id });
     } catch (err) {
         console.error("Error creating group session:", err);
         res.status(500).json({ message: "Server error. Could not create group session." });
@@ -530,47 +539,124 @@ router.get('/recent-groups', async (req, res) => {
     }
 });
 
-// Join a group session
-router.post('/join-group', async (req, res) => {
-    if (!req.session.user_id) {
-        return res.status(401).json({ message: "Unauthorized. Please log in first." });
-    }
-
-    const { group_id } = req.body;
-    const user_id = req.session.user_id;
-
-    if (!group_id) {
-        return res.status(400).json({ message: "Group ID is required." });
-    }
+// Get details for a single group session by group_id
+// GET http://localhost:3001/community/group/:group_id (Replace :group_id with the actual group ID)
+router.get('/group/:group_id', async (req, res) => {
+    const { group_id } = req.params;
 
     try {
-        // Check if the group exists and has available spaces
-        const groupQuery = await pool.query("SELECT max_players, current_players FROM groups WHERE group_id = $1", [group_id]);
+        const groupQuery = await pool.query(
+            `SELECT 
+                g.*,
+                u.username AS host_username,
+                gc.game_name
+            FROM groups g
+            JOIN users u ON g.host_user_id = u.user_id
+            JOIN game_community gc ON g.community_id = gc.game_id
+            WHERE g.group_id = $1`,
+            [group_id]
+        );
+
         if (groupQuery.rows.length === 0) {
             return res.status(404).json({ message: "Group not found." });
         }
 
-        const { max_players, current_players } = groupQuery.rows[0];
-        if (current_players >= max_players) {
-            return res.status(400).json({ message: "No spaces left in this group." });
+        res.status(200).json(groupQuery.rows[0]);
+    } catch (err) {
+        console.error("Error fetching group details:", err);
+        res.status(500).json({ message: "Server error. Could not retrieve group details." });
+    }
+});
+
+// Get members of a group session
+// GET http://localhost:3001/community/group/:group_id/members (Replace :group_id with the actual group ID)
+router.get('/group/:group_id/members', async (req, res) => {
+    const groupId = req.params.group_id;
+
+    try {
+        const result = await pool.query(`
+            SELECT gm.user_id, u.username, gm.is_session_host
+            FROM group_members gm
+            JOIN users u ON gm.user_id = u.user_id
+            WHERE gm.group_id = $1
+        `, [groupId]);
+
+        res.json(result.rows);
+    } catch (err) {
+        console.error("Error fetching group members:", err);
+        res.status(500).json({ message: "Failed to retrieve group members." });
+    }
+});
+
+// Join a group (working)
+// POST http://localhost:3001/community/group/:groupId/join (Replace :groupId with the actual group ID)
+// Requires user to be logged in
+router.post("/group/:groupId/join", async (req, res) => {
+    const groupId = req.params.groupId;
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Please log in to join groups." });
+    }
+
+    try {
+        // Check if already a member
+        const check = await pool.query(
+            "SELECT * FROM group_members WHERE group_id = $1 AND user_id = $2",
+            [groupId, userId]
+        );
+        if (check.rows.length > 0) {
+            return res.status(400).json({ message: "Already joined this group." });
         }
 
-        // Add the user to the group
+        // Add user to group
         await pool.query(
-            "INSERT INTO group_members (group_id, user_id) VALUES ($1, $2)",
-            [group_id, user_id]
+            "INSERT INTO group_members (group_id, user_id, is_session_host) VALUES ($1, $2, false)",
+            [groupId, userId]
         );
 
-        // Increment the current players count
         await pool.query(
             "UPDATE groups SET current_players = current_players + 1 WHERE group_id = $1",
-            [group_id]
+            [groupId]
         );
 
-        res.status(200).json({ message: "Successfully joined the group." });
+        res.status(200).json({ message: "Joined the group successfully!" });
     } catch (err) {
         console.error("Error joining group:", err);
-        res.status(500).json({ message: "Server error. Could not join group." });
+        res.status(500).json({ message: "Could not join group." });
+    }
+});
+
+// Leave a group (working)
+// POST http://localhost:3001/community/group/:groupId/leave (Replace :groupId with the actual group ID)
+// Requires user to be logged in
+router.post("/group/:groupId/leave", async (req, res) => {
+    const groupId = req.params.groupId;
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Please log in to leave groups." });
+    }
+
+    try {
+        const result = await pool.query(
+            "DELETE FROM group_members WHERE group_id = $1 AND user_id = $2 AND is_session_host = false RETURNING *",
+            [groupId, userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(400).json({ message: "Not part of the group or you're the session host." });
+        }
+
+        await pool.query(
+            "UPDATE groups SET current_players = current_players - 1 WHERE group_id = $1",
+            [groupId]
+        );
+
+        res.status(200).json({ message: "Left the group successfully." });
+    } catch (err) {
+        console.error("Error leaving group:", err);
+        res.status(500).json({ message: "Could not leave group." });
     }
 });
 

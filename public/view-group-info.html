@@ -24,6 +24,9 @@
 
     <!-- Navbar script -->
     <script src="scripts/navbar.js" defer></script>
+
+    <!-- View Group Info script -->
+    <script src="scripts/view-group-info.js" defer></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -33,27 +36,31 @@
     <main class="container my-4">
 
         <!-- Session Overview -->
-        <div class="bg-dark text-white p-4 rounded mb-4">
-            <h2>Fortnite Group Session</h2>
-            <p class="text-muted">Hosted by <strong>JohnDoe</strong> on <img src="images/platform-logos/playstation-logo.jpg"
-                    alt="PlayStation" width="30"></p>
-            <p>Need 3 more players for Squads. Please have a mic and be willing to communicate.</p>
-            <span class="badge bg-success">Competitive Session</span>
-            <span class="badge bg-primary">3 Spaces Left</span>
-            <span class="badge bg-info">Open Session</span>
-            <p><small class="text-muted">8:00 PM - For 2 Hours</small></p>
-            <button class="btn btn-success">Join Session</button>
-            <a href="community.html?game=Fortnite" class="btn btn-outline-light">Back to Game Community</a>
+        <div id="session-overview" class="bg-dark text-light p-5 rounded mb-4 shadow">
+            <h2 id="session-title">Session Title Placeholder</h2>
+            <p class="text-light">
+                Hosted by <strong id="host-username">Username</strong>
+                on <img id="platform-logo" src="" alt="Platform" width="30">
+            </p>
+            <p id="session-description">Session description goes here.</p>
+            <div class="mb-3">
+                <span id="badge-session-type" class="badge bg-success me-2">Session Type</span>
+                <span id="badge-spaces-left" class="badge bg-primary me-2">X Spaces Left</span>
+                <span id="badge-session-status" class="badge bg-info">Session Status</span>
+            </div>
+            <p class="text-light" id="group-start-time">Start Time & Duration</p>
+            <button id="group-action-btn" class="btn btn-success btn-lg me-2">Join Session</button>
+            <a href="#" class="btn btn-outline-light btn-lg" id="back-to-groups">Back to Groups</a>
         </div>
 
         <!-- Session Host -->
-        <div class="bg-secondary text-white p-4 rounded mb-4">
+        <div id="session-host" class="bg-light text-dark p-4 rounded mb-4 shadow-sm">
             <h4>Session Host</h4>
             <div class="d-flex align-items-center">
-                <img src="images/default-picture.svg" alt="JohnDoe" class="rounded-circle me-3" width="60">
+                <img src="images/default-picture.svg" alt="Default" class="rounded-circle me-3" width="60">
                 <div>
-                    <strong>JohnDoe</strong> <br>
-                    <small class="text-muted">PSN: JohnDoe123</small>
+                    <strong id="host-username-display">Username</strong> <br>
+                    <p class="text-dark" id="host-platform-for-session">Platform Name</p>
                 </div>
             </div>
         </div>
@@ -61,15 +68,8 @@
         <!-- Gamers Joined -->
         <div class="bg-secondary text-white p-4 rounded mb-4">
             <h4>Gamers Joined</h4>
-            <ul class="list-unstyled">
-                <li>
-                    <img src="images/default-avatar.png" alt="JaneDoe" class="rounded-circle me-2" width="40">
-                    JaneDoe <img src="images/platform-logos/playstation-logo.jpg" alt="Xbox" width="25">
-                </li>
-                <li>
-                    <img src="images/default-avatar.png" alt="JaeSpeedy" class="rounded-circle me-2" width="40">
-                    JaeSpeedy <img src="images/platform-logos/playstation-logo.jpg" alt="Steam" width="25">
-                </li>
+            <ul class="list-unstyled" id="group-members-list">
+                <!-- Members will be injected here -->
             </ul>
         </div>
 
@@ -86,8 +86,7 @@
                 </li>
                 <li class="mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="images/default-avatar.png" alt="JaeSpeedy" class="rounded-circle me-2"
-                            width="40">
+                        <img src="images/default-avatar.png" alt="JaeSpeedy" class="rounded-circle me-2" width="40">
                         <strong>JaeSpeedy</strong> <small class="text-muted">2/20/2025 10:00 PM</small>
                     </div>
                     <p class="ms-5">I'll be on a few minutes early. Let's win this!</p>

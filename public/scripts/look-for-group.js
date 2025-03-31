@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const params = new URLSearchParams(window.location.search);
         const game_name = params.get("game_name");
+        console.log("Game Name:", game_name); // Debugging line
 
         const sessionData = {
             game_name,
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         groupSessionsContainer.innerHTML = "";
 
         sessions.forEach(session => {
-            // Calculate spaces left if needed
+            // Calculate spaces left for the session
             const spacesLeft = session.max_players - (session.current_players || 0);
 
             // Set the platform logo based on the platform value
@@ -95,6 +96,18 @@ document.addEventListener("DOMContentLoaded", async function () {
                     break;
             }
 
+            // Show a button to that redirects to the view-group-info.html page
+            const viewButton = document.createElement("button");
+            viewButton.textContent = "View Group";
+            viewButton.className = "btn btn-outline-light btn-me-2";
+            viewButton.style.marginTop = "10px";
+            viewButton.style.marginBottom = "10px";
+            viewButton.style.width = "30%";
+            viewButton.style.alignSelf = "center";           
+            viewButton.onclick = function () {
+                window.location.href = `/view-group-info.html?group_id=${session.group_id}`;
+            };
+            
             // Create a card for each group session
             const card = document.createElement("div");
             card.className = "card bg-dark text-white mb-3";
@@ -113,6 +126,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <p><strong>Players:</strong> ${session.current_players || 0} / ${session.max_players} (${spacesLeft} spaces left)</p>
                 </div>
             `;
+            card.appendChild(viewButton);
             groupSessionsContainer.appendChild(card);
         });
     } catch (err) {
