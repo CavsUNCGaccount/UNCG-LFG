@@ -22,6 +22,7 @@ router.post('/register', async (req, res) => {
 
         // Default role to 'Gamer' if not provided
         const userRole = role && role === "Admin" ? "Admin" : "Gamer";
+        console.log("User role:", userRole); // Debugging line
 
         // Insert user into database with role
         const newUser = await pool.query(
@@ -37,7 +38,7 @@ router.post('/register', async (req, res) => {
             await pool.query(
                 `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_username, steam64_id, avatar_url) 
                  VALUES ($1, $2, $3, $4, $5, $6)`,
-                [userId, 'N/A', 'N/A', 'N/A', null, 'images/default-avatar.png']
+                [userId, 'N/A', 'N/A', null, null, 'images/default-avatar.png']
             );
         }
 
@@ -102,7 +103,7 @@ router.post('/logout', (req, res) => {
     });
 });
 
-// ✅ Check if user is logged in
+// Check if user is logged in
 router.get('/me', async (req, res) => {
     if (!req.session.user_id) {
         return res.status(401).json({ message: 'Not authenticated' });
@@ -118,7 +119,7 @@ router.get('/me', async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.status(200).json(user.rows[0]); // ✅ Return profile_picture field too
+        res.status(200).json(user.rows[0]); // Return profile_picture field too
     } catch (error) {
         console.error("Error fetching user:", error);
         res.status(500).json({ message: "Server error" });

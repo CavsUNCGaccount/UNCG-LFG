@@ -44,6 +44,14 @@ ALTER COLUMN steam64_id DROP NOT NULL;
 ALTER TABLE gamer_profiles
 ADD CONSTRAINT unique_steam64_id UNIQUE (steam64_id);
 
+-- Drop the existing unique constraints
+ALTER TABLE gamer_profiles DROP CONSTRAINT IF EXISTS gamer_profiles_steam_id_key;
+ALTER TABLE gamer_profiles DROP CONSTRAINT IF EXISTS gamer_profiles_steam_username_key;
+
+-- Create partial unique indexes that ignore NULL values
+CREATE UNIQUE INDEX gamer_profiles_steam_id_unique ON gamer_profiles (steam64_id) WHERE steam64_id IS NOT NULL;
+CREATE UNIQUE INDEX gamer_profiles_steam_username_unique ON gamer_profiles (steam_username) WHERE steam_username IS NOT NULL;
+
 CREATE TABLE community_membership (
     membership_id SERIAL PRIMARY KEY,
     gamer_id INT NOT NULL,
