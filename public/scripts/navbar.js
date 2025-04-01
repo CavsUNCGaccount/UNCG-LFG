@@ -40,7 +40,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         // ✅ Determine user role and profile redirection
         if (data.user_id) {
             let profilePage = data.role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
-            let profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "images/default-avatar.png";
+            let profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "/uploads/default-avatar.png";
+            console.log("Profile Picture URL:", profilePicture); // Debugging log
 
             // Show avatar, username, and logout button
             document.getElementById("navbar-login").innerHTML = `

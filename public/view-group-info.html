@@ -27,6 +27,10 @@
 
     <!-- View Group Info script -->
     <script src="scripts/view-group-info.js" defer></script>
+
+    <!-- Load Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -68,10 +72,10 @@
         <!-- Gamers Joined -->
         <div class="bg-secondary text-white p-4 rounded mb-4">
             <h4>Gamers Joined</h4>
-            <ul class="list-unstyled" id="group-members-list">
-                <!-- Members will be injected here -->
-            </ul>
-        </div>
+            <div id="group-members-list" class="list-group list-group-flush">
+                <!-- Members will be dynamically inserted here -->
+            </div>
+        </div>        
 
         <!-- Messaging Section -->
         <div class="bg-dark text-white p-4 rounded mb-4">
