@@ -47,7 +47,7 @@ router.post('/games/:game_id/join', async (req, res) => {
     }
 
     const { game_id } = req.params;
-    const user_id = req.session.user_id; 
+    const user_id = req.session.user_id;
 
     if (!game_id) {
         return res.status(400).json({ message: "Game ID is required." });
@@ -607,6 +607,26 @@ router.post("/group/:groupId/join", async (req, res) => {
         );
         if (check.rows.length > 0) {
             return res.status(400).json({ message: "Already joined this group." });
+        }
+
+        // Count current players in the group
+        const countResult = await pool.query(
+            "SELECT COUNT(*) FROM group_members WHERE group_id = $1",
+            [groupId]
+        );
+
+        const currentPlayers = parseInt(countResult.rows[0].count);
+
+        // Get max_players for the group
+        const groupResult = await pool.query(
+            "SELECT max_players FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+
+        const maxPlayers = groupResult.rows[0].max_players;
+
+        if (currentPlayers >= maxPlayers) {
+            return res.status(400).json({ message: "This group is already full." });
         }
 
         // Add user to group

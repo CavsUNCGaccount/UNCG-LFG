@@ -79,10 +79,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const userData = await userRes.json();
         currentUserId = userData.user_id;
 
-        // Get group info (already fetching this elsewhere, update accordingly)
+        // Get group info
         const groupRes = await fetch(`/community/group/${groupId}`);
         const groupData = await groupRes.json();
         groupHostId = groupData.host_user_id;
+
+        const { max_players, current_players } = groupData;
+        const isFull = current_players >= max_players;
 
         // Get group members
         const membersRes = await fetch(`/community/group/${groupId}/members`);
@@ -93,10 +96,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (currentUserId === groupHostId) {
             actionBtn.textContent = "You are the Host";
             actionBtn.disabled = true;
-            actionBtn.classList.remove("btn-success");
+            actionBtn.classList.remove("btn-success", "btn-danger");
             actionBtn.classList.add("btn-secondary");
         } else if (isMember) {
             actionBtn.textContent = "Leave Session";
+            actionBtn.disabled = false;
             actionBtn.classList.remove("btn-success");
             actionBtn.classList.add("btn-danger");
 
@@ -108,8 +112,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (res.ok) location.reload();
                 else alert("Failed to leave session.");
             };
+        } else if (isFull) {
+            actionBtn.textContent = "Session Full";
+            actionBtn.disabled = true;
+            actionBtn.classList.remove("btn-success", "btn-danger");
+            actionBtn.classList.add("btn-secondary");
         } else {
             actionBtn.textContent = "Join Session";
+            actionBtn.disabled = false;
             actionBtn.classList.remove("btn-danger");
             actionBtn.classList.add("btn-success");
 
@@ -126,18 +136,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error setting up join/leave functionality:", err);
     }
 
+
     /// Fetch group members and display them
     async function fetchGroupMembers(groupId) {
         try {
             const members = await (await fetch(`/community/group/${groupId}/members`)).json();
             const membersList = document.getElementById("group-members-list");
             membersList.innerHTML = "";
-    
+
             if (members.length === 0) {
                 membersList.innerHTML = "<li>No gamers have joined this group yet.</li>";
                 return;
             }
-    
+
             members.forEach(member => {
                 const li = document.createElement("li");
                 li.textContent = member.username;
@@ -146,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (err) {
             console.error("Failed to load group members:", err);
         }
-    }    
+    }
 
-    fetchGroupMembers(groupId);    
+    fetchGroupMembers(groupId);
 });
