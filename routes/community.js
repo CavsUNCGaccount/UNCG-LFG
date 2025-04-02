@@ -453,10 +453,10 @@ router.post('/create-group-session', async (req, res) => {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_name, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform } = req.body;
+    const { game_name, session_type, max_players, start_time, duration, session_title, session_description, platform } = req.body;
     const user_id = req.session.user_id;
 
-    if (!game_name || !session_type || !session_status || !max_players || !start_time || !duration || !session_title || !platform) {
+    if (!game_name || !session_type || !max_players || !start_time || !duration || !session_title || !platform) {
         return res.status(400).json({ message: "All required fields must be provided." });
     }
 
@@ -474,7 +474,7 @@ router.post('/create-group-session', async (req, res) => {
                 (community_id, host_user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
              RETURNING group_id`,
-            [community_id, user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform]
+            [community_id, user_id, session_type, 'Open', max_players, start_time, duration, session_title, session_description, platform]
         );
 
         const group_id = newGroup.rows[0].group_id;
@@ -640,6 +640,14 @@ router.post("/group/:groupId/join", async (req, res) => {
             [groupId]
         );
 
+        // If current_players reaches max_players, update session_status to 'Closed'
+        if (currentPlayers + 1 >= maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Closed' WHERE group_id = $1",
+                [groupId]
+            );
+        }  
+
         res.status(200).json({ message: "Joined the group successfully!" });
     } catch (err) {
         console.error("Error joining group:", err);
@@ -672,6 +680,26 @@ router.post("/group/:groupId/leave", async (req, res) => {
             "UPDATE groups SET current_players = current_players - 1 WHERE group_id = $1",
             [groupId]
         );
+
+        // If current_players goes below max_players, update session_status to 'Open'
+        const countResult = await pool.query(
+            "SELECT COUNT(*) FROM group_members WHERE group_id = $1",
+            [groupId]
+        );
+        const currentPlayers = parseInt(countResult.rows[0].count);
+
+        const groupResult = await pool.query(
+            "SELECT max_players FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+        const maxPlayers = groupResult.rows[0].max_players;
+
+        if (currentPlayers < maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Open' WHERE group_id = $1",
+                [groupId]
+            );
+        }
 
         res.status(200).json({ message: "Left the group successfully." });
     } catch (err) {
@@ -717,6 +745,26 @@ router.post('/group/:group_id/kick/:user_id', async (req, res) => {
             "UPDATE groups SET current_players = current_players - 1 WHERE group_id = $1 AND current_players > 0",
             [group_id]
         );
+
+        // If current_players goes below max_players, update session_status to 'Open'
+        const countResult = await pool.query(
+            "SELECT COUNT(*) FROM group_members WHERE group_id = $1",
+            [group_id]
+        );
+        const currentPlayers = parseInt(countResult.rows[0].count);
+
+        const groupResult = await pool.query(
+            "SELECT max_players FROM groups WHERE group_id = $1",
+            [group_id]
+        );
+        const maxPlayers = groupResult.rows[0].max_players;
+
+        if (currentPlayers < maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Open' WHERE group_id = $1",
+                [group_id]
+            );
+        }
 
         res.status(200).json({ message: "User kicked from the group." });
     } catch (err) {

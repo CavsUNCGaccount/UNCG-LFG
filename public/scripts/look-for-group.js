@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
             session_description: document.getElementById("session-description").value,
             platform: document.getElementById("platform").value,
             session_type: document.getElementById("session-type").value,
-            session_status: document.getElementById("session-status").value,
+            //session_status: document.getElementById("session-status").value,
             max_players: document.getElementById("max-players").value,
             start_time: document.getElementById("start-time").value,
             duration: document.getElementById("duration").value,
