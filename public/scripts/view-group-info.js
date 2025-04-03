@@ -145,14 +145,50 @@ document.addEventListener("DOMContentLoaded", async () => {
             membersList.innerHTML = "";
 
             if (members.length === 0) {
-                membersList.innerHTML = "<li>No gamers have joined this group yet.</li>";
+                const emptyMsg = document.createElement("div");
+                emptyMsg.className = "list-group-item bg-dark text-white border-0";
+                emptyMsg.textContent = "No gamers have joined this group yet.";
+                membersList.appendChild(emptyMsg);
                 return;
             }
 
+            const isHost = currentUserId === groupHostId;
+
             members.forEach(member => {
-                const li = document.createElement("li");
-                li.textContent = member.username;
-                membersList.appendChild(li);
+                const item = document.createElement("div");
+                item.className = "list-group-item d-flex justify-content-between align-items-center bg-dark text-white border-0 fs-5";
+
+                const memberInfo = document.createElement("span");
+                memberInfo.innerHTML = `<i class="bi bi-person-circle me-2"></i><strong>${member.username}</strong>`;
+
+                item.appendChild(memberInfo);
+
+                if (isHost && member.user_id !== currentUserId) {
+                    const kickBtn = document.createElement("button");
+                    kickBtn.className = "btn btn-danger btn-sm fs-5 ms-5";
+                    kickBtn.textContent = "Kick";
+
+                    kickBtn.addEventListener("click", async () => {
+                        const confirmKick = confirm(`Kick ${member.username}?`);
+                        if (!confirmKick) return;
+
+                        const res = await fetch(`/community/group/${groupId}/kick/${member.user_id}`, {
+                            method: "POST",
+                            credentials: "include"
+                        });
+
+                        if (res.ok) {
+                            alert(`${member.username} has been kicked.`);
+                            location.reload();
+                        } else {
+                            alert("Failed to kick user.");
+                        }
+                    });
+
+                    item.appendChild(kickBtn);
+                }
+
+                membersList.appendChild(item);
             });
         } catch (err) {
             console.error("Failed to load group members:", err);

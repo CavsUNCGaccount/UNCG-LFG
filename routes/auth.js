@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
             await pool.query(
                 `INSERT INTO gamer_profiles (user_id, psn_id, xbox_id, steam_username, steam64_id, avatar_url) 
                  VALUES ($1, $2, $3, $4, $5, $6)`,
-                [userId, 'N/A', 'N/A', null, null, 'images/default-avatar.png']
+                [userId, 'N/A', 'N/A', null, null, '/uploads/default-avatar.png']
             );
         }
 

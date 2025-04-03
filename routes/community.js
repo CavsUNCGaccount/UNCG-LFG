@@ -453,10 +453,10 @@ router.post('/create-group-session', async (req, res) => {
         return res.status(401).json({ message: "Unauthorized. Please log in first." });
     }
 
-    const { game_name, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform } = req.body;
+    const { game_name, session_type, max_players, start_time, duration, session_title, session_description, platform } = req.body;
     const user_id = req.session.user_id;
 
-    if (!game_name || !session_type || !session_status || !max_players || !start_time || !duration || !session_title || !platform) {
+    if (!game_name || !session_type || !max_players || !start_time || !duration || !session_title || !platform) {
         return res.status(400).json({ message: "All required fields must be provided." });
     }
 
@@ -474,7 +474,7 @@ router.post('/create-group-session', async (req, res) => {
                 (community_id, host_user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
              RETURNING group_id`,
-            [community_id, user_id, session_type, session_status, max_players, start_time, duration, session_title, session_description, platform]
+            [community_id, user_id, session_type, 'Open', max_players, start_time, duration, session_title, session_description, platform]
         );
 
         const group_id = newGroup.rows[0].group_id;
@@ -640,6 +640,14 @@ router.post("/group/:groupId/join", async (req, res) => {
             [groupId]
         );
 
+        // If current_players reaches max_players, update session_status to 'Closed'
+        if (currentPlayers + 1 >= maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Closed' WHERE group_id = $1",
+                [groupId]
+            );
+        }  
+
         res.status(200).json({ message: "Joined the group successfully!" });
     } catch (err) {
         console.error("Error joining group:", err);
@@ -673,11 +681,97 @@ router.post("/group/:groupId/leave", async (req, res) => {
             [groupId]
         );
 
+        // If current_players goes below max_players, update session_status to 'Open'
+        const countResult = await pool.query(
+            "SELECT COUNT(*) FROM group_members WHERE group_id = $1",
+            [groupId]
+        );
+        const currentPlayers = parseInt(countResult.rows[0].count);
+
+        const groupResult = await pool.query(
+            "SELECT max_players FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+        const maxPlayers = groupResult.rows[0].max_players;
+
+        if (currentPlayers < maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Open' WHERE group_id = $1",
+                [groupId]
+            );
+        }
+
         res.status(200).json({ message: "Left the group successfully." });
     } catch (err) {
         console.error("Error leaving group:", err);
         res.status(500).json({ message: "Could not leave group." });
     }
 });
+
+// Kick a gamer from a group (host only)
+// POST http://localhost:3001/community/group/:group_id/kick/:user_id (Replace :group_id and :user_id with actual IDs)
+// Requires user to be logged in and be the host of the group
+router.post('/group/:group_id/kick/:user_id', async (req, res) => {
+    const { group_id, user_id } = req.params;
+    const host_id = req.session.user_id;
+
+    if (!host_id) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+        // Verify host owns this group
+        const groupCheck = await pool.query(
+            "SELECT * FROM groups WHERE group_id = $1 AND host_user_id = $2",
+            [group_id, host_id]
+        );
+        if (groupCheck.rows.length === 0) {
+            return res.status(403).json({ message: "You are not the host of this group." });
+        }
+
+        // Prevent host from kicking themselves
+        if (parseInt(user_id) === host_id) {
+            return res.status(400).json({ message: "You can't kick yourself." });
+        }
+
+        // Remove the user from the group_members table
+        await pool.query(
+            "DELETE FROM group_members WHERE group_id = $1 AND user_id = $2",
+            [group_id, user_id]
+        );
+
+        // Ensure that current_players does not go below 0 and to open up a slot when a user is kicked
+        await pool.query(
+            "UPDATE groups SET current_players = current_players - 1 WHERE group_id = $1 AND current_players > 0",
+            [group_id]
+        );
+
+        // If current_players goes below max_players, update session_status to 'Open'
+        const countResult = await pool.query(
+            "SELECT COUNT(*) FROM group_members WHERE group_id = $1",
+            [group_id]
+        );
+        const currentPlayers = parseInt(countResult.rows[0].count);
+
+        const groupResult = await pool.query(
+            "SELECT max_players FROM groups WHERE group_id = $1",
+            [group_id]
+        );
+        const maxPlayers = groupResult.rows[0].max_players;
+
+        if (currentPlayers < maxPlayers) {
+            await pool.query(
+                "UPDATE groups SET session_status = 'Open' WHERE group_id = $1",
+                [group_id]
+            );
+        }
+
+        res.status(200).json({ message: "User kicked from the group." });
+    } catch (err) {
+        console.error("Kick error:", err);
+        res.status(500).json({ message: "Failed to kick user." });
+    }
+});
+
 
 module.exports = router;
