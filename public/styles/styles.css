@@ -331,7 +331,7 @@ footer {
 
 
 
-/* Admin Profile Styling */
+/* ================= Admin Profile Styling ================= */
 .profile-img {
     border: 4px solid #ffc107;
     transition: transform 0.3s ease-in-out;
@@ -342,7 +342,7 @@ footer {
     cursor: pointer;
 }
 
-/* Form Styling */
+/* ================= Form Styling ================= */
 .form-control {
     background-color: #222;
     color: white;
@@ -356,7 +356,7 @@ footer {
     box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7);
 }
 
-/* Stylish Buttons */
+/* ================= Stylish Buttons ================= */
 .btn-warning {
     background-color: #ff9800;
     border: none;
@@ -367,8 +367,58 @@ footer {
     background-color: #e65100;
 }
 
-/* Card Styling */
+/* ================= Card Styling ================= */
 .card {
     border: 2px solid #ffeb3b;
     box-shadow: 0px 4px 15px rgba(255, 193, 7, 0.5);
+}
+
+/* ================= Admin Sidebar Styling ================= */
+.admin-sidebar {
+    position: relative; /* Not fixed or sticky */
+    width: 220px;
+    background-color: #111;
+    border-right: 2px solid #ffc107;
+    padding-top: 1rem;
+    min-height: 100vh; /* Stretch full height */
+    float: left;
+}
+
+.admin-sidebar h5 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.admin-sidebar .nav-link {
+    padding: 10px 15px;
+    color: #fff;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+}
+
+
+
+.admin-sidebar .nav-link:hover {
+    background-color: #ffc107;
+    color: #000;
+    text-decoration: none;
+}
+
+/* ================= Push Main Content Right ================= */
+.admin-main-content {
+    margin-left: 240px; /* width of the sidebar + some spacing */
+}
+
+/* ================= Responsive Sidebar Hide ================= */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        display: none;
+    }
+
+    .admin-main-content {
+        margin-left: 0;
+    }
 }

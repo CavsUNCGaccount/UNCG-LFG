@@ -8,8 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
     <link rel="stylesheet" href="styles/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -19,20 +18,37 @@
 <body class="bg-dark text-white">
     <div id="navbar-container"></div>
 
-    <main class="container my-4">
+    <!-- Admin Sidebar -->
+    <div class="admin-sidebar bg-black text-white">
+        <h5 class="text-warning text-center mt-3">Admin Panel</h5>
+        <ul class="nav flex-column px-2">
+            <li class="nav-item"><a class="nav-link text-white" href="admin.html">🏠 Dashboard Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-posts.html">📝 User Posts Moderation</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-ban-users.html">🚫 Ban/Suspend Users</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-reports.html">📣 Flagged Reports</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-chat.html">💬 Chat History</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-groups.html">👥 Group Management</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-community.html">🌐 Communities</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-profiles.html">🎮 Gamer Profiles</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-analytics.html">📊 Analytics</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-sessions.html">🕒 Session Logs</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="admin-settings.html">⚙️ Admin Settings</a></li>
+        </ul>
+    </div>
+
+    <!-- Admin Main Content -->
+    <main class="container my-4 admin-main-content">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card bg-dark text-white p-4 rounded shadow">
                     <h2 class="text-center">Admin Account</h2>
 
-<div class="text-center mb-3">
-    <label for="profile-upload">
-        <img src="images/default-avatar.png" id="admin-avatar" alt="User Avatar"
-            class="rounded-circle img-fluid profile-img" width="150">
-    </label>
-    <input type="file" id="profile-upload" accept="image/*" hidden>
-</div>
-
+                    <div class="text-center mb-3">
+                        <label for="profile-upload">
+                            <img src="images/default-avatar.png" id="admin-avatar" alt="User Avatar" class="rounded-circle img-fluid profile-img" width="150">
+                        </label>
+                        <input type="file" id="profile-upload" accept="image/*" hidden>
+                    </div>
 
                     <!-- Profile Details -->
                     <div class="mb-3">
@@ -66,8 +82,7 @@
                     <!-- Admin Reports Section -->
                     <div class="mt-5">
                         <h4>Reports on Toxic Behavior</h4>
-                        <p class="text-muted">These are reports made by gamers regarding toxic behavior. Review and take
-                            appropriate action.</p>
+                        <p class="text-muted">These are reports made by gamers regarding toxic behavior. Review and take appropriate action.</p>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover table-bordered">
                                 <thead>
@@ -96,7 +111,6 @@
     </footer>
 
     <script src="scripts/admin-profile.js"></script>
-
 </body>
 
 </html>
