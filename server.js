@@ -62,12 +62,12 @@ app.use(
     })
 );
 
-// ✅ Restrict Admin Profile Page Access
+// Restrict Admin Profile Page Access
 app.get('/admin-profile-page.html', isAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin-profile-page.html'));
 });
 
-// ✅ Serve Static HTML Pages
+// Serve Static HTML Pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -81,14 +81,14 @@ app.get('/community.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'community.html'));
 });
 
-// ✅ Register Routes
+// Register Routes
 app.use('/auth', authRoutes);
 app.use('/gamer-profile', gamerProfileRouter);
 app.use('/steam', steamRoutes);
 app.use('/community', communityRoutes);
 app.use('/admin', adminRoutes);
 
-// ❗ Corrected 404 Handler (headers first, no `next`)
+// Corrected 404 Handler (headers first, no `next`)
 app.use((req, res) => {
     res.header("Access-Control-Allow-Origin", "http://localhost:3001");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -97,13 +97,21 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
 
-// ✅ Global Error Handler
+// Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Something went wrong' });
 });
 
-// ✅ Launch Server
+/** 
+ *  Please DO NOT DELETE THIS CODE BLOCK
+ *  Launch Server
+ *  The server will run on http://localhost:3001
+ *  To run the server, use the following commands:
+ *  node server.js or npm start (production mode)
+ *  nodemon server.js (development mode)
+ *  To stop the server, use Ctrl + C in the terminal
+ **/ 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

@@ -16,6 +16,24 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
+// Get just the username from the session
+router.get("/api/username", isAuthenticated, async (req, res) => {
+    try {
+        console.log("Session user_id:", req.session.user_id); // Debugging line
+        const userId = req.session.user_id;
+        const result = await pool.query("SELECT username FROM users WHERE user_id = $1", [userId]);
+
+        if (result.rows.length > 0) {
+            res.json({ username: result.rows[0].username });
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 // ===================== GET GAMER PROFILE =====================
 router.get("/api/profile", isAuthenticated, async (req, res) => {
     try {
@@ -28,7 +46,7 @@ router.get("/api/profile", isAuthenticated, async (req, res) => {
               gp.steam_username,
               gp.psn_id,
               gp.xbox_id,
-              gp.avatar_url AS profile_picture -- ✅ alias for frontend
+              gp.avatar_url AS profile_picture --
             FROM users u
             LEFT JOIN gamer_profiles gp ON u.user_id = gp.user_id
             WHERE u.user_id = $1`,
@@ -129,6 +147,9 @@ router.put("/link-steam", isAuthenticated, async (req, res) => {
 });
 
 // ===================== UPDATE STEAM =====================
+// Note: This function is similar to link-steam but allows updating the Steam ID
+// and username. It checks if the new Steam ID is already linked to another user.
+// Note to self: It does not fully work as intended, but is included for completeness. Come back to this if you have time.
 router.put("/update-steam", isAuthenticated, async (req, res) => {
     const { steam64_id } = req.body;
 
@@ -202,7 +223,7 @@ router.post('/upload-profile-picture', isAuthenticated, upload.single('profile_p
         const oldAvatar = result.rows[0]?.avatar_url;
 
         await pool.query("UPDATE gamer_profiles SET avatar_url = $1 WHERE user_id = $2", [imagePath, userId]);
-        await pool.query("UPDATE users SET profile_picture = $1 WHERE user_id = $2", [imagePath, userId]); // ✅ also update users table
+        await pool.query("UPDATE users SET profile_picture = $1 WHERE user_id = $2", [imagePath, userId]); // also update users table
 
         if (oldAvatar && oldAvatar !== "/uploads/default-avatar.png") {
             const fullPath = path.join(__dirname, '..', 'public', oldAvatar);

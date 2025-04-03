@@ -37,8 +37,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const data = await response.json();
 
-        // ✅ Determine user role and profile redirection
+        // Determine user role and profile redirection
         if (data.user_id) {
+            console.log("Data from session:", data); // Debugging log
             let profilePage = data.role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
             let profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "/uploads/default-avatar.png";
             console.log("Profile Picture URL:", profilePicture); // Debugging log
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-// ✅ Logout function
+// Logout function
 function logout() {
     fetch("http://localhost:3001/auth/logout", {
         method: "POST",

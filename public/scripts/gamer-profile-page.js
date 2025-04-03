@@ -361,18 +361,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (profile.error) {
                 alert("No profile information available.");
             } else {
-                // ✅ Update username field and display header
+                // Update username field and display header
                 document.getElementById("username").value = profile.username;
                 const usernameDisplay = document.getElementById("username-display");
                 if (usernameDisplay) usernameDisplay.textContent = profile.username;
         
-                // ✅ Update email, PSN, Xbox, Steam ID
+                // Update email, PSN, Xbox, Steam ID
                 document.getElementById("email").value = profile.email;
                 document.getElementById("psn-id").value = profile.psn_id || "N/A";
                 document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
                 document.getElementById("steam-id").value = profile.steam64_id || "";
         
-                // ✅ Set profile picture (main + navbar)
+                // Set profile picture (main + navbar)
                 if (profile.profile_picture) {
                     const profileImg = document.getElementById("gamer-avatar");
                     if (profileImg) profileImg.src = profile.profile_picture;
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (navbarImg) navbarImg.src = profile.profile_picture;
                 }
         
-                // ✅ Steam Info
+                // Steam Info
                 if (profile.steam64_id && profile.steam64_id !== "N/A") {
                     fetchSteamProfile(profile.steam64_id);
                     fetchSteamGames(profile.steam64_id);
@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     document.getElementById("steam-avatar").src = "images/default-picture.svg";
                 }
         
-                // ✅ Communities
+                // Call the function to get Communities
                 fetchCommunities();
             }
         })
@@ -539,7 +539,6 @@ function addSaveHandler(fieldId, endpoint, key) {
             });
 
             if (response.ok) {
-                alert(`${fieldId.replace('-', ' ')} updated successfully!`);
                 document.getElementById(fieldId).disabled = true;
                 saveBtn.style.display = "none";
             } else {
