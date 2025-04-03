@@ -6,10 +6,11 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const bcrypt = require('bcryptjs');
 const authRoutes = require('./routes/auth');
-const gamerProfileRouter = require("./routes/gamer-profile");
+const gamerProfileRouter = require('./routes/gamer-profile');
 const steamRoutes = require('./routes/steam');
 const communityRoutes = require('./routes/community');
-const adminRoutes = require('./routes/admin'); // Import admin routes
+const adminRoutes = require('./routes/admin');
+const path = require('path');
 
 // Initialize Express app
 const app = express();
@@ -22,59 +23,57 @@ function isAdmin(req, res, next) {
     next();
 }
 
-app.use('/uploads', express.static('public/uploads'));
+// ✅ Serve uploaded profile pictures
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-
-// Cors Middleware (Before session middleware)
+// CORS Middleware (placed before session)
 app.use(cors({
-    origin: 'http://localhost:3001', // Adjust this if using a different port or domain
+    origin: 'http://localhost:3001',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // Allow cookies to be sent
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-// Serve static files from the 'public' directory
+// Static file serving
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware
+// JSON + Form Parsing Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // For form submissions
+app.use(express.urlencoded({ extended: true }));
 
 // Session Middleware
 app.use(
     session({
         store: new pgSession({
-            pool: pool, // PostgreSQL connection pool
-            tableName: 'session', // Defaults to 'session'
+            pool: pool,
+            tableName: 'session',
         }),
-        secret: process.env.SESSION_SECRET, // Store in .env
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: false, // Set to `true` in production with HTTPS
-            httpOnly: false, // Change to `true` in production
+            secure: false,
+            httpOnly: false,
             maxAge: 1000 * 60 * 60 * 24, // 1 day
-            sameSite: 'Lax' // Set to 'Strict' or 'Lax in production
+            sameSite: 'Lax',
         },
     })
 );
 
-// Restrict Access to Admin Pages
+// ✅ Restrict Admin Profile Page Access
 app.get('/admin-profile-page.html', isAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin-profile-page.html'));
 });
 
-// Serve index.html for the root route
+// ✅ Serve Static HTML Pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
 app.get('/gamer-profile-page.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'gamer-profile-page.html'));
 });
-
 app.get('/view-game-achievements.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'view-game-achievements.html'));
 });
@@ -82,35 +81,29 @@ app.get('/community.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'community.html'));
 });
 
-// Use the routes
+// ✅ Register Routes
 app.use('/auth', authRoutes);
-app.use("/gamer-profile", gamerProfileRouter);
+app.use('/gamer-profile', gamerProfileRouter);
 app.use('/steam', steamRoutes);
 app.use('/community', communityRoutes);
-app.use('/admin', adminRoutes); // Register admin routes
+app.use('/admin', adminRoutes);
 
-// 404 Handler for Undefined Routes
+// ❗ Corrected 404 Handler (headers first, no `next`)
 app.use((req, res) => {
-    res.status(404).json({ message: 'Route not found' });
-    res.header("Access-Control-Allow-Origin", "http://localhost:3001"); // Allow frontend access
+    res.header("Access-Control-Allow-Origin", "http://localhost:3001");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
-    next();   
+    res.status(404).json({ message: 'Route not found' });
 });
 
-// Global Error Handler
+// ✅ Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Something went wrong' });
 });
 
-/**
- * Run the app with nodemon server.js (developer mode)
- * Run the app with node server.js (production mode)
- * Open http://localhost:3001 in your browser
- * Kill the app with ctrl + c
- */
+// ✅ Launch Server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

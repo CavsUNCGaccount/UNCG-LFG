@@ -1,192 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Profile Page | UNCG LFG</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gamer Profile Page | UNCG LFG</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp"/>
+  <link rel="stylesheet" href="styles/styles.css"/>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp">
-
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles/styles.css">
-
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-
-    <!-- Navbar script -->
-    <script src="scripts/navbar.js" defer></script>
-
-    <!-- Gamer Profile Page script -->
-    <script src="scripts/gamer-profile-page.js" defer></script>
-
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="scripts/navbar.js" defer></script>
+  <script src="scripts/gamer-profile-page.js" defer></script>
 </head>
-
 <body class="bg-dark text-white">
+  <div id="navbar-container"></div>
 
-    <!-- Navbar -->
-    <div id="navbar-container"></div>
+  <main class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card bg-dark text-white p-4 rounded shadow">
+          <h2 class="text-center">My Account</h2>
 
-    <main class="container my-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card bg-dark text-white p-4 rounded shadow">
-                    <h2 class="text-center">My Account</h2>
+          <!-- Profile Avatar Upload -->
+          <div class="text-center mb-3">
+            <label for="profile-upload">
+              <img src="images/default-picture.svg" id="gamer-avatar" class="rounded-circle img-fluid profile-img" width="150" alt="User Avatar"/>
+            </label>
+            <input type="file" id="profile-upload" accept="image/*" hidden />
+          </div>
 
-                    <!-- Avatar Section -->
-                    <div class="text-center mb-3">
-                        <img src="images/default-avatar.png" alt="User Avatar" class="rounded-circle img-fluid"
-                            width="150">
-                        <button class="btn btn-warning mt-2" onclick="changeAvatar()">Change Avatar</button>
-                    </div>
-
-                    <!-- Profile Details -->
-                    <div class="mb-3">
-                        <h4>Profile Details</h4>
-
-                        <!-- Username -->
-                        <div class="form-group">
-                            <label>Username:</label>
-                            <input type="text" id="username" class="form-control bg-secondary text-white" disabled>
-                            <button class="btn btn-outline-warning mt-2" id="edit-username">Edit</button>
-                            <button class="btn btn-outline-success mt-2" id="save-username"
-                                style="display: none;">Save</button>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="form-group mt-3">
-                            <label>Email:</label>
-                            <input type="email" id="email" class="form-control bg-secondary text-white" disabled>
-                            <button class="btn btn-outline-warning mt-2" id="edit-email">Edit</button>
-                            <button class="btn btn-outline-success mt-2" id="save-email"
-                                style="display: none;">Save</button>
-                        </div>
-
-                        <!-- Password -->
-                        <div class="form-group mt-3">
-                            <label>Password:</label>
-                            <input type="password" id="password" class="form-control bg-secondary text-white"
-                                value="••••••" disabled>
-                            <button class="btn btn-outline-warning mt-2" onclick="editField('password')">Edit</button>
-                        </div>
-                    </div>
-
-                    <!-- Gaming Accounts -->
-                    <div class="mt-4">
-                        <h4>Gaming Accounts</h4>
-                        <div class="row">
-                            <!-- PSN ID  (PSN Gamertag)-->
-                            <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation"
-                                    class="img-fluid mb-2" width="50">
-                                <label for="psn-id">PSN Gamertag:</label>
-                                <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled>
-                                <button class="btn btn-outline-warning mt-2" id="edit-psn">Edit</button>
-                                <button class="btn btn-outline-success mt-2" id="save-psn"
-                                    style="display: none;">Save</button>
-                            </div>
-
-                            <!-- Xbox ID (Xbox Gamertag) -->
-                            <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2"
-                                    width="50">
-                                <label for="xbox-id">Xbox Gamertag:</label>
-                                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled>
-                                <button class="btn btn-outline-warning mt-2" id="edit-xbox">Edit</button>
-                                <button class="btn btn-outline-success mt-2" id="save-xbox"
-                                    style="display: none;">Save</button>
-                            </div>
-
-                            <!-- Steam ID number -->
-                            <div class="col-md-4 text-center">
-                                <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2"
-                                    width="50">
-                                <label for="steam-id">Steam ID number:</label>
-                                <input type="text" id="steam-id" class="form-control bg-secondary text-white">
-                                <button class="btn btn-warning mt-2" id="link-steam">Link Steam Account</button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Logout Button -->
-                    <div class="text-center mt-4">
-                        <button class="btn btn-danger" onclick="logout()">Logout</button>
-                    </div>
-
-                </div>
+          <!-- Profile Details -->
+          <div class="mb-3">
+            <h4>Profile Details</h4>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" id="username" class="form-control bg-secondary text-white" disabled autocomplete="off"/>
+              <button class="btn btn-outline-warning mt-2" id="edit-username">Edit</button>
+              <button class="btn btn-outline-success mt-2" id="save-username" style="display: none;">Save</button>
             </div>
-        </div>
+            <div class="form-group mt-3">
+              <label for="email">Email:</label>
+              <input type="email" id="email" class="form-control bg-secondary text-white" disabled autocomplete="off"/>
+              <button class="btn btn-outline-warning mt-2" id="edit-email">Edit</button>
+              <button class="btn btn-outline-success mt-2" id="save-email" style="display: none;">Save</button>
+            </div>
+            <div class="form-group mt-3">
+              <label for="password">Password:</label>
+              <input type="password" id="password" class="form-control bg-secondary text-white" value="••••••" disabled autocomplete="off"/>
+              <button class="btn btn-outline-warning mt-2" onclick="editField('password')">Edit</button>
+            </div>
+          </div>
 
-        <!-- Communities Section -->
-    <div class="mt-4">
-        <h3 class="text-center">Your Communities</h4>
-        <div id="communities-container" class="list-group">
-            <!-- Dynamically loaded communities will be inserted here -->
+          <!-- Gaming Accounts -->
+          <div class="mt-4">
+            <h4>Gaming Accounts</h4>
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation" class="img-fluid mb-2" width="50" />
+                <label for="psn-id">PSN Gamertag:</label>
+                <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled autocomplete="off"/>
+                <button class="btn btn-outline-warning mt-2" id="edit-psn">Edit</button>
+                <button class="btn btn-outline-success mt-2" id="save-psn" style="display: none;">Save</button>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2" width="50" />
+                <label for="xbox-id">Xbox Gamertag:</label>
+                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled autocomplete="off"/>
+                <button class="btn btn-outline-warning mt-2" id="edit-xbox">Edit</button>
+                <button class="btn btn-outline-success mt-2" id="save-xbox" style="display: none;">Save</button>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid mb-2" width="50" />
+                <label for="steam-id">Steam ID number:</label>
+                <input type="text" id="steam-id" class="form-control bg-secondary text-white" autocomplete="off"/>
+                <button class="btn btn-warning mt-2" id="link-steam">Link Steam Account</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logout -->
+          <div class="text-center mt-4">
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+          </div>
         </div>
+      </div>
     </div>
 
-        <!-- Steam Account Info Section -->
-        <div class="text-center mt-4">
-            <h3 class="text-white">Steam Profile</h3>
-            <img id="steam-avatar" src="images/default-avatar.png" alt="Steam Avatar" class="rounded-circle img-fluid"
-                width="100">
-            <h4 id="steam-username" class="text-white mt-2">N/A</h4>
-            <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View
-                Steam Profile</a>
-        </div>
+    <!-- Communities -->
+    <div class="mt-4">
+      <h3 class="text-center">Your Communities</h3>
+      <div id="communities-container" class="list-group"></div>
+    </div>
 
-        <!-- Steam Games Section -->
-        <section class="mt-5">
-            <h2 class="text-center">Your Steam Games</h2>
-            <div id="steam-games-container" class="row">
-                <!-- Dynamically loaded games will be inserted here -->
-            </div>
-        </section>
+    <!-- Steam Info -->
+    <div class="text-center mt-4">
+      <h3 class="text-white">Steam Profile</h3>
+      <img id="steam-avatar" src="images/default-picture.svg" class="rounded-circle img-fluid" width="100" alt="Steam Avatar" />
+      <h4 id="steam-username" class="text-white mt-2">N/A</h4>
+      <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View Steam Profile</a>
+    </div>
 
-    </main>
+    <!-- Steam Games -->
+    <section class="mt-5">
+      <h2 class="text-center">Your Steam Games</h2>
+      <div id="steam-games-container" class="row"></div>
+    </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-4">
-        Copyright © 2025 UNCG LFG. All rights reserved.
-    </footer>
-
-    <script>
-        function changeAvatar() {
-            alert("Avatar change functionality will be implemented later.");
-        }
-
-        function editField(fieldId) {
-            let field = document.getElementById(fieldId);
-            let newValue = prompt("Edit " + fieldId + ":", field.value);
-            if (newValue !== null) {
-                field.value = newValue;
-            }
-        }
-
-        function logout() {
-            fetch('/auth/logout', {
-                method: 'POST',
-                credentials: 'include' // Ensures cookies are sent with the request
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    window.location.href = 'index.html'; // Redirect to login page after logout
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    </script>
-
-
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-3 mt-4">
+    Copyright © 2025 UNCG LFG. All rights reserved.
+  </footer>
 </body>
-
 </html>
