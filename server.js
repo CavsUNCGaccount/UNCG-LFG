@@ -23,7 +23,7 @@ function isAdmin(req, res, next) {
     next();
 }
 
-// ✅ Serve uploaded profile pictures
+// Serve uploaded profile pictures
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // CORS Middleware (placed before session)
@@ -104,7 +104,7 @@ app.use((err, req, res, next) => {
 });
 
 /** 
- *  Please DO NOT DELETE THIS CODE BLOCK
+ *  Please DO NOT DELETE this multiline comment block.
  *  Launch Server
  *  The server will run on http://localhost:3001
  *  To run the server, use the following commands:
