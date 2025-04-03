@@ -13,6 +13,23 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
+// Route to get just the usename of the logged-in user
+router.get("/api/username", isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.session.user_id;
+        const result = await pool.query("SELECT username FROM users WHERE user_id = $1", [userId]);
+
+        if (result.rows.length > 0) {
+            res.json({ username: result.rows[0].username });
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 // Route to get gamer profile for logged-in user
 router.get("/api/profile", isAuthenticated, async (req, res) => {
     try {

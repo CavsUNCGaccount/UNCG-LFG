@@ -35,7 +35,40 @@
     <!-- Navbar -->
     <div id="navbar-container"></div>
 
+    
     <main class="container my-4">
+
+        <!-- Communities Section -->
+    <div class="mt-4">
+
+        <!-- Greetings Section -->
+        <h4 id="user-greeting" class="text-center text-white mt-4 mb-5"></h4>
+
+        <h3 class="text-center">Your Communities</h4>
+        <div id="communities-container" class="list-group">
+            <!-- Dynamically loaded communities will be inserted here -->
+        </div>
+    </div>
+
+        <!-- Steam Account Info Section -->
+        <div class="text-center mt-4">
+            <h3 class="text-white">Steam Profile</h3>
+            <img id="steam-avatar" src="images/default-avatar.png" alt="Steam Avatar" class="rounded-circle img-fluid"
+                width="100">
+            <h4 id="steam-username" class="text-white mt-2">N/A</h4>
+            <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View
+                Steam Profile</a>
+        </div>
+
+        <!-- Steam Games Section -->
+        <section class="mt-5 mb-5">
+            <h2 class="text-center">Your Steam Games</h2>
+            <div id="steam-games-container" class="row">
+                <!-- Dynamically loaded games will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Profile Page Details -->
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card bg-dark text-white p-4 rounded shadow">
@@ -125,32 +158,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Communities Section -->
-    <div class="mt-4">
-        <h3 class="text-center">Your Communities</h4>
-        <div id="communities-container" class="list-group">
-            <!-- Dynamically loaded communities will be inserted here -->
-        </div>
-    </div>
-
-        <!-- Steam Account Info Section -->
-        <div class="text-center mt-4">
-            <h3 class="text-white">Steam Profile</h3>
-            <img id="steam-avatar" src="images/default-avatar.png" alt="Steam Avatar" class="rounded-circle img-fluid"
-                width="100">
-            <h4 id="steam-username" class="text-white mt-2">N/A</h4>
-            <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View
-                Steam Profile</a>
-        </div>
-
-        <!-- Steam Games Section -->
-        <section class="mt-5">
-            <h2 class="text-center">Your Steam Games</h2>
-            <div id="steam-games-container" class="row">
-                <!-- Dynamically loaded games will be inserted here -->
-            </div>
-        </section>
 
     </main>
 

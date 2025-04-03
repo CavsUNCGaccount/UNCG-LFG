@@ -1,3 +1,22 @@
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        // Fetch just the username from the server
+        const response = await fetch('/gamer-profile/api/username', { credentials: 'include' });
+        const userData = await response.json();
+        console.log("User Data:", userData); // Debugging line
+
+        // Check if the response contains the username
+        if (response.ok && userData.username) {
+            const greetingElement = document.getElementById("user-greeting");
+            greetingElement.textContent = `Hello, ${userData.username}`;
+        } else {
+            console.error("Failed to fetch user data or username is missing.");
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+    }
+});
+
 document.addEventListener("DOMContentLoaded", async function () {
 
     // ========== USERNAME ==========
