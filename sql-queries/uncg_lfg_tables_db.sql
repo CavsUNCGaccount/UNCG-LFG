@@ -238,7 +238,16 @@ values ('Valorant', 'images/game-covers/Valorant_cover_art.jpg',
         'A tactical first-person shooter with character abilities and precise gunplay.',
         current_timestamp);
 
-        CREATE TABLE "session" (
+--------------- Additional games insterted below:
+
+-- Monster Hunter Wilds
+insert into game_community (game_name, cover_image_url, description, created_at)
+values ('Monster Hunter Wilds', 'images/game-covers/Monster_Hunter_Wilds_cover_art.jpg',
+        'The successor to Monster Hunter Worlds is here! ' ||
+        'An action RPG set in the Forbidden Lands where players hunt massive monsters, craft powerful gear, and survive dynamic ecosystems.',
+        current_timestamp);
+
+CREATE TABLE "session" (
     "sid" VARCHAR PRIMARY KEY,
     "sess" JSON NOT NULL,
     "expire" TIMESTAMPTZ NOT NULL

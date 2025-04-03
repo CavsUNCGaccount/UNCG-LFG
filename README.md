@@ -2,7 +2,7 @@
 Our repository for the senior capstone project
 
 # UNCG-LFG
-A Looking for Group web app for co-op and multiplayer games. Our web app will focus on the top 20 co-op/multiplayer games of the last 15 years.
+A Looking for Group web app for co-op and multiplayer games. Our web app will focus on the top 20 co-op/multiplayer games of the last 15 years. More games can be added.
 
 ## Current Status
 - Static html prototyping complete.
@@ -32,7 +32,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
     - Admin can now upload a profile picture. 
 
 ## Features (Planned)
-- Dynamic Game Community Pages for 20 popular Steam, PlayStation, and Xbox games.
+- Dynamic Game Community Pages for 20+ popular Steam, PlayStation, and Xbox games.
 - Group creation for matchmaking and organizing a group of gamers to play with.
 - User Posts for quick matchmaking.
 - Achievement tracking for Steam users.
@@ -49,7 +49,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Add a timer that displays when your next group session will be
 - Display more groups under community page ie. Groups that will be starting soon
 - Add a game from Carlos' Steam library to the app for demo purposes.
-  - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games.
+  - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages
 - Display info next to group members ie. gamertag
 - Report functionality 
