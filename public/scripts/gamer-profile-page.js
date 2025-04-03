@@ -19,6 +19,46 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
+    // Helper to make a field editable
+    function editField(fieldId) {
+        const field = document.getElementById(fieldId);
+        field.removeAttribute("disabled");
+        field.focus();
+    }
+
+    // Reusable Save Handler Setup
+    addSaveHandler("username", "/gamer-profile/update-username", "username");
+    addSaveHandler("email", "/gamer-profile/update-email", "email");
+    addSaveHandler("psn-id", "/gamer-profile/update-psn", "psn");
+    addSaveHandler("xbox-id", "/gamer-profile/update-xbox", "xbox");
+  
+    // Avatar upload handler
+    document.getElementById("profile-upload").addEventListener("change", async function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profile_picture", file);
+
+        try {
+            const response = await fetch("http://localhost:3001/gamer-profile/upload-profile-picture", {
+                method: "POST",
+                body: formData,
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                document.getElementById("gamer-avatar").src = data.profile_picture;
+                alert("Profile picture updated successfully!");
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Error uploading profile picture:", error);
+        }
+    });
+
     // ========== USERNAME ==========
     document.querySelector("#edit-username").addEventListener("click", () => {
         const usernameField = document.querySelector("#username");
@@ -51,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error updating username:", error);
         }
     });
+
 
     // ========== EMAIL ==========
     document.querySelector("#edit-email").addEventListener("click", () => {
@@ -184,7 +225,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 // Set avatar image or use default if none is set
                 const avatarImg = document.querySelector("img[alt='User Avatar']");
-                avatarImg.src = data.avatar_url || "images/default-avatar.png";
+                avatarImg.src = data.avatar_url || "images/default-picture.svg";
                 console.log("Steam avatar updated:", data.avatar_url); // Debugging confirmation
 
                 console.log("Steam Profile Data:", data); // Debugging line
@@ -320,33 +361,46 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (profile.error) {
                 alert("No profile information available.");
             } else {
+                // ✅ Update username field and display header
                 document.getElementById("username").value = profile.username;
+                const usernameDisplay = document.getElementById("username-display");
+                if (usernameDisplay) usernameDisplay.textContent = profile.username;
+        
+                // ✅ Update email, PSN, Xbox, Steam ID
                 document.getElementById("email").value = profile.email;
                 document.getElementById("psn-id").value = profile.psn_id || "N/A";
                 document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
                 document.getElementById("steam-id").value = profile.steam64_id || "";
-
-                // Fetch Steam Profile if Steam64 ID exists
+        
+                // ✅ Set profile picture (main + navbar)
+                if (profile.profile_picture) {
+                    const profileImg = document.getElementById("gamer-avatar");
+                    if (profileImg) profileImg.src = profile.profile_picture;
+        
+                    const navbarImg = document.getElementById("navbar-avatar");
+                    if (navbarImg) navbarImg.src = profile.profile_picture;
+                }
+        
+                // ✅ Steam Info
                 if (profile.steam64_id && profile.steam64_id !== "N/A") {
                     fetchSteamProfile(profile.steam64_id);
-                    console.log("Calling fetchSteamProfile with ID:", profile.steam64_id);
-
-                    // Fetch Steam Games here after the profile is successfully retrieved
                     fetchSteamGames(profile.steam64_id);
-                    console.log("Calling fetchSteamGames with ID:", profile.steam64_id);
                 } else {
                     console.log("No Steam ID linked.");
-                    document.getElementById("steam-avatar").src = "images/default-avatar.png";
+                    document.getElementById("steam-avatar").src = "images/default-picture.svg";
                 }
-                    // Fetch and display communities
-                    fetchCommunities();
-                }
-            })
-            .catch(err => {
-                console.error("Error fetching profile:", err);
-                alert("You must be logged in to view this page.");
-                window.location.href = "/login.html"; // Redirect to login if not authorized
-            });
+        
+                // ✅ Communities
+                fetchCommunities();
+            }
+        })
+        .catch(err => {
+            console.error("Error fetching profile:", err);
+            alert("You must be logged in to view this page.");
+            window.location.href = "/login.html";
+        });
+        
+        
     
         // Function to fetch communities
         async function fetchCommunities() {
@@ -448,7 +502,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     console.log("Calling fetchSteamGames with ID:", profile.steam64_id);
                 } else {
                     console.log("No Steam ID linked.");
-                    document.getElementById("steam-avatar").src = "images/default-avatar.png";
+                    document.getElementById("steam-avatar").src = "images/default-picture.svg";
                 }
             }
         })
@@ -458,4 +512,41 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.href = "/login.html"; // Redirect to login if not authorized
         });
 
-});
+});  //End of the script DOM 
+
+function addSaveHandler(fieldId, endpoint, key) {
+    const editBtn = document.getElementById(`edit-${fieldId}`);
+    const saveBtn = document.getElementById(`save-${fieldId}`);
+
+    if (!editBtn || !saveBtn) return;
+
+    editBtn.addEventListener("click", () => {
+        const field = document.getElementById(fieldId);
+        field.disabled = false;
+        field.focus();
+        saveBtn.style.display = "inline-block";
+    });
+
+    saveBtn.addEventListener("click", async () => {
+        const newValue = document.getElementById(fieldId).value;
+
+        try {
+            const response = await fetch(endpoint, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ [key]: newValue })
+            });
+
+            if (response.ok) {
+                alert(`${fieldId.replace('-', ' ')} updated successfully!`);
+                document.getElementById(fieldId).disabled = true;
+                saveBtn.style.display = "none";
+            } else {
+                alert(`Failed to update ${fieldId.replace('-', ' ')}.`);
+            }
+        } catch (error) {
+            console.error(`Error updating ${fieldId}:`, error);
+        }
+    });
+}
