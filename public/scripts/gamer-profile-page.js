@@ -342,7 +342,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (profile.error) {
                 alert("No profile information available.");
             } else {
+                // ✅ Update username field and display header
                 document.getElementById("username").value = profile.username;
+                const usernameDisplay = document.getElementById("username-display");
+                if (usernameDisplay) usernameDisplay.textContent = profile.username;
+        
+                // ✅ Update email, PSN, Xbox, Steam ID
                 document.getElementById("email").value = profile.email;
                 document.getElementById("psn-id").value = profile.psn_id || "N/A";
                 document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
@@ -373,8 +378,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         .catch(err => {
             console.error("Error fetching profile:", err);
             alert("You must be logged in to view this page.");
-            window.location.href = "/login.html"; // Redirect to login
+            window.location.href = "/login.html";
         });
+        
         
     
         // Function to fetch communities
