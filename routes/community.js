@@ -773,5 +773,37 @@ router.post('/group/:group_id/kick/:user_id', async (req, res) => {
     }
 });
 
+// Get the next session for the logged-in user
+router.get('/next-session', async (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+    }
+
+    const user_id = req.session.user_id;
+
+    try {
+        const nextSessionQuery = await pool.query(
+            `SELECT 
+                g.group_id, 
+                g.session_title, 
+                g.start_time 
+             FROM groups g
+             JOIN group_members gm ON g.group_id = gm.group_id
+             WHERE gm.user_id = $1 AND g.start_time > NOW()
+             ORDER BY g.start_time ASC
+             LIMIT 1`,
+            [user_id]
+        );
+
+        if (nextSessionQuery.rows.length === 0) {
+            return res.status(404).json({ message: "No upcoming sessions found." });
+        }
+
+        res.json(nextSessionQuery.rows[0]);
+    } catch (err) {
+        console.error("Error fetching next session:", err);
+        res.status(500).json({ message: "Server error. Could not fetch next session." });
+    }
+});
 
 module.exports = router;
