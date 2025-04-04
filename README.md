@@ -46,7 +46,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Increase font size
 - Add game feature
 - Modify profile UI to make communities appear at the top achievments below communities (Done)
-- Add a timer that displays when your next group session will be
+- Add a timer that displays when your next group session will be  (Done)
 - Display more groups under community page ie. Groups that will be starting soon
 - Add a game from Carlos' Steam library to the app for demo purposes.
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
