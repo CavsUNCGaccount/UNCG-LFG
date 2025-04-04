@@ -247,6 +247,18 @@ values ('Monster Hunter Wilds', 'images/game-covers/Monster_Hunter_Wilds_cover_a
         'An action RPG set in the Forbidden Lands where players hunt massive monsters, craft powerful gear, and survive dynamic ecosystems.',
         current_timestamp);
 
+-- Bloons Tower Defense 5
+insert into game_community(game_name, cover_image_url, description, created_at)
+values (
+    'Bloons Tower Defense 5',
+    'images/game-covers/Bloons_TD5_cover_art.jpg',
+    'A fun and strategic tower defense game where players use powerful monkey towers' ||
+    ' and agents to pop waves of invading bloons. Work solo or team up in co-op mode to take' ||
+    ' on increasingly difficult rounds. Customize your strategy with upgrades, special missions,' ||
+    ' and an arsenal of popping power!',
+    current_timestamp
+);
+
 CREATE TABLE "session" (
     "sid" VARCHAR PRIMARY KEY,
     "sess" JSON NOT NULL,
