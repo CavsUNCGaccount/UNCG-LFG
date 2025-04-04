@@ -86,6 +86,8 @@ async function fetchNextSessionTimer() {
             credentials: "include"
         });
 
+        console.log("Response from next session:", response); // Debugging line
+
         if (!response.ok) {
             if (response.status === 404) {
                 navbarTimer.textContent = "No upcoming sessions.";
