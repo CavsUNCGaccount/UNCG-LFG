@@ -213,7 +213,7 @@ footer {
     font-size: 0.9rem;
 }
 
-/* ===== Achievements Page Styles ===== */
+/* ======================== Achievements Page Styles ====================================== */
 /* Achievements Cards (either locked or unlocked) */
 .achievement-card-unlocked {
     background-color: green; /* Green background for unlocked achievements */
@@ -237,7 +237,7 @@ footer {
     height: 100%;
 }
 
-/* ===== Gamer Profile Page Styles ===== */
+/* ========================== Gamer Profile Page Styles ================================= */
 
 /* Custom styles for community items */
 .community-item {
@@ -297,7 +297,7 @@ footer {
     padding-left: 10px;
 }
 
-/* =================== View group info page styles =================== */
+/* =============================== View group info page styles =================================== */
 
 /* Increase the size of the badges in the view group info page */
 .badge {
@@ -305,6 +305,17 @@ footer {
     padding: 0.5em 0.75em !important;
     margin-right: 5px;
     border-radius: 8px;
+}
+
+#message-input::placeholder {
+    color: #bbb;
+    opacity: 1;
+}
+
+.message-box:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+    transition: background-color 0.2s ease-in-out;
+    cursor: default;
 }
 
 
@@ -331,7 +342,7 @@ footer {
 
 
 
-/* ================= Admin Profile Styling ================= */
+/* =================================== Admin Profile Styling =========================================== */
 .profile-img {
     border: 4px solid #ffc107;
     transition: transform 0.3s ease-in-out;
@@ -373,7 +384,7 @@ footer {
     box-shadow: 0px 4px 15px rgba(255, 193, 7, 0.5);
 }
 
-/* ================= Admin Sidebar Styling ================= */
+/* ==================================== Admin Sidebar Styling ===================================== */
 .admin-sidebar {
     position: relative; /* Not fixed or sticky */
     width: 220px;

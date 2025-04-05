@@ -196,4 +196,99 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     fetchGroupMembers(groupId);
+
+    // Submit message form
+    document.getElementById("message-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
+    
+        if (!message) return;
+    
+        try {
+            const res = await fetch(`/community/group/${groupId}/messages`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ message_content: message }),
+            });
+    
+            if (res.ok) {
+                messageInput.value = "";
+                await fetchGroupMessages(); // Refresh messages
+            } else {
+                alert("Failed to send message.");
+            }
+        } catch (err) {
+            console.error("Error sending message:", err);
+        }
+    });
+
+    // Fetch group messages
+    async function fetchGroupMessages() {
+        const messageList = document.getElementById("message-list");
+        messageList.innerHTML = "";
+    
+        try {
+            const res = await fetch(`/community/group/${groupId}/messages`);
+            const messages = await res.json();
+    
+            if (messages.length === 0) {
+                messageList.innerHTML = "<li>No messages yet.</li>";
+                return;
+            }
+    
+            messages.forEach(msg => {
+                const li = document.createElement("li");
+                li.className = "mb-3";
+            
+                const isHost = currentUserId === groupHostId;
+
+                li.innerHTML = `
+                    <div class="border rounded p-3 bg-secondary bg-opacity-10 message-box d-flex justify-content-between align-items-start">
+                        <div>
+                            <strong>${msg.username}</strong>
+                            <small class="text ms-2">${new Date(msg.created_at).toLocaleString()}</small>
+                            <p class="ms-4 mt-1 mb-0">${msg.message_content}</p>
+                        </div>
+                        ${isHost ? `
+                            <button class="btn btn-sm btn-danger ms-3" onclick="deleteMessage(${msg.message_id})">Delete</button>
+                        ` : ""}
+                    </div>
+                `;
+            
+                messageList.appendChild(li);
+            });
+            
+        } catch (err) {
+            console.error("Failed to fetch messages:", err);
+        }
+    }
+
+    fetchGroupMessages();
+    
+    async function deleteMessage(messageId) {
+        const confirmed = confirm("Are you sure you want to delete this message?");
+        if (!confirmed) return;
+    
+        try {
+            const res = await fetch(`/community/group/${groupId}/messages/${messageId}`, {
+                method: "DELETE",
+                credentials: "include"
+            });
+    
+            if (res.ok) {
+                alert("Message deleted.");
+                fetchGroupMessages(); // Refresh the list
+            } else {
+                const data = await res.json();
+                alert("Error: " + data.message);
+            }
+        } catch (err) {
+            console.error("Failed to delete message:", err);
+            alert("Server error.");
+        }
+    }
+    
+    window.deleteMessage = deleteMessage; 
 });

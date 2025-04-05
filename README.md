@@ -20,11 +20,12 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - User Posts now working
     - Gamers can now make a post on the user posts page for a particular game.
     - Gamers can now reply to posts made on the user posts page and reply back to a reply.
-  - Rough version of Look for Groups working
+  - Very Polished version Look for Groups working
     - Gamers can create groups on the look for group page.
     - Gamers can see more details of a group in the view group info page.
     - Gamers can now join or leave groups.
-    - Still need to check if a group is full or not and test that out.
+    - Everyone can post messages to a group.
+    - The Session Host can now delete messages.
 
   - Admin login page now working
     - Admin can now login and log out
@@ -50,7 +51,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Display more groups under community page ie. Groups that will be starting soon
 - Add a game from Carlos' Steam library to the app for demo purposes.
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
-- Group messages
+- Group messages (Done)
 - Display info next to group members ie. gamertag
 - Report functionality 
 - Admin functionality

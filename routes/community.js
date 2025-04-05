@@ -773,6 +773,96 @@ router.post('/group/:group_id/kick/:user_id', async (req, res) => {
     }
 });
 
+// Get messages for a group
+// GET http://localhost:3001/community/group/:groupId/messages (Replace :groupId with the actual group ID)
+router.get("/group/:groupId/messages", async (req, res) => {
+    const groupId = req.params.groupId;
+
+    try {
+        const messages = await pool.query(`
+            SELECT m.message_id, m.message_content, m.created_at, u.username 
+            FROM group_messages m
+            JOIN users u ON m.user_id = u.user_id
+            WHERE m.group_id = $1
+            ORDER BY m.created_at DESC
+        `, [groupId]);
+
+        res.json(messages.rows);
+    } catch (err) {
+        console.error("Error fetching messages:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Post a new message to a group
+// POST http://localhost:3001/community/group/:groupId/messages (Replace :groupId with the actual group ID)
+// Requires user to be logged in
+router.post("/group/:groupId/messages", async (req, res) => {
+    const groupId = req.params.groupId;
+    const userId = req.session.user_id;
+    const { message_content } = req.body;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Not authenticated." });
+    }
+
+    if (!message_content || message_content.trim() === "") {
+        return res.status(400).json({ message: "Message cannot be empty." });
+    }
+
+    try {
+        await pool.query(
+            "INSERT INTO group_messages (group_id, user_id, message_content, created_at) VALUES ($1, $2, $3, current_timestamp)",
+            [groupId, userId, message_content]
+        );
+        res.status(201).json({ message: "Message sent." });
+    } catch (err) {
+        console.error("Error sending message:", err);
+        res.status(500).json({ message: "Failed to send message." });
+    }
+});
+
+// Delete a message from a group (host only)
+// DELETE http://localhost:3001/community/group/:groupId/messages/:messageId (Replace :groupId and :messageId with actual IDs)
+// Requires user to be logged in and be the host of the group
+router.delete("/group/:groupId/messages/:messageId", async (req, res) => {
+    const groupId = req.params.groupId;
+    const messageId = req.params.messageId;
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+        // Check if user is the session host
+        const hostCheck = await pool.query(
+            "SELECT host_user_id FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+
+        if (hostCheck.rows.length === 0) {
+            return res.status(404).json({ message: "Group not found" });
+        }
+
+        const hostId = hostCheck.rows[0].host_user_id;
+        if (hostId !== userId) {
+            return res.status(403).json({ message: "Only the session host can delete messages." });
+        }
+
+        // Delete the message
+        await pool.query(
+            "DELETE FROM group_messages WHERE message_id = $1 AND group_id = $2",
+            [messageId, groupId]
+        );
+
+        res.status(200).json({ message: "Message deleted." });
+    } catch (err) {
+        console.error("Error deleting message:", err);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
 // Get the next session for the logged-in user
 router.get('/next-session', async (req, res) => {
     if (!req.session.user_id) {
