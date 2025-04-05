@@ -55,6 +55,11 @@
             <p class="text-light" id="group-start-time">Start Time & Duration</p>
             <button id="group-action-btn" class="btn btn-success btn-lg me-2">Join Session</button>
             <a href="#" class="btn btn-outline-light btn-lg" id="back-to-groups">Back to Groups</a>
+
+            <!-- d-none hides the button for everyone but the Session Host -->
+            <button id="edit-session-btn" class="btn btn-primary btn-lg d-none">
+                Edit Session
+            </button>
         </div>
 
         <!-- Session Host -->
@@ -92,10 +97,57 @@
             </form>
         </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-auto">
-        Copyright © 2025 UNCG LFG. All rights reserved.
-    </footer>
+        <!-- Modal to Edit Session Settings -->
+        <div class="modal fade" id="editSessionModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <form id="edit-session-form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Group Session</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <label for="edit-start-time" class="form-label">Start Time</label>
+                            <input type="datetime-local" class="form-control" id="edit-start-time" required>
+
+                            <label for="edit-duration" class="form-label mt-3">Duration (in hours)</label>
+                            <input type="number" class="form-control" id="edit-duration" min="1" required>
+
+                            <label for="edit-session-type" class="form-label mt-3">Session Type</label>
+                            <select class="form-select" id="edit-session-type">
+                                <option value="Casual">Casual</option>
+                                <option value="Competitive">Competitive</option>
+                            </select>
+
+                            <label for="edit-max-players" class="form-label mt-3">Max Players</label>
+                            <input type="number" class="form-control" id="edit-max-players" min="1" required>
+
+                            <label for="edit-platform" class="form-label mt-3">Platform</label>
+                            <select class="form-select" id="edit-platform">
+                                <option value="PlayStation">PlayStation</option>
+                                <option value="Xbox">Xbox</option>
+                                <option value="Steam">Steam</option>
+                            </select>
+
+                            <label for="edit-session-description" class="form-label mt-3">Session Description</label>
+                            <textarea class="form-control" id="edit-session-description" rows="3" maxlength="700"></textarea>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white text-center py-3 mt-auto">
+            Copyright © 2025 UNCG LFG. All rights reserved.
+        </footer>
 
 </body>
 

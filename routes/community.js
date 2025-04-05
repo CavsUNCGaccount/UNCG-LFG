@@ -863,6 +863,59 @@ router.delete("/group/:groupId/messages/:messageId", async (req, res) => {
     }
 });
 
+// Edit the settings of a group session (host only)
+router.put("/group/:groupId/edit", async (req, res) => {
+    const userId = req.session.user_id;
+    const groupId = req.params.groupId;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const {
+        start_time,
+        duration,
+        session_type,
+        max_players,
+        platform,
+        session_description
+    } = req.body;
+
+    try {
+        // Check if the user is the host of the group
+        const groupRes = await pool.query(
+            "SELECT host_user_id FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+
+        if (groupRes.rowCount === 0) {
+            return res.status(404).json({ message: "Group not found" });
+        }
+
+        if (groupRes.rows[0].host_user_id !== userId) {
+            return res.status(403).json({ message: "Only the host can edit the group" });
+        }
+
+        // Perform the update
+        await pool.query(
+            `UPDATE groups
+             SET start_time = $1,
+                 duration = $2,
+                 session_type = $3,
+                 max_players = $4,
+                 platform = $5,
+                 session_description = $6
+             WHERE group_id = $7`,
+            [start_time, duration, session_type, max_players, platform, session_description, groupId]
+        );
+
+        res.status(200).json({ message: "Group updated successfully" });
+    } catch (err) {
+        console.error("Error updating group:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 // Get the next session for the logged-in user
 router.get('/next-session', async (req, res) => {
     if (!req.session.user_id) {

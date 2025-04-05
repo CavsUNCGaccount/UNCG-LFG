@@ -290,5 +290,58 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
     
-    window.deleteMessage = deleteMessage; 
+    window.deleteMessage = deleteMessage;
+    
+    // Show the Edit Session Button only if the user is the host
+    if (currentUserId === groupHostId) {
+        const editBtn = document.getElementById("edit-session-btn");
+        if (editBtn) {
+            editBtn.classList.remove("d-none");
+        }
+    }
+
+    // Edit Session Modal
+    document.getElementById("edit-session-btn").addEventListener("click", async () => {
+        const res = await fetch(`/community/group/${groupId}`);
+        const data = await res.json();
+    
+        document.getElementById("edit-start-time").value = data.start_time.slice(0, 16); // ISO 8601 format
+        document.getElementById("edit-duration").value = data.duration;
+        document.getElementById("edit-session-type").value = data.session_type;
+        document.getElementById("edit-max-players").value = data.max_players;
+        document.getElementById("edit-platform").value = data.platform;
+        document.getElementById("edit-session-description").value = data.session_description || ""; 
+    
+        const modal = new bootstrap.Modal(document.getElementById("editSessionModal"));
+        modal.show();
+    });
+    
+    document.getElementById("edit-session-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+    
+        const payload = {
+            start_time: document.getElementById("edit-start-time").value,
+            duration: document.getElementById("edit-duration").value,
+            session_type: document.getElementById("edit-session-type").value,
+            max_players: document.getElementById("edit-max-players").value,
+            platform: document.getElementById("edit-platform").value,
+            session_description: document.getElementById("edit-session-description").value
+        };
+    
+        const res = await fetch(`/community/group/${groupId}/edit`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(payload)
+        });
+    
+        if (res.ok) {
+            alert("Session updated!");
+            location.reload();
+        } else {
+            const data = await res.json();
+            alert("Error: " + data.message);
+        }
+    });    
+
 });

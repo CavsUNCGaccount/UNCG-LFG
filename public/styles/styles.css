@@ -8,6 +8,11 @@ body {
     overflow-x: hidden;
 }
 
+/* Increase the font size across the site for better readability in a proyector */
+html {
+    font-size: 17px; /* Base font size for the entire document, increase if needed */
+}
+
 /* Apply Orbitron for headings */
 h1, h2, h3 {
     font-family: 'Orbitron', sans-serif;
