@@ -26,6 +26,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
     - Gamers can now join or leave groups.
     - Everyone can post messages to a group.
     - The Session Host can now delete messages.
+    - The Session Host can now edit settings for a group.
 
   - Admin login page now working
     - Admin can now login and log out
@@ -44,12 +45,12 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Member 2: Shreya Jayas
 
 ## To Do
-- Increase font size
+- Increase font size (Done)
 - Add game feature
 - Modify profile UI to make communities appear at the top achievments below communities (Done)
 - Add a timer that displays when your next group session will be  (Done)
 - Display more groups under community page ie. Groups that will be starting soon
-- Add a game from Carlos' Steam library to the app for demo purposes.
+- Add a game from Carlos' Steam library to the app for demo purposes. (Done)
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages (Done)
 - Display info next to group members ie. gamertag
