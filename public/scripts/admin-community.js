@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td>${community.description || "—"}</td>
           <td>${new Date(community.created_at).toLocaleString()}</td>
           <td>
-            <button class="btn btn-sm btn-danger" onclick="deleteCommunity(${community.game_id})">Delete</button>
+            <button class="btn btn-sm btn-success" onclick="editCommunity(${community.game_id})">Edit</button>
           </td>
         `;
   
@@ -32,8 +32,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
   
-  function deleteCommunity(gameId) {
-    console.log("🗑️ Delete requested for community:", gameId);
-    // TODO: Add API call to delete if needed
+  // Delete functionality has been removed per project scope and requirements
+  // Editing a game's name and description is more appropriate for the project at this stage
+  function editCommunity(gameId) {
+    console.log("🗑️ Edit requested for community:", gameId);
+    
+    // TODO: Fetch community data and populate modal
+    // Then show the modal
   }
   
