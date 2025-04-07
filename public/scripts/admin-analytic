@@ -1,0 +1,15 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("/admin/analytics-overview");
+
+    if (!res.ok) throw new Error(`Status ${res.status}`);
+
+    const data = await res.json();
+    document.getElementById("total-users").textContent = data.total_users;
+    document.getElementById("active-groups").textContent = data.active_groups;
+    document.getElementById("flagged-posts").textContent = data.flagged_posts;
+    document.getElementById("suspended-users").textContent = data.suspended_users;
+  } catch (err) {
+    console.error("Error loading analytics:", err);
+  }
+});

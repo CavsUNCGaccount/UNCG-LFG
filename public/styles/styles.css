@@ -415,8 +415,6 @@ footer {
     font-size: 16px;
 }
 
-
-
 .admin-sidebar .nav-link:hover {
     background-color: #ffc107;
     color: #000;
@@ -425,7 +423,9 @@ footer {
 
 /* ================= Push Main Content Right ================= */
 .admin-main-content {
-    margin-left: 240px; /* width of the sidebar + some spacing */
+    margin-left: 240px;
+    max-width: 1000px; /* limit width */
+    width: 100%;
 }
 
 /* ================= Responsive Sidebar Hide ================= */
@@ -437,4 +437,13 @@ footer {
     .admin-main-content {
         margin-left: 0;
     }
+}
+
+/* ================= Posts Table Styling ================= */
+#posts-table td,
+#posts-table th {
+    padding: 0.5rem 0.75rem;
+    font-size: 15px;
+    word-break: break-word;
+    max-width: 250px;
 }

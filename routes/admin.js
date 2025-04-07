@@ -8,7 +8,8 @@ const fs = require("fs");
 
 // ✅ Middleware: Check if the user is an Admin
 router.use((req, res, next) => {
-    if (!req.session.user_id || req.session.role?.toLowerCase() !== "admin") {
+    if (!req.session || !req.session.user_id || req.session.role?.toLowerCase() !== "admin") {
+        console.warn("🚫 Blocked non-admin access or missing session:", req.session);
         return res.status(403).json({ message: "Access denied. Admins only." });
     }
     next();
@@ -17,18 +18,22 @@ router.use((req, res, next) => {
 // ✅ Get Admin Profile
 router.get("/me", async (req, res) => {
     try {
-        const admin = await pool.query(
-            "SELECT username, email, COALESCE(profile_picture, '/uploads/default-avatar.png') AS profile_picture FROM users WHERE user_id = $1",
+        console.log("🧾 Session data on /me:", req.session);
+
+        const result = await pool.query(
+            `SELECT username, email, 
+             COALESCE(profile_picture, '/uploads/default-avatar.png') AS profile_picture 
+             FROM users WHERE user_id = $1`,
             [req.session.user_id]
         );
 
-        if (admin.rows.length === 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: "Admin not found" });
         }
 
-        res.json(admin.rows[0]);
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error("Error fetching admin profile:", error);
+        console.error("❌ Error fetching admin profile:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
@@ -38,26 +43,33 @@ router.put("/update-profile", async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        let updateQuery = "UPDATE users SET username = $1, email = $2 WHERE user_id = $3 RETURNING username, email, profile_picture";
+        let updateQuery = `
+            UPDATE users 
+            SET username = $1, email = $2 
+            WHERE user_id = $3 
+            RETURNING username, email, profile_picture`;
         let params = [username, email, req.session.user_id];
 
         if (password && password.length > 0) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-            updateQuery = "UPDATE users SET username = $1, email = $2, password_hash = $3 WHERE user_id = $4 RETURNING username, email, profile_picture";
+            updateQuery = `
+                UPDATE users 
+                SET username = $1, email = $2, password_hash = $3 
+                WHERE user_id = $4 
+                RETURNING username, email, profile_picture`;
             params = [username, email, hashedPassword, req.session.user_id];
         }
 
         const updatedAdmin = await pool.query(updateQuery, params);
-        res.json({ message: "Profile updated successfully", admin: updatedAdmin.rows[0] });
-
+        res.json({ message: "✅ Profile updated", admin: updatedAdmin.rows[0] });
     } catch (error) {
-        console.error("Error updating admin profile:", error);
+        console.error("❌ Error updating admin profile:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
 
-// ✅ Multer Setup for Profile Picture Upload
+// ✅ Multer Storage Setup for Profile Picture Upload
 const storage = multer.diskStorage({
     destination: "public/uploads/",
     filename: (req, file, cb) => {
@@ -74,9 +86,9 @@ const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         }
-        cb(new Error("Images only (JPEG, PNG, GIF)."));
+        cb(new Error("Images only (JPEG, PNG, GIF) allowed."));
     },
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
 });
 
 // ✅ Upload Admin Profile Picture
@@ -86,28 +98,22 @@ router.post("/upload-profile-picture", upload.single("profile_picture"), async (
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        const profilePicturePath = `/uploads/${req.file.filename}`;
+        const newPicPath = `/uploads/${req.file.filename}`;
+        const result = await pool.query("SELECT profile_picture FROM users WHERE user_id = $1", [req.session.user_id]);
+        const oldPic = result.rows[0]?.profile_picture;
 
-        const oldProfileQuery = await pool.query("SELECT profile_picture FROM users WHERE user_id = $1", [req.session.user_id]);
-        const oldProfilePic = oldProfileQuery.rows[0]?.profile_picture;
+        await pool.query("UPDATE users SET profile_picture = $1 WHERE user_id = $2", [newPicPath, req.session.user_id]);
 
-        await pool.query(
-            "UPDATE users SET profile_picture = $1 WHERE user_id = $2",
-            [profilePicturePath, req.session.user_id]
-        );
-
-        if (oldProfilePic && oldProfilePic !== "/uploads/default-avatar.png") {
-            const oldFilePath = path.join(__dirname, "..", "public", oldProfilePic);
-            fs.access(oldFilePath, fs.constants.F_OK, (err) => {
-                if (!err) fs.unlink(oldFilePath, (unlinkErr) => {
-                    if (unlinkErr) console.error("Failed to delete old profile picture:", unlinkErr);
-                });
-            });
+        if (oldPic && oldPic !== "/uploads/default-avatar.png") {
+            const fullOldPath = path.join(__dirname, "..", "public", oldPic);
+            if (fs.existsSync(fullOldPath)) {
+                fs.unlinkSync(fullOldPath);
+            }
         }
 
-        res.status(200).json({ message: "Profile picture updated", profile_picture: profilePicturePath });
+        res.status(200).json({ message: "✅ Profile picture updated", profile_picture: newPicPath });
     } catch (error) {
-        console.error("Error uploading profile picture:", error);
+        console.error("❌ Error uploading profile picture:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
@@ -115,27 +121,27 @@ router.post("/upload-profile-picture", upload.single("profile_picture"), async (
 // ✅ Fetch Reports for Admin Review
 router.get("/reports", async (req, res) => {
     try {
-        const reports = await pool.query(`
+        const result = await pool.query(`
             SELECT 
-                   r.report_id, 
-                   u1.username AS reported_user, 
-                   u2.username AS reported_by_user, 
-                   r.reason, 
-                   r.status
+                r.report_id, 
+                u1.username AS reported_user, 
+                u2.username AS reported_by_user, 
+                r.reason, 
+                r.status
             FROM reports r
             JOIN users u1 ON r.reported_user_id = u1.user_id
             JOIN users u2 ON r.reported_by_user_id = u2.user_id
             ORDER BY r.created_at DESC
         `);
 
-        res.json(reports.rows);
+        res.json(result.rows);
     } catch (error) {
-        console.error("Error fetching reports:", error);
+        console.error("❌ Error fetching reports:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
 
-// ✅ Approve/Reject Reports (Admin Action)
+// ✅ Approve/Reject Reports
 router.put("/reports/:report_id", async (req, res) => {
     const { report_id } = req.params;
     const { status } = req.body;
@@ -146,11 +152,178 @@ router.put("/reports/:report_id", async (req, res) => {
             [status, report_id]
         );
 
-        res.json({ message: `Report updated to ${status}`, report: result.rows[0] });
+        res.json({ message: `✅ Report updated to ${status}`, report: result.rows[0] });
     } catch (error) {
-        console.error("Error updating report:", error);
+        console.error("❌ Error updating report:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
+
+// ✅ Get All User Posts for Moderation
+router.get("/posts", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                up.post_id,
+                up.post_content,
+                up.created_at,
+                u.username
+            FROM user_posts up
+            JOIN users u ON up.user_id = u.user_id
+            ORDER BY up.created_at DESC
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error("❌ Error fetching posts:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// ✅ Get all users for Admin to review
+router.get("/manage-users", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT user_id, username, email, role, 
+                   COALESCE(status, 'active') AS status 
+            FROM users
+            WHERE role != 'admin'
+            ORDER BY created_at DESC
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error("❌ Error fetching users for ban/suspend:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// ✅ Get All Users for Ban/Suspend View
+router.get("/users", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT user_id, username, email, role, status
+            FROM users
+            ORDER BY created_at DESC
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error("❌ Error fetching users for ban/suspend:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// ✅ Get Chat History from user_posts_replies
+router.get("/chat-history", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                upr.reply_id,
+                upr.post_id,
+                upr.user_id,
+                upr.reply_content,
+                upr.created_at,
+                upr.parent_reply_id,
+                u.username
+            FROM user_posts_replies upr
+            JOIN users u ON upr.user_id = u.user_id
+            ORDER BY upr.created_at DESC
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error("❌ Error fetching chat history:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
+// ✅ Get all groups for admin view
+router.get("/groups", async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT 
+          g.group_id,
+          g.session_title,
+          g.created_at,
+          g.max_players,
+          g.current_players,
+          u.username AS host_username
+        FROM groups g
+        LEFT JOIN users u ON g.host_user_id = u.user_id
+        ORDER BY g.created_at DESC
+      `);
+  
+      res.json(result.rows);
+    } catch (error) {
+      console.error("❌ Error fetching groups:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // ✅ Fetch All Game Communities
+router.get("/communities", async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT game_id, game_name, cover_image_url, description, created_at
+        FROM game_community
+        ORDER BY created_at DESC
+      `);
+  
+      res.json(result.rows);
+    } catch (error) {
+      console.error("❌ Error fetching game communities:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+ // ✅ Get All Gamer Profiles (Corrected)
+router.get("/gamer-profiles", async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT gp.gamer_id, gp.user_id, gp.steam_username, gp.psn_id, gp.xbox_id,
+               gp.avatar_url, gp.created_at, gp.steam64_id,
+               u.username
+        FROM gamer_profiles gp
+        JOIN users u ON gp.user_id = u.user_id
+        ORDER BY gp.created_at DESC
+      `);
+  
+      res.json(result.rows);
+    } catch (error) {
+      console.error("❌ Error fetching gamer profiles:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // ✅ Analytics Overview Endpoint
+router.get("/analytics-overview", async (req, res) => {
+    try {
+      const userCountQuery = pool.query(`SELECT COUNT(*) AS total_users FROM users`);
+      const activeGroupsQuery = pool.query(`SELECT COUNT(*) AS active_groups FROM groups WHERE session_status = 'active'`);
+      const flaggedPostsQuery = pool.query(`SELECT COUNT(*) AS flagged_posts FROM reports WHERE status = 'pending'`);
+      const suspendedUsersQuery = pool.query(`SELECT COUNT(*) AS suspended_users FROM users WHERE status = 'suspended'`);
+  
+      const [userCount, activeGroups, flaggedPosts, suspendedUsers] = await Promise.all([
+        userCountQuery,
+        activeGroupsQuery,
+        flaggedPostsQuery,
+        suspendedUsersQuery
+      ]);
+  
+      res.json({
+        total_users: parseInt(userCount.rows[0].total_users),
+        active_groups: parseInt(activeGroups.rows[0].active_groups),
+        flagged_posts: parseInt(flaggedPosts.rows[0].flagged_posts),
+        suspended_users: parseInt(suspendedUsers.rows[0].suspended_users)
+      });
+    } catch (error) {
+      console.error("❌ Error fetching analytics:", error);
+      res.status(500).json({ message: "Error fetching analytics overview" });
+    }
+  });
+  
+  
 
 module.exports = router;
