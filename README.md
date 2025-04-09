@@ -49,13 +49,15 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Add game feature
 - Modify profile UI to make communities appear at the top achievments below communities (Done)
 - Add a timer that displays when your next group session will be  (Done)
-- Display more groups under community page ie. Groups that will be starting soon
+- Display more groups under community page ie. Groups that will be starting soon (Done)
 - Add a game from Carlos' Steam library to the app for demo purposes. (Done)
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages (Done)
-- Display info next to group members ie. gamertag
+- Display info next to group members ie. gamertag (Done)
 - Report functionality 
 - Admin functionality
+- 3 powerpoint slides before hand to frame the demo
+- Refine presentation "Pre amble" and make it to where you are a user joinging a group relvant to your achievments.
 
 ## Stretch goals
 - Discord intergration

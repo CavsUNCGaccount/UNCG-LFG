@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 window.location.href = profilePage;
             });
 
-            // 🕒 Start the session timer
+            //  Start the session timer
             fetchNextSessionTimer();
         } else {
             // Not logged in
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-// 🕒 Function to fetch and display the next session timer
+//  Function to fetch and display the next session timer
 async function fetchNextSessionTimer() {
     const navbarTimer = document.getElementById("navbar-timer");
 
@@ -127,7 +127,7 @@ async function fetchNextSessionTimer() {
     }
 }
 
-// 🔓 Logout function
+//  Logout function
 function logout() {
     fetch("http://localhost:3001/auth/logout", {
         method: "POST",
