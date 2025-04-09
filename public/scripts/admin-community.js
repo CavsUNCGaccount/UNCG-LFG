@@ -38,11 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>
           <td>${new Date(community.created_at).toLocaleString()}</td>
           <td>
-<<<<<<< Updated upstream
-            <button class="btn btn-sm btn-success" onclick="editCommunity(${community.game_id})">Edit</button>
-=======
             <button class="btn btn-sm btn-success" onclick="saveCommunity(${community.game_id})">💾 Save</button>
->>>>>>> Stashed changes
           </td>
         `;
 
@@ -67,16 +63,6 @@ async function saveCommunity(gameId) {
   fields.forEach((field) => {
     updateData[field.dataset.field] = field.value.trim();
   });
-<<<<<<< Updated upstream
-  
-  // Delete functionality has been removed per project scope and requirements
-  // Editing a game's name and description is more appropriate for the project at this stage
-  function editCommunity(gameId) {
-    console.log("🗑️ Edit requested for community:", gameId);
-    
-    // TODO: Fetch community data and populate modal
-    // Then show the modal
-=======
 
   console.log(`📤 Saving game ${gameId}:`, updateData);
 
@@ -106,6 +92,13 @@ async function saveCommunity(gameId) {
   } catch (err) {
     console.error("❌ Failed to update community:", err);
     alert("Update failed. Please try again.");
->>>>>>> Stashed changes
   }
+}
+
+// Edit community (modal behavior can be added later)
+function editCommunity(gameId) {
+  console.log("✏️ Edit requested for community:", gameId);
+
+  // TODO: Fetch community data and populate modal
+  // Then show the modal for editing
 }

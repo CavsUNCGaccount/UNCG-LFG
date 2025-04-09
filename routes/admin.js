@@ -372,6 +372,31 @@ router.delete("/posts/:postId", async (req, res) => {
       res.status(500).json({ message: "Error flagging post" });
     }
   });
+
+// Sessions Load! 
+router.get("/sessions", async (req, res) => {
+    try {
+      const result = await pool.query("SELECT sid, sess, expire FROM session");
+  
+      const sessions = result.rows.map(row => {
+        let sessStr = row.sess;
+        if (Buffer.isBuffer(sessStr)) {
+          sessStr = sessStr.toString("utf8");
+        }
+  
+        return {
+          sid: row.sid,
+          sess: sessStr,
+          expire: row.expire
+        };
+      });
+  
+      res.json(sessions);
+    } catch (err) {
+      console.error("❌ Error loading sessions:", err);
+      res.status(500).json({ error: "Failed to fetch session logs" });
+    }
+  });
   
 
 module.exports = router;
