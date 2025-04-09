@@ -56,8 +56,10 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Display info next to group members ie. gamertag (Done)
 - Report functionality 
 - Admin functionality
+- get rid of the local host logs
 - 3 powerpoint slides before hand to frame the demo
 - Refine presentation "Pre amble" and make it to where you are a user joinging a group relvant to your achievments.
+
 
 ## Stretch goals
 - Discord intergration
