@@ -1,36 +1,73 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const tableBody = document.getElementById("community-table");
-  
+document.addEventListener("DOMContentLoaded", () => {
+  const tableBody = document.getElementById("community-table");
+
+  // Load all game communities
+  (async function loadCommunities() {
     try {
       const res = await fetch("/admin/communities");
+
       if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
-  
+
       const communities = await res.json();
       console.log("📦 Loaded communities:", communities);
-  
-      if (!Array.isArray(communities)) throw new Error("Data format issue");
-  
+
+      if (!Array.isArray(communities)) throw new Error("Expected an array");
+
       communities.forEach((community) => {
         const row = document.createElement("tr");
-  
+
         row.innerHTML = `
           <td>${community.game_id}</td>
-          <td>${community.game_name}</td>
-          <td><img src="${community.cover_image_url}" alt="Cover" width="80" style="border-radius: 8px;" /></td>
-          <td>${community.description || "—"}</td>
+          <td>
+            <input class="form-control bg-dark text-white border-0"
+                   value="${community.game_name}"
+                   data-id="${community.game_id}"
+                   data-field="game_name" />
+          </td>
+          <td>
+            <input class="form-control bg-dark text-white border-0"
+                   value="${community.cover_image_url}"
+                   data-id="${community.game_id}"
+                   data-field="cover_image_url" />
+          </td>
+          <td>
+            <textarea class="form-control bg-dark text-white border-0"
+                      rows="2"
+                      data-id="${community.game_id}"
+                      data-field="description">${community.description || ""}</textarea>
+          </td>
           <td>${new Date(community.created_at).toLocaleString()}</td>
           <td>
+<<<<<<< Updated upstream
             <button class="btn btn-sm btn-success" onclick="editCommunity(${community.game_id})">Edit</button>
+=======
+            <button class="btn btn-sm btn-success" onclick="saveCommunity(${community.game_id})">💾 Save</button>
+>>>>>>> Stashed changes
           </td>
         `;
-  
+
         tableBody.appendChild(row);
       });
+
     } catch (error) {
       console.error("❌ Error loading communities:", error);
-      tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Failed to load communities</td></tr>`;
+      tableBody.innerHTML = `
+        <tr><td colspan="6" class="text-center text-danger">
+          Failed to load communities: ${error.message}
+        </td></tr>`;
     }
+  })();
+});
+
+// Save community changes
+async function saveCommunity(gameId) {
+  const fields = document.querySelectorAll(`[data-id="${gameId}"]`);
+  const updateData = {};
+
+  fields.forEach((field) => {
+    updateData[field.dataset.field] = field.value.trim();
   });
+<<<<<<< Updated upstream
   
   // Delete functionality has been removed per project scope and requirements
   // Editing a game's name and description is more appropriate for the project at this stage
@@ -39,5 +76,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // TODO: Fetch community data and populate modal
     // Then show the modal
+=======
+
+  console.log(`📤 Saving game ${gameId}:`, updateData);
+
+  try {
+    const res = await fetch(`/admin/communities/${gameId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updateData)
+    });
+
+    if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
+
+    const contentType = res.headers.get("content-type");
+
+    let result = {};
+    if (contentType && contentType.includes("application/json")) {
+      result = await res.json();
+    } else {
+      result = { message: await res.text() };
+    }
+
+    alert("✅ Community updated successfully!");
+    console.log("✅ Update response:", result);
+
+  } catch (err) {
+    console.error("❌ Failed to update community:", err);
+    alert("Update failed. Please try again.");
+>>>>>>> Stashed changes
   }
-  
+}

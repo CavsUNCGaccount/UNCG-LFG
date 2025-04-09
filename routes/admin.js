@@ -324,6 +324,54 @@ router.get("/analytics-overview", async (req, res) => {
     }
   });
   
+// Fix this route in admin.js
+router.put('/communities/:id', async (req, res) => {
+    const { id } = req.params;
+    const { game_name, cover_image_url, description } = req.body;
+  
+    try {
+      await pool.query(
+        `UPDATE game_community 
+         SET game_name = $1, cover_image_url = $2, description = $3 
+         WHERE game_id = $4`,
+        [game_name, cover_image_url, description, id]
+      );
+      console.log(`✅ Game ${id} updated successfully`);
+      res.status(200).json({ message: "✅ Game updated successfully" });
+
+    } catch (err) {
+      console.error("❌ Error updating community:", err);
+      res.status(500).json({ error: "Failed to update community" });
+    }
+  });
+  
+
+// ✅ DELETE a user post
+router.delete("/posts/:postId", async (req, res) => {
+    const { postId } = req.params;
+    try {
+      await pool.query("DELETE FROM user_posts WHERE post_id = $1", [postId]);
+      res.json({ message: "✅ Post deleted" });
+    } catch (err) {
+      console.error("❌ Error deleting post:", err);
+      res.status(500).json({ message: "Error deleting post" });
+    }
+  });
+  
+  // ✅ FLAG a post (update status)
+  router.put("/posts/:postId/flag", async (req, res) => {
+    const { postId } = req.params;
+    try {
+      await pool.query(
+        "UPDATE user_posts SET status = 'flagged' WHERE post_id = $1",
+        [postId]
+      );
+      res.json({ message: "✅ Post flagged" });
+    } catch (err) {
+      console.error("❌ Error flagging post:", err);
+      res.status(500).json({ message: "Error flagging post" });
+    }
+  });
   
 
 module.exports = router;

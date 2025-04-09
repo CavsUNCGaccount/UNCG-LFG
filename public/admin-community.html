@@ -62,6 +62,37 @@
     </div>
   </main>
 
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editCommunityModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Community</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="edit-game-id" />
+          <div class="mb-3">
+            <label class="form-label">Game Title</label>
+            <input type="text" id="edit-game-name" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Cover Image URL</label>
+            <input type="text" id="edit-image-url" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea id="edit-description" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-success" onclick="saveCommunityChanges()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     Copyright © 2025 UNCG LFG. All rights reserved.
   </footer>
