@@ -134,3 +134,4 @@ document.addEventListener("DOMContentLoaded", async function () {
         groupSessionsContainer.innerHTML = "<p class='text-danger'>Error loading group sessions.</p>";
     }
 });
+

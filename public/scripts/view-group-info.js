@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function fetchGroupMembers(groupId) {
         try {
             const members = await (await fetch(`/community/group/${groupId}/members`)).json();
+            console.log("Members:", members); // For debugging
             const membersList = document.getElementById("group-members-list");
             membersList.innerHTML = "";
 
@@ -156,16 +157,43 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             members.forEach(member => {
                 const item = document.createElement("div");
-                item.className = "list-group-item d-flex justify-content-between align-items-center bg-dark text-white border-0 fs-5";
+                item.className = "list-group-item d-flex justify-content-between align-items-start bg-dark text-white border-0 fs-5 flex-column flex-md-row";
 
-                const memberInfo = document.createElement("span");
-                memberInfo.innerHTML = `<i class="bi bi-person-circle me-2"></i><strong>${member.username}</strong>`;
+                const memberInfo = document.createElement("div");
+                memberInfo.className = "mb-2";
 
+                let usernameHTML = `<i class="bi bi-person-circle me-2"></i><strong>${member.username}</strong>`;
+                if (member.is_session_host) {
+                    usernameHTML += ` <span class="badge bg-info text-dark ms-2">Host</span>`;
+                }
+
+                memberInfo.innerHTML = usernameHTML;
+
+                const profileList = document.createElement("ul");
+                profileList.className = "mb-0 ps-4 small";
+
+                if (member.steam_username) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<strong>Steam:</strong> ${member.steam_username}`;
+                    profileList.appendChild(li);
+                }
+                if (member.psn_id) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<strong>PSN:</strong> ${member.psn_id}`;
+                    profileList.appendChild(li);
+                }
+                if (member.xbox_id) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<strong>Xbox:</strong> ${member.xbox_id}`;
+                    profileList.appendChild(li);
+                }
+
+                memberInfo.appendChild(profileList);
                 item.appendChild(memberInfo);
 
                 if (isHost && member.user_id !== currentUserId) {
                     const kickBtn = document.createElement("button");
-                    kickBtn.className = "btn btn-danger btn-sm fs-5 ms-5";
+                    kickBtn.className = "btn btn-danger btn-sm fs-5 ms-md-5 mt-2 mt-md-0 align-self-start align-self-md-center";
                     kickBtn.textContent = "Kick";
 
                     kickBtn.addEventListener("click", async () => {
@@ -194,8 +222,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Failed to load group members:", err);
         }
     }
-
-    fetchGroupMembers(groupId);
+    await fetchGroupMembers(groupId);
+    
 
     // Submit message form
     document.getElementById("message-form").addEventListener("submit", async (e) => {

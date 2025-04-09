@@ -568,16 +568,22 @@ router.get('/group/:group_id', async (req, res) => {
     }
 });
 
-// Get members of a group session
-// GET http://localhost:3001/community/group/:group_id/members (Replace :group_id with the actual group ID)
+// Get members of a group session with additional profile info
 router.get('/group/:group_id/members', async (req, res) => {
     const groupId = req.params.group_id;
 
     try {
         const result = await pool.query(`
-            SELECT gm.user_id, u.username, gm.is_session_host
+            SELECT 
+                gm.user_id, 
+                u.username, 
+                gm.is_session_host,
+                gp.steam_username,
+                gp.psn_id,
+                gp.xbox_id
             FROM group_members gm
             JOIN users u ON gm.user_id = u.user_id
+            LEFT JOIN gamer_profiles gp ON u.user_id = gp.user_id
             WHERE gm.group_id = $1
         `, [groupId]);
 
