@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async () => { 
+document.addEventListener("DOMContentLoaded", async () => {
   const tableBody = document.getElementById("posts-table");
 
   try {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td>${post.status || "Pending"}</td>
         <td>
           <button class="btn btn-sm btn-danger me-1" onclick="deletePost(${post.post_id})">Delete</button>
-          <button class="btn btn-sm btn-warning" onclick="flagPost(${post.post_id})">Flag</button>
+          <button class="btn btn-sm btn-warning" onclick="flagPost(${post.post_id})" data-post-id="${post.post_id}">Flag</button>
         </td>
       `;
 
@@ -38,14 +38,46 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Placeholder for future Delete logic
-function deletePost(postId) {
-  console.log("Delete Post ID:", postId);
-  // TODO: Implement DELETE request here
+async function deletePost(postId) {
+  if (!confirm("Are you sure you want to delete this post?")) return;
+
+  try {
+    const res = await fetch(`/admin/posts/${postId}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error("Failed to delete");
+
+    alert("🗑️ Post deleted successfully.");
+    location.reload();
+  } catch (err) {
+    console.error("❌ Delete error:", err);
+    alert("Failed to delete post.");
+  }
 }
 
-// Placeholder for future Flag logic
-function flagPost(postId) {
-  console.log("Flag Post ID:", postId);
-  // TODO: Implement PUT request here
+async function flagPost(postId) {
+  try {
+    const res = await fetch(`/admin/posts/${postId}/flag`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "flagged" }),
+    });
+
+    if (!res.ok) throw new Error("Failed to flag post");
+
+    // 🎯 Update the flag button visually
+    const button = document.querySelector(`button[data-post-id="${postId}"]`);
+    if (button) {
+      button.innerText = "Flagged ✅";
+      button.classList.remove("btn-warning");
+      button.classList.add("btn-secondary");
+      button.disabled = true;
+    }
+
+    console.log(`✅ Post ${postId} flagged.`);
+  } catch (err) {
+    console.error("❌ Flag error:", err);
+    alert("Failed to flag post.");
+  }
 }
