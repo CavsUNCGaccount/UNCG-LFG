@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     addSaveHandler("email", "/gamer-profile/update-email", "email");
     addSaveHandler("psn-id", "/gamer-profile/update-psn", "psn");
     addSaveHandler("xbox-id", "/gamer-profile/update-xbox", "xbox");
-  
+
     // Avatar upload handler
     document.getElementById("profile-upload").addEventListener("change", async function (event) {
         const file = event.target.files[0];
@@ -365,22 +365,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                 document.getElementById("username").value = profile.username;
                 const usernameDisplay = document.getElementById("username-display");
                 if (usernameDisplay) usernameDisplay.textContent = profile.username;
-        
+
                 // Update email, PSN, Xbox, Steam ID
                 document.getElementById("email").value = profile.email;
                 document.getElementById("psn-id").value = profile.psn_id || "N/A";
                 document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
                 document.getElementById("steam-id").value = profile.steam64_id || "";
-        
+
                 // Set profile picture (main + navbar)
                 if (profile.profile_picture) {
                     const profileImg = document.getElementById("gamer-avatar");
                     if (profileImg) profileImg.src = profile.profile_picture;
-        
+
                     const navbarImg = document.getElementById("navbar-avatar");
                     if (navbarImg) navbarImg.src = profile.profile_picture;
                 }
-        
+
                 // Steam Info
                 if (profile.steam64_id && profile.steam64_id !== "N/A") {
                     fetchSteamProfile(profile.steam64_id);
@@ -389,7 +389,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     console.log("No Steam ID linked.");
                     document.getElementById("steam-avatar").src = "images/default-picture.svg";
                 }
-        
+
                 // Call the function to get Communities
                 fetchCommunities();
             }
@@ -399,45 +399,45 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("You must be logged in to view this page.");
             window.location.href = "/login.html";
         });
-        
-        
-    
-        // Function to fetch communities
-        async function fetchCommunities() {
-            try {
-                const response = await fetch('/community/my-communities', {
-                    method: 'GET',
-                    credentials: 'include' // Ensures cookies are sent with the request
-                });
-                const data = await response.json();
-                if (data.communities) {
-                    displayCommunities(data.communities);
-                } else {
-                    console.error('Error fetching communities:', data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
+
+
+
+    // Function to fetch communities
+    async function fetchCommunities() {
+        try {
+            const response = await fetch('/community/my-communities', {
+                method: 'GET',
+                credentials: 'include' // Ensures cookies are sent with the request
+            });
+            const data = await response.json();
+            if (data.communities) {
+                displayCommunities(data.communities);
+            } else {
+                console.error('Error fetching communities:', data.message);
             }
+        } catch (error) {
+            console.error('Error:', error);
         }
-    
-        // Function to display communities
-        function displayCommunities(communities) {
-            const container = document.getElementById('communities-container');
-            container.innerHTML = ''; // Clear any existing content
-    
-            communities.forEach(community => {
-                const communityElement = document.createElement('a');
-                communityElement.className = 'community-item list-group-item list-group-item-action';
-                communityElement.href = `/community.html?game_name=${community.game_name}`; // Adjust the URL as needed
-                communityElement.innerHTML = `
+    }
+
+    // Function to display communities
+    function displayCommunities(communities) {
+        const container = document.getElementById('communities-container');
+        container.innerHTML = ''; // Clear any existing content
+
+        communities.forEach(community => {
+            const communityElement = document.createElement('a');
+            communityElement.className = 'community-item list-group-item list-group-item-action';
+            communityElement.href = `/community.html?game_name=${community.game_name}`; // Adjust the URL as needed
+            communityElement.innerHTML = `
                     <div class="d-flex align-items-center">
                         <img src="${community.cover_image_url}" alt="${community.game_name}" class="img-fluid rounded" width="50">
                         <span class="ms-3">${community.game_name}</span>
                     </div>
                 `;
-                container.appendChild(communityElement);
-            });
-        }
+            container.appendChild(communityElement);
+        });
+    }
 
     // function to fetch Steam achievements for a specific game
     window.fetchGameAchievements = function (steamID, appID, gameName) {
@@ -454,7 +454,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 console.log("Achievements Data Received:", data);
 
                 if (!data.achievements || data.achievements.length === 0) {
-                    alert(`No achievements found for ${gameName}.`);
+                    // Trigger the modal
+                    const noAchievementsModal = new bootstrap.Modal(document.getElementById("noAchievementsModal"));
+                    noAchievementsModal.show();
                     return;
                 }
 
@@ -468,7 +470,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 // Redirect to achievements page
                 window.location.href = "/view-game-achievements.html";
             })
-            .catch(error => console.error("Error fetching achievements:", error));  
+            .catch(error => {
+                console.error("Error fetching achievements:", error);
+
+                // Trigger the modal in case of an error
+                const noAchievementsModal = new bootstrap.Modal(document.getElementById("noAchievementsModal"));
+                noAchievementsModal.show();
+            });
     };
 
     // Fetch the profile data using the API route when page loads
