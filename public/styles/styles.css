@@ -244,6 +244,11 @@ footer {
 
 /* ========================== Gamer Profile Page Styles ================================= */
 
+/* Set the color of the steam tips button text to white */
+#steam-tips-toggle {
+    color: white !important;
+  }  
+
 /* Custom styles for community items */
 .community-item {
     background-color: #222; /* Match the dark theme */
