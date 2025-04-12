@@ -157,7 +157,21 @@ router.get('/my-communities', async (req, res) => {
 
     try {
         const communitiesQuery = await pool.query(
-            "SELECT gc.game_name, gc.cover_image_url FROM community_membership cm JOIN game_community gc ON cm.game_id = gc.game_id WHERE cm.gamer_id = $1",
+            `
+            SELECT 
+                gc.game_name, 
+                gc.cover_image_url 
+            FROM 
+                community_membership cm 
+            JOIN 
+                game_community gc 
+            ON 
+                cm.game_id = gc.game_id 
+            WHERE 
+                cm.gamer_id = $1
+            ORDER BY 
+                gc.game_name
+            `,
             [user_id]
         );
 
