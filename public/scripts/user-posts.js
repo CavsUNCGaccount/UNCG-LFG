@@ -34,9 +34,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <h5 class="card-title">${post.username}</h5>
                             <small>${new Date(post.created_at).toLocaleString()}</small>
                         </div>
-                        <p class="card-text">${post.post_content}</p>
+                        <p class="card-text" id="post-content-${post.post_id}">${post.post_content}</p>
                         <button class="btn btn-sm btn-secondary view-replies-btn" data-post-id="${post.post_id}">View Replies</button>
                         <div class="replies-container mt-3" id="replies-container-${post.post_id}"></div>
+                        ${
+                            post.is_owner
+                                ? `<button class="btn btn-sm btn-warning edit-post-btn" data-post-id="${post.post_id}">Edit</button>`
+                                : ""
+                        }
                     </div>
                 `;
                 postsContainer.appendChild(postElement);
@@ -45,6 +50,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             // Add event listeners to "View Replies" buttons
             document.querySelectorAll(".view-replies-btn").forEach(button => {
                 button.addEventListener("click", handleViewReplies);
+            });
+
+            // Add event listeners to "Edit" buttons
+            document.querySelectorAll(".edit-post-btn").forEach(button => {
+                button.addEventListener("click", handleEditPost);
             });
         } catch (error) {
             console.error("Error fetching posts:", error);
