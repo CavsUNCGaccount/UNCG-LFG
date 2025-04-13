@@ -123,3 +123,14 @@ values (
     ' and an arsenal of popping power!',
     current_timestamp
 );
+
+-- No Man's Sky
+insert into game_community(game_name, cover_image_url, description, created_at)
+values ('No Man''s Sky',
+        'images/game-covers/No_Mans_Sky_cover_art.jpg',
+        'No Man''s Sky is a massive, procedurally generated universe that allows players to explore distant planets,
+        gather resources, build bases, and engage in space combat.
+        Team up with other players to complete missions, build colonies, or simply explore the cosmos together.
+        Whether you''re a solo traveler or part of a squad, there''s always something new to discover.',
+        current_timestamp
+);
