@@ -172,19 +172,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const profileList = document.createElement("ul");
                 profileList.className = "mb-0 ps-4 small";
 
+                const PSNLogo = "images/platform-logos/playstation-logo.jpg";
+                const XboxLogo = "images/platform-logos/xbox-logo.png";
+                const SteamLogo = "images/platform-logos/Steam-logo.jpg";
+
                 if (member.steam_username) {
                     const li = document.createElement("li");
-                    li.innerHTML = `<strong>Steam:</strong> ${member.steam_username}`;
+                    li.innerHTML = `<strong>Steam:
+                    <img src="${SteamLogo}" alt="Steam" class="platform-logo" style="width: 30px; height: 30px;"> 
+                    </strong> ${member.steam_username}`;
                     profileList.appendChild(li);
                 }
                 if (member.psn_id) {
                     const li = document.createElement("li");
-                    li.innerHTML = `<strong>PSN:</strong> ${member.psn_id}`;
+                    li.innerHTML = `<strong>PSN:
+                    <img src="${PSNLogo}" alt="PlayStation" class="platform-logo" style="width: 30px; height: 30px;">
+                    </strong> ${member.psn_id}`;
                     profileList.appendChild(li);
                 }
                 if (member.xbox_id) {
                     const li = document.createElement("li");
-                    li.innerHTML = `<strong>Xbox:</strong> ${member.xbox_id}`;
+                    li.innerHTML = `<strong>Xbox:
+                    <img src="${XboxLogo}" alt="Xbox" class="platform-logo" style="width: 30px; height: 30px;">
+                    </strong> ${member.xbox_id}`;
                     profileList.appendChild(li);
                 }
 

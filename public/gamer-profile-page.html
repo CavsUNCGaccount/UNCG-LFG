@@ -2,33 +2,57 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gamer Profile Page | UNCG LFG</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamer Profile Page | UNCG LFG</title>
 
-    <!-- Bootstrap + Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp" />
-    <link rel="stylesheet" href="styles/styles.css" />
+  <!-- Bootstrap + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/favicon/gaming-controller.webp" />
+  <link rel="stylesheet" href="styles/styles.css" />
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="scripts/navbar.js" defer></script>
-    <script src="scripts/gamer-profile-page.js" defer></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="scripts/navbar.js" defer></script>
+  <script src="scripts/gamer-profile-page.js" defer></script>
 </head>
 
 <body class="bg-dark text-white">
 
-    <!-- Navbar -->
-    <div id="navbar-container"></div>
+  <!-- Navbar -->
+  <div id="navbar-container"></div>
 
   <main class="container my-4">
 
     <!-- Greeting Section -->
     <section class="text-center">
       <h4 id="user-greeting" class="text-white mt-4"></h4>
+      <h5>Don't forget to enter your PSN gamertag, Xbox gamertag, or your Steam ID number at the bottom of the page
+        in the Profile Details section so that other gamers can see your gamertags in the groups you join or create!
+      <h5>Below is a list of all the commmunities you are a member of once you join communities.</h5>
     </section>
+
+    <!-- Steam Account Linking Info -->
+    <div class="mt-3">
+      <button id="steam-tips-toggle" class="btn btn-outline-info mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#steamPrivacyTips" aria-expanded="false" aria-controls="steamPrivacyTips">
+        <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid me-2" width="20" /> 
+        Steam Privacy Tips
+      </button>
+    
+      <div class="collapse" id="steamPrivacyTips">
+        <div class="card card-body bg-dark text-white">
+          <ul>
+            <li>Make sure your <strong>Steam profile</strong> is set to <em>Public</em>.</li>
+            <li>If your account is not set to public, your achievements will not be shown when you link your Steam account.</li>
+            <li>Go to <a href="https://steamcommunity.com/my/edit/settings" target="_blank" class="text-info">Steam Privacy Settings</a>.</li>
+            <li>Set "Game Details" to <em>Public</em> as well (this includes your playtime and achievements).</li>
+            <li>Once updated, refresh this page to load your achievements.</li>
+          </ul>
+        </div>
+      </div>
+    </div>       
 
     <!-- Communities Section -->
     <section class="mt-4">
@@ -42,10 +66,29 @@
       <div id="steam-games-container" class="row"></div>
     </section>
 
+    <!-- No Achievements Modal -->
+    <div class="modal fade" id="noAchievementsModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header">
+            <h5 class="modal-title">No Achievements Found</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This game may not support achievements.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Profile Avatar Upload -->
     <section class="text-center my-4">
       <label for="profile-upload">
-        <img src="images/default-picture.svg" id="gamer-avatar" class="rounded-circle img-fluid profile-img" width="150" alt="User Avatar" />
+        <img src="images/default-picture.svg" id="gamer-avatar" class="rounded-circle img-fluid profile-img" width="150"
+          alt="User Avatar" />
       </label>
       <input type="file" id="profile-upload" accept="image/*" hidden />
     </section>
@@ -71,23 +114,26 @@
             <button class="btn btn-outline-warning mt-2" id="edit-email">Edit</button>
             <button class="btn btn-outline-success mt-2" id="save-email" style="display: none;">Save</button>
           </div>
-
+          
           <!-- Password -->
+          <!-- Uncomment the following lines if you want to include password editing functionality in the future
           <div class="form-group mt-3">
             <label for="password">Password:</label>
             <input type="password" id="password" class="form-control bg-secondary text-white" value="••••••" disabled autocomplete="off" />
             <button class="btn btn-outline-warning mt-2" onclick="editField('password')">Edit</button>
           </div>
-
+          -->
           <!-- Gaming Accounts -->
           <div class="mt-4">
             <h4>Gaming Accounts</h4>
             <div class="row">
               <!-- PlayStation -->
               <div class="col-md-4 text-center">
-                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation" class="img-fluid mb-2" width="50" />
+                <img src="images/platform-logos/playstation-logo.jpg" alt="PlayStation" class="img-fluid mb-2"
+                  width="50" />
                 <label for="psn-id">PSN Gamertag:</label>
-                <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled autocomplete="off" />
+                <input type="text" id="psn-id" class="form-control bg-secondary text-white" disabled
+                  autocomplete="off" />
                 <button class="btn btn-outline-warning mt-2" id="edit-psn">Edit</button>
                 <button class="btn btn-outline-success mt-2" id="save-psn" style="display: none;">Save</button>
               </div>
@@ -96,7 +142,8 @@
               <div class="col-md-4 text-center">
                 <img src="images/platform-logos/xbox-logo.png" alt="Xbox" class="img-fluid mb-2" width="50" />
                 <label for="xbox-id">Xbox Gamertag:</label>
-                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled autocomplete="off" />
+                <input type="text" id="xbox-id" class="form-control bg-secondary text-white" disabled
+                  autocomplete="off" />
                 <button class="btn btn-outline-warning mt-2" id="edit-xbox">Edit</button>
                 <button class="btn btn-outline-success mt-2" id="save-xbox" style="display: none;">Save</button>
               </div>
@@ -122,9 +169,11 @@
     <!-- Steam Info -->
     <section class="text-center mt-5">
       <h3 class="text-white">Steam Profile</h3>
-      <img id="steam-avatar" src="images/default-picture.svg" class="rounded-circle img-fluid" width="100" alt="Steam Avatar" />
+      <img id="steam-avatar" src="images/default-picture.svg" class="rounded-circle img-fluid" width="100"
+        alt="Steam Avatar" />
       <h4 id="steam-username" class="text-white mt-2">N/A</h4>
-      <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View Steam Profile</a>
+      <a id="steam-profile-link" href="#" target="_blank" class="btn btn-primary" style="display: none;">View Steam
+        Profile</a>
     </section>
 
   </main>
@@ -133,6 +182,7 @@
   <footer class="bg-dark text-white text-center py-3 mt-4">
     Copyright © 2025 UNCG LFG. All rights reserved.
   </footer>
+
 </body>
 
 </html>

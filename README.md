@@ -49,13 +49,17 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Add game feature
 - Modify profile UI to make communities appear at the top achievments below communities (Done)
 - Add a timer that displays when your next group session will be  (Done)
-- Display more groups under community page ie. Groups that will be starting soon
+- Display more groups under community page ie. Groups that will be starting soon (Done)
 - Add a game from Carlos' Steam library to the app for demo purposes. (Done)
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages (Done)
-- Display info next to group members ie. gamertag
+- Display info next to group members ie. gamertag (Done)
 - Report functionality 
 - Admin functionality
+- get rid of the local host logs
+- 3 powerpoint slides before hand to frame the demo
+- Refine presentation "Pre amble" and make it to where you are a user joining a group relevant to your achievments (Done).
+
 
 ## Stretch goals
 - Discord intergration
@@ -79,9 +83,13 @@ To run this current version locally, you need:
  - pg v8.13.3 - PostgreSQL client for Node.js
  - nodemon v3.1.9 (devDependency) - For automatic server restarts during development
  - A local PostGreSQL database. Create it and call it uncg_lfg_db.
-    - Open the sql file named 'uncg_lfg_db_tables.sql'. Copy and paste this script to the query console and run each sql query in order ONLY IF YOU STILL HAVENT MADE THE DATABASE YET.
+    - Open the sql file named 'uncg_lfg_tables_db_clean_version.sql'. Copy and paste this script to the query console and run each sql query in order.
     
-    - If you already have the database made, run the queries to create tables you don't have (such as the newly created session table) and run the `ALTER TABLE` queries to alter the necessary tables. 
+    - If you already have the database made, run the queries to create tables you don't have (such as the newly created session table) and run the `ALTER TABLE` queries to alter the necessary tables found in the non-clean version,
+    uncg_lfg_tables_db.sql. 
+
+    - After setting up the database with all the tables, open games_added.sql. Copy and paste this script to yoour
+    console and run them in order. These are the scripts to add the 20+ games our app supports.
 
 - Create a .env file in the root directory, in it paste the following: 
 

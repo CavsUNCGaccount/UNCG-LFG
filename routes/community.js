@@ -157,7 +157,21 @@ router.get('/my-communities', async (req, res) => {
 
     try {
         const communitiesQuery = await pool.query(
-            "SELECT gc.game_name, gc.cover_image_url FROM community_membership cm JOIN game_community gc ON cm.game_id = gc.game_id WHERE cm.gamer_id = $1",
+            `
+            SELECT 
+                gc.game_name, 
+                gc.cover_image_url 
+            FROM 
+                community_membership cm 
+            JOIN 
+                game_community gc 
+            ON 
+                cm.game_id = gc.game_id 
+            WHERE 
+                cm.gamer_id = $1
+            ORDER BY 
+                gc.game_name
+            `,
             [user_id]
         );
 
@@ -952,6 +966,36 @@ router.get('/next-session', async (req, res) => {
     } catch (err) {
         console.error("Error fetching next session:", err);
         res.status(500).json({ message: "Server error. Could not fetch next session." });
+    }
+});
+
+router.get('/upcoming-groups', async (req, res) => {
+    const { game_name } = req.query;
+
+    if (!game_name) {
+        console.log(" Missing game_name query param");
+        return res.status(400).json({ message: "Missing game_name" });
+    }
+
+    try {
+        console.log(" Fetching upcoming groups for:", game_name);
+
+        const result = await pool.query(`
+            SELECT g.*, u.username AS host_username
+            FROM groups g
+            JOIN users u ON g.host_user_id = u.user_id
+            JOIN game_community gc ON g.community_id = gc.game_id
+            WHERE LOWER(gc.game_name) = LOWER($1)
+              AND g.start_time >= NOW()
+            ORDER BY g.start_time ASC
+            LIMIT 5
+        `, [game_name]);
+
+        console.log(" Query successful. Rows returned:", result.rows.length);
+        return res.json(result.rows || []);
+    } catch (err) {
+        console.error(" SQL Error in /upcoming-groups:", err.message);
+        return res.status(500).json({ message: "Failed to fetch upcoming groups." });
     }
 });
 
