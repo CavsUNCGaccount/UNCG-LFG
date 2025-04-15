@@ -41,6 +41,12 @@
       <div class="card bg-dark text-white p-4 rounded shadow" style="max-width: 1000px; width: 100%;">
         <h2 class="text-center mb-4">Game Communities</h2>
 
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addCommunityModal">
+            ➕ Add New Game
+          </button>
+        </div>
+
         <div class="table-responsive">
           <table class="table table-dark table-hover table-bordered align-middle">
             <thead>
@@ -62,33 +68,34 @@
     </div>
   </main>
 
-  <!-- Edit Modal -->
-  <div class="modal fade" id="editCommunityModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <!-- Add Modal -->
+  <div class="modal fade" id="addCommunityModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content bg-dark text-white">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Community</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <input type="hidden" id="edit-game-id" />
-          <div class="mb-3">
-            <label class="form-label">Game Title</label>
-            <input type="text" id="edit-game-name" class="form-control" />
+        <form id="addCommunityForm" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">Add New Game</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Cover Image URL</label>
-            <input type="text" id="edit-image-url" class="form-control" />
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Game Title</label>
+              <input type="text" name="game_name" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Cover Image</label>
+              <input type="file" name="cover_image" class="form-control" accept="image/*" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea name="description" class="form-control" rows="3" required></textarea>
+            </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea id="edit-description" class="form-control" rows="3"></textarea>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Game</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn btn-success" onclick="saveCommunityChanges()">Save Changes</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>

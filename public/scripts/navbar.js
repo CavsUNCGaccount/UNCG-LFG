@@ -43,14 +43,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Determine user role and profile redirection
         if (data.user_id) {
             console.log("Data from session:", data);
-            let profilePage = data.role === "Admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
-            let profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "/uploads/default-avatar.png";
+            const role = data.role?.toLowerCase();
+            const profilePage = role === "admin" ? "admin-profile-page.html" : "gamer-profile-page.html";
+            const profilePicture = data.profile_picture ? `http://localhost:3001${data.profile_picture}` : "/uploads/default-avatar.png";
 
             // Show avatar, username, timer, and logout button
             document.getElementById("navbar-login").innerHTML = `
                 <span id="navbar-timer" class="text-light me-3 small fw-bold"></span>
                 <img src="${profilePicture}" 
-                     alt="Profile" class="nav-avatar rounded-circle" id="profile-link" title="${data.username}" style="width: 40px; height: 40px;">
+                     alt="Profile" class="nav-avatar rounded-circle" id="profile-link" title="${data.username}" style="width: 40px; height: 40px; cursor: pointer;">
                 <button class="btn btn-danger ms-2" onclick="logout()">Logout</button>
             `;
 
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 window.location.href = profilePage;
             });
 
-            //  Start the session timer
+            // Start the session timer
             fetchNextSessionTimer();
         } else {
             // Not logged in
@@ -77,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-//  Function to fetch and display the next session timer
+// Function to fetch and display the next session timer
 async function fetchNextSessionTimer() {
     const navbarTimer = document.getElementById("navbar-timer");
 
@@ -86,7 +87,7 @@ async function fetchNextSessionTimer() {
             credentials: "include"
         });
 
-        console.log("Response from next session:", response); // Debugging line
+        console.log("Response from next session:", response);
 
         if (!response.ok) {
             if (response.status === 404) {
@@ -117,7 +118,7 @@ async function fetchNextSessionTimer() {
             navbarTimer.textContent = `Next session: ${hours}h ${minutes}m ${seconds}s`;
         }
 
-        updateTimer(); // Initial call
+        updateTimer();
         const timerInterval = setInterval(updateTimer, 1000);
     } catch (error) {
         console.error("Error fetching next session:", error);
@@ -127,16 +128,16 @@ async function fetchNextSessionTimer() {
     }
 }
 
-//  Logout function
+// Logout function
 function logout() {
     fetch("http://localhost:3001/auth/logout", {
         method: "POST",
         credentials: "include"
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message || "Logged out");
-        window.location.href = "index.html";
-    })
-    .catch(error => console.error("Error logging out:", error));
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || "Logged out");
+            window.location.href = "index.html";
+        })
+        .catch(error => console.error("Error logging out:", error));
 }

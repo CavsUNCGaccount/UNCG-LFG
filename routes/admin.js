@@ -161,24 +161,26 @@ router.put("/reports/:report_id", async (req, res) => {
 
 // ✅ Get All User Posts for Moderation
 router.get("/posts", async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT 
-                up.post_id,
-                up.post_content,
-                up.created_at,
-                u.username
-            FROM user_posts up
-            JOIN users u ON up.user_id = u.user_id
-            ORDER BY up.created_at DESC
-        `);
+  try {
+    const result = await pool.query(`
+      SELECT 
+        up.post_id,
+        up.post_content,
+        up.created_at,
+        up.status,
+        u.username
+      FROM user_posts up
+      JOIN users u ON up.user_id = u.user_id
+      ORDER BY up.created_at DESC
+    `);
 
-        res.json(result.rows);
-    } catch (error) {
-        console.error("❌ Error fetching posts:", error);
-        res.status(500).json({ message: "Server error" });
-    }
+    res.json(result.rows);
+  } catch (error) {
+    console.error("❌ Error fetching posts:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
+
 
 // ✅ Get all users for Admin to review
 router.get("/manage-users", async (req, res) => {
@@ -398,5 +400,107 @@ router.get("/sessions", async (req, res) => {
     }
   });
   
+
+ // ✅ ADD NEW GAME COMMUNITY with Image Upload
+const communityStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const dir = path.join(__dirname, "../public/uploads/community");
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+      const unique = Date.now() + "-" + file.originalname.replace(/\s+/g, "-");
+      cb(null, unique);
+  }
+});
+
+const communityUpload = multer({ storage: communityStorage });
+
+router.post("/communities", communityUpload.single("cover_image"), async (req, res) => {
+  try {
+      const { game_name, description } = req.body;
+      const file = req.file;
+
+      if (!game_name || !description || !file) {
+          return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const imagePath = `/uploads/community/${file.filename}`;
+      const result = await pool.query(`
+          INSERT INTO game_community (game_name, cover_image_url, description, created_at)
+          VALUES ($1, $2, $3, NOW())
+          RETURNING *;
+      `, [game_name, imagePath, description]);
+
+      res.status(201).json(result.rows[0]);
+  } catch (err) {
+      console.error("❌ Error adding game community:", err);
+      res.status(500).json({ error: "Failed to add new game community" });
+  }
+});
+
+
+// ✅ Update User Status (Ban/Suspend)
+router.put("/users/:userId/status", async (req, res) => {
+  const { userId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE users SET status = $1 WHERE user_id = $2 RETURNING user_id, username, status`,
+      [status, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: `User status updated to ${status}`, user: result.rows[0] });
+  } catch (err) {
+    console.error("❌ Error updating user status:", err);
+    res.status(500).json({ error: "Failed to update user status" });
+  }
+});
+
+
+// ✅ Route to save snapshot of analytics data
+router.post("/analytics-overview/save", async (req, res) => {
+  const { total_users, active_groups, flagged_posts, suspended_users } = req.body;
+
+  try {
+    await pool.query(
+      `INSERT INTO admin_analytics_overview 
+       (total_users, active_groups, flagged_posts, suspended_users)
+       VALUES ($1, $2, $3, $4)`,
+      [total_users, active_groups, flagged_posts, suspended_users]
+    );
+
+    res.status(201).json({ message: "✅ Analytics snapshot saved" });
+  } catch (err) {
+    console.error("❌ Failed to save analytics:", err);
+    res.status(500).json({ message: "Server error saving analytics" });
+  }
+});
+
+router.get("/next-session", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT * FROM groups 
+      WHERE session_status = 'active' 
+      ORDER BY start_time ASC 
+      LIMIT 1
+    `);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "No upcoming sessions found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("❌ Error fetching next session:", err);
+    res.status(500).json({ message: "Failed to fetch next session" });
+  }
+});
+
 
 module.exports = router;

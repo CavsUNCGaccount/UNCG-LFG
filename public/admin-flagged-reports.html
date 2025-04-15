@@ -36,28 +36,26 @@
   </div>
 
   <!-- Main Content -->
-  <main class="admin-main-content my-4">
-    <div class="d-flex justify-content-center">
-      <div class="card bg-dark text-white p-4 rounded shadow" style="max-width: 1000px; width: 100%;">
-        <h2 class="text-center mb-4">Flagged Reports</h2>
+  <main class="container my-4 admin-main-content">
+    <div class="card bg-dark text-white p-4 rounded shadow">
+      <h2 class="text-center mb-4">Flagged Reports</h2>
 
-        <div class="table-responsive">
-          <table class="table table-dark table-hover table-bordered align-middle">
-            <thead>
-              <tr>
-                <th>Report ID</th>
-                <th>Reported By</th>
-                <th>Reported User</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="reports-table">
-              <!-- Report rows will be dynamically added here -->
-            </tbody>
-          </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover table-bordered align-middle">
+          <thead>
+            <tr>
+              <th>Post ID</th>
+              <th>Username</th>
+              <th>Content</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="flagged-posts-table">
+            <!-- Flagged posts will be inserted here -->
+          </tbody>
+        </table>
       </div>
     </div>
   </main>

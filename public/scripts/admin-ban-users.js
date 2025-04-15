@@ -18,16 +18,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     users.forEach((user) => {
       const row = document.createElement("tr");
+      const isSuspended = user.status === "Suspended";
+      const isBanned = user.status === "Banned";
 
       row.innerHTML = `
         <td>${user.user_id}</td>
         <td>${user.username}</td>
         <td>${user.email}</td>
         <td>${user.role}</td>
-        <td>${user.status || "Active"}</td>
-        <td>
-          <button class="btn btn-danger btn-sm me-1" onclick="banUser(${user.user_id})">Ban</button>
-          <button class="btn btn-warning btn-sm" onclick="suspendUser(${user.user_id})">Suspend</button>
+        <td id="status-${user.user_id}">${user.status || "Active"}</td>
+        <td id="actions-${user.user_id}">
+          ${isBanned
+            ? '<span class="badge bg-danger">Banned!</span>'
+            : `<button class="btn btn-danger btn-sm me-1" onclick="updateUserStatus(${user.user_id}, 'Banned')">Ban</button>
+               <button class="btn btn-${isSuspended ? 'success' : 'warning'} btn-sm" onclick="updateUserStatus(${user.user_id}, '${isSuspended ? 'Active' : 'Suspended'}')">
+                 ${isSuspended ? 'Unsuspend' : 'Suspend'}
+               </button>`
+          }
         </td>
       `;
 
@@ -35,20 +42,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (err) {
     console.error("❌ Error loading users:", err);
-    if (tableBody) {
-      tableBody.innerHTML = `
-        <tr><td colspan="6" class="text-danger text-center">Failed to load users</td></tr>
-      `;
-    }
+    tableBody.innerHTML = `
+      <tr><td colspan="6" class="text-danger text-center">Failed to load users</td></tr>
+    `;
   }
 });
 
-function banUser(userId) {
-  console.log("🚫 Ban user with ID:", userId);
-  // TODO: Call /admin/ban or /admin/update-user-status API with status = "Banned"
-}
+async function updateUserStatus(userId, status) {
+  console.log(`🔄 Updating user ${userId} to ${status}`);
 
-function suspendUser(userId) {
-  console.log("⏸️ Suspend user with ID:", userId);
-  // TODO: Call /admin/suspend or /admin/update-user-status API with status = "Suspended"
+  try {
+    const response = await fetch(`/admin/users/${userId}/status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ status })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update user ${userId}`);
+    }
+
+    const result = await response.json();
+    console.log("✅ Status updated:", result);
+
+    // Update status in table UI
+    const statusCell = document.getElementById(`status-${userId}`);
+    if (statusCell) {
+      statusCell.textContent = status;
+    }
+
+    const actionsCell = document.getElementById(`actions-${userId}`);
+    if (actionsCell) {
+      if (status === "Banned") {
+        actionsCell.innerHTML = '<span class="badge bg-danger">Banned!</span>';
+      } else if (status === "Suspended") {
+        actionsCell.innerHTML = `
+          <button class="btn btn-danger btn-sm me-1" onclick="updateUserStatus(${userId}, 'Banned')">Ban</button>
+          <button class="btn btn-success btn-sm" onclick="updateUserStatus(${userId}, 'Active')">Unsuspend</button>
+        `;
+      } else {
+        actionsCell.innerHTML = `
+          <button class="btn btn-danger btn-sm me-1" onclick="updateUserStatus(${userId}, 'Banned')">Ban</button>
+          <button class="btn btn-warning btn-sm" onclick="updateUserStatus(${userId}, 'Suspended')">Suspend</button>
+        `;
+      }
+    }
+
+    alert(`✅ User ${userId} has been ${status.toLowerCase()}`);
+  } catch (error) {
+    console.error("❌ Failed to update status:", error);
+    alert("Failed to update user status. Please try again.");
+  }
 }

@@ -1,16 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.getElementById("community-table");
 
-  // Load all game communities
+  // Load existing communities
   (async function loadCommunities() {
     try {
       const res = await fetch("/admin/communities");
-
       if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
 
       const communities = await res.json();
-      console.log("📦 Loaded communities:", communities);
-
       if (!Array.isArray(communities)) throw new Error("Expected an array");
 
       communities.forEach((community) => {
@@ -41,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <button class="btn btn-sm btn-success" onclick="saveCommunity(${community.game_id})">💾 Save</button>
           </td>
         `;
-
         tableBody.appendChild(row);
       });
 
@@ -53,6 +49,29 @@ document.addEventListener("DOMContentLoaded", () => {
         </td></tr>`;
     }
   })();
+
+  // Handle Add Community form submission
+  const addForm = document.getElementById("addCommunityForm");
+  addForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(addForm);
+    try {
+      const res = await fetch("/admin/communities", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) throw new Error(`Failed to add game: ${res.statusText}`);
+
+      const result = await res.json();
+      alert("✅ Game added successfully!");
+      window.location.reload();
+    } catch (err) {
+      console.error("❌ Failed to add game:", err);
+      alert("Failed to add game. Please try again.");
+    }
+  });
 });
 
 // Save community changes
@@ -64,8 +83,6 @@ async function saveCommunity(gameId) {
     updateData[field.dataset.field] = field.value.trim();
   });
 
-  console.log(`📤 Saving game ${gameId}:`, updateData);
-
   try {
     const res = await fetch(`/admin/communities/${gameId}`, {
       method: "PUT",
@@ -76,29 +93,10 @@ async function saveCommunity(gameId) {
     });
 
     if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
-
-    const contentType = res.headers.get("content-type");
-
-    let result = {};
-    if (contentType && contentType.includes("application/json")) {
-      result = await res.json();
-    } else {
-      result = { message: await res.text() };
-    }
-
+    const result = await res.json();
     alert("✅ Community updated successfully!");
-    console.log("✅ Update response:", result);
-
   } catch (err) {
     console.error("❌ Failed to update community:", err);
     alert("Update failed. Please try again.");
   }
-}
-
-// Edit community (modal behavior can be added later)
-function editCommunity(gameId) {
-  console.log("✏️ Edit requested for community:", gameId);
-
-  // TODO: Fetch community data and populate modal
-  // Then show the modal for editing
 }
