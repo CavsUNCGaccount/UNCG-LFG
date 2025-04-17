@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const joinData = await joinResponse.json();
             if (joinResponse.ok) {
-                alert(joinData.message);
+                
                 const joinButton = document.querySelector(".btn-warning");
                 joinButton.textContent = "Leave Community";
                 joinButton.removeEventListener("click", joinCommunity);
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const leaveData = await leaveResponse.json();
             if (leaveResponse.ok) {
-                alert(leaveData.message);
+                
                 const joinButton = document.querySelector(".btn-warning");
                 joinButton.textContent = "Join Community";
                 joinButton.removeEventListener("click", leaveCommunity);

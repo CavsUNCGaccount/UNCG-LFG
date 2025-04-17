@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
 
             if (response.ok) {
-                alert("Login successful!");
+                
 
                 // Store user details locally
                 localStorage.setItem("user", JSON.stringify(data.user));

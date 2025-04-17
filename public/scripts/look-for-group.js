@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (response.ok) {
-                alert("Group session created successfully!");
+                
                 location.reload(); // Reload the page to show the new session
             } else {
                 const errorData = await response.json();

@@ -59,7 +59,7 @@ router.post('/games/:game_id/join', async (req, res) => {
             "SELECT * FROM community_membership WHERE gamer_id = $1 AND game_id = $2",
             [user_id, game_id]
         );
-
+// possible bug here returning error message (polishing) 
         if (checkMembership.rows.length > 0) {
             return res.status(400).json({ message: "You are already a member of this community." });
         }
