@@ -19,11 +19,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
-    // Helper to make a field editable
-    function editField(fieldId) {
-        const field = document.getElementById(fieldId);
-        field.removeAttribute("disabled");
-        field.focus();
+    // Used for showing toasts messages
+    function showToast(title, message, type = "dark") {
+        // Get the toast elements
+        const toastElement = document.getElementById("genericToast");
+        const toastTitle = document.getElementById("toastTitle");
+        const toastBody = document.getElementById("toastBody");
+    
+        // Update the title and body
+        toastTitle.textContent = title;
+        toastBody.textContent = message;
+    
+        // Update the toast's background color based on the type (e.g., success, error)
+        toastElement.className = `toast bg-${type} text-white`;
+    
+        // Show the toast
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
     }
 
     // Reusable Save Handler Setup
@@ -81,14 +93,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (response.ok) {
-                alert("Username updated successfully!");
+                showToast("Success", "Username updated successfully!", "success");
                 document.querySelector("#username").disabled = true;
                 document.querySelector("#save-username").style.display = "none";
             } else {
-                alert("Failed to update username.");
+                const errorData = await response.json();
+                showToast("Error", errorData.message || "Failed to update username.", "danger");
             }
         } catch (error) {
             console.error("Error updating username:", error);
+            showToast("Error", "An error occurred while updating the username.", "danger");
         }
     });
 
@@ -115,14 +129,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (response.ok) {
-                alert("Email updated successfully!");
+                showToast("Success", "Email updated successfully!", "success");
                 document.querySelector("#email").disabled = true;
                 document.querySelector("#save-email").style.display = "none";
             } else {
-                alert("Failed to update email.");
+                const errorData = await response.json();
+                showToast("Error", errorData.message || "Failed to update email.", "danger");
             }
         } catch (error) {
             console.error("Error updating email:", error);
+            showToast("Error", "An error occurred while updating the email.", "danger");
         }
     });
 
@@ -148,14 +164,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (response.ok) {
-                alert("PSN ID updated successfully!");
+                showToast("Success", "PSN ID updated successfully!", "success");
                 document.querySelector("#psn-id").disabled = true;
                 document.querySelector("#save-psn").style.display = "none";
             } else {
-                alert("Failed to update PSN ID.");
+                const errorData = await response.json();
+                showToast("Error", errorData.message || "Failed to update PSN ID.", "danger");
             }
         } catch (error) {
             console.error("Error updating PSN ID:", error);
+            showToast("Error", "An error occurred while updating the PSN ID.", "danger");
         }
     });
 
@@ -181,14 +199,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (response.ok) {
-                alert("Xbox ID updated successfully!");
+                showToast("Success", "Xbox ID updated successfully!", "success");
                 document.querySelector("#xbox-id").disabled = true;
                 document.querySelector("#save-xbox").style.display = "none";
             } else {
-                alert("Failed to update Xbox ID.");
+                const errorData = await response.json();
+                showToast("Error", errorData.message || "Failed to update Xbox ID.", "danger");
             }
         } catch (error) {
             console.error("Error updating Xbox ID:", error);
+            showToast("Error", "An error occurred while updating the Xbox ID.", "danger");
         }
     });
 
@@ -199,7 +219,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const steam64Id = steamIdField.value.trim();
 
         if (!steam64Id) {
-            alert("Please enter a valid Steam ID number.");
+            const steamIdToast = new bootstrap.Toast(document.getElementById("steamIdToast"));
+            steamIdToast.show();
             return;
         }
 
@@ -217,7 +238,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log("Steam Profile Data:", data);
 
             if (response.ok) {
-                alert("Steam account linked successfully!");
+                // Trigger the Bootstrap modal for linking Steam account
+                const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+                successModal.show();
 
                 // Update the Steam profile UI
                 document.getElementById("steam-id").value = steam64Id;
@@ -240,7 +263,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 // Fetch Steam profile info
                 fetchSteamProfile(steam64Id);
             } else {
-                alert(data.error || "Failed to link Steam account.");
+                // Display error in a Bootstrap modal if linking fails
+                const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+                document.getElementById("errorModalBody").textContent = data.error || "An error occurred.";
+                errorModal.show();
             }
         } catch (error) {
             console.error("Error linking Steam account:", error);

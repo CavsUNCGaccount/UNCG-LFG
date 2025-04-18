@@ -37,8 +37,9 @@
 
     <!-- Steam Account Linking Info -->
     <div class="mt-3">
-      <button id="steam-tips-toggle" class="btn btn-outline-info mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#steamPrivacyTips" aria-expanded="false" aria-controls="steamPrivacyTips">
-        <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid me-2" width="20" /> 
+      <button id="steam-tips-toggle" class="btn btn-outline-info mb-2" type="button" data-bs-toggle="collapse"
+        data-bs-target="#steamPrivacyTips" aria-expanded="false" aria-controls="steamPrivacyTips">
+        <img src="images/platform-logos/steam-logo.jpg" alt="Steam" class="img-fluid me-2" width="20" />
         Steam Account Linking Tips
       </button>
 
@@ -47,7 +48,8 @@
           <ul>
             <li>To link your Steam Account, scroll down to the Profile Details section.</li>
             <li>Now open a new tab and login to your Steam Account on Steam.
-              Go to your <a href="https://store.steampowered.com/account/" target="_blank" class="text-info"> Account Details</a>.</li>
+              Go to your <a href="https://store.steampowered.com/account/" target="_blank" class="text-info"> Account
+                Details</a>.</li>
             <li>Now look for your Steam ID number towards the top of the account page. It is a 17-digit number.</li>
             <li>Copy this 17-digit number.</li>
             <li>Enter your Steam ID number in the provided field.</li>
@@ -55,19 +57,21 @@
           </ul>
         </div>
       </div>
-    
+
       <div class="collapse" id="steamPrivacyTips">
         <div class="card card-body bg-dark text-white">
           <ul>
             <li>Make sure your <strong>Steam profile</strong> is set to <em>Public</em>.</li>
-            <li>If your account is not set to public, your achievements will not be shown when you link your Steam account.</li>
-            <li>Go to <a href="https://steamcommunity.com/my/edit/settings" target="_blank" class="text-info">Steam Privacy Settings</a>.</li>
+            <li>If your account is not set to public, your achievements will not be shown when you link your Steam
+              account.</li>
+            <li>Go to <a href="https://steamcommunity.com/my/edit/settings" target="_blank" class="text-info">Steam
+                Privacy Settings</a>.</li>
             <li>Set "Game Details" to <em>Public</em> as well (this includes your playtime and achievements).</li>
             <li>Once updated, refresh this page to load your achievements.</li>
           </ul>
         </div>
       </div>
-    </div>       
+    </div>
 
     <!-- Communities Section -->
     <section class="mt-4">
@@ -129,7 +133,7 @@
             <button class="btn btn-outline-warning mt-2" id="edit-email">Edit</button>
             <button class="btn btn-outline-success mt-2" id="save-email" style="display: none;">Save</button>
           </div>
-          
+
           <!-- Password -->
           <!-- Uncomment the following lines if you want to include password editing functionality in the future
           <div class="form-group mt-3">
@@ -169,6 +173,73 @@
                 <label for="steam-id">Steam ID number:</label>
                 <input type="text" id="steam-id" class="form-control bg-secondary text-white" autocomplete="off" />
                 <button class="btn btn-warning mt-2" id="link-steam">Link Steam Account</button>
+              </div>
+            </div>
+          </div>
+
+          <!--Reusable Toast for Username, Email, PSN, and Xbox gamertags -->
+          <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="genericToast" class="toast bg-dark text-white" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header bg-dark text-white">
+                <strong id="toastTitle" class="me-auto">Notification</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div id="toastBody" class="toast-body">
+                <!-- Toast message will be dynamically inserted here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Toast to enter a valid Steam ID Number -->
+          <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="steamIdToast" class="toast bg-danger text-white" role="alert" aria-live="assertive"
+              aria-atomic="true">
+              <div class="toast-header bg-danger text-white">
+                <strong class="me-auto">Error</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                  aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                Please enter a valid Steam ID number.
+              </div>
+            </div>
+          </div>
+
+          <!-- Steam Account Linking Success Modal -->
+          <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="successModalLabel">Success</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Steam account linked successfully!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Steam Account Linking Error Modal -->
+          <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="errorModalBody">
+                  <!-- Error message will be dynamically inserted here -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>
