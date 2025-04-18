@@ -62,12 +62,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             const data = await response.json();
             if (response.ok) {
                 document.getElementById("gamer-avatar").src = data.profile_picture;
-                alert("Profile picture updated successfully!");
+                showToast("Success", "Profile picture updated successfully!", "success");
             } else {
-                alert(data.message);
+                showToast("Error", data.message || "Failed to update profile picture.", "danger");
             }
         } catch (error) {
             console.error("Error uploading profile picture:", error);
+            showToast("Error", "An error occurred while uploading the profile picture.", "danger");
         }
     });
 
