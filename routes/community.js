@@ -464,7 +464,7 @@ router.get('/group-sessions', async (req, res) => {
 // Create a new group session
 router.post('/create-group-session', async (req, res) => {
     if (!req.session.user_id) {
-        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+        return res.status(401).json({ message: "Please log in first to create a group." });
     }
 
     const { game_name, session_type, max_players, start_time, duration, session_title, session_description, platform } = req.body;
