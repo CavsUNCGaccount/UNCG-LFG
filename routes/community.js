@@ -213,7 +213,7 @@ router.get('/membership-status', async (req, res) => {
 // Create a new post
 router.post('/create-post', async (req, res) => {
     if (!req.session.user_id) {
-        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+        return res.status(401).json({ message: "Please log in first to make a post." });
     }
 
     const { game_name, post_content } = req.body;
@@ -362,7 +362,7 @@ router.put('/edit-post', async (req, res) => {
 // Create a reply to a post
 router.post('/create-reply', async (req, res) => {
     if (!req.session.user_id) {
-        return res.status(401).json({ message: "Unauthorized. Please log in first." });
+        return res.status(401).json({ message: "Please log in first to reply to a post." });
     }
 
     const { post_id, reply_content, parent_reply_id } = req.body;

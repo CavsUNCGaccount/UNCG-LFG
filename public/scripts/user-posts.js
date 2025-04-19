@@ -1,7 +1,26 @@
+function showToast(title, message, type = "dark") {
+    // Get the toast elements
+    const toastElement = document.getElementById("genericToast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastBody = document.getElementById("toastBody");
+
+    // Update the title and body
+    toastTitle.textContent = title;
+    toastBody.textContent = message;
+
+    // Update the toast's background color based on the type (e.g., success, error)
+    toastElement.className = `toast bg-${type} text-white`;
+
+    // Show the toast
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
+
     const params = new URLSearchParams(window.location.search);
     const game_name = params.get("game_name");
-    console.log("Game name:", game_name); 
+    console.log("Game name:", game_name);
 
     if (!game_name) {
         console.error("Game name is required.");
@@ -37,11 +56,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <p class="card-text" id="post-content-${post.post_id}">${post.post_content}</p>
                         <button class="btn btn-sm btn-secondary view-replies-btn" data-post-id="${post.post_id}">View Replies</button>
                         <div class="replies-container mt-3" id="replies-container-${post.post_id}"></div>
-                        ${
-                            post.is_owner
-                                ? `<button class="btn btn-sm btn-warning edit-post-btn" data-post-id="${post.post_id}">Edit</button>`
-                                : ""
-                        }
+                        ${post.is_owner
+                        ? `<button class="btn btn-sm btn-warning edit-post-btn" data-post-id="${post.post_id}">Edit</button>`
+                        : ""
+                    }
                     </div>
                 `;
                 postsContainer.appendChild(postElement);
@@ -78,10 +96,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 postContent.value = "";
                 fetchPosts(); // Refresh posts
             } else {
-                alert(newPost.message);
+                showToast("Error", newPost.message || "Failed to create post.", "danger");
             }
         } catch (error) {
             console.error("Error creating post:", error);
+            showToast("Error", "An error occurred while creating the post.", "danger");
         }
     });
 
@@ -118,10 +137,11 @@ async function handleEditPost(event) {
                 postContentElement.innerHTML = updatedPost.post_content;
             } else {
                 const errorData = await response.json();
-                alert(errorData.message);
+                showToast("Error", errorData.message || "Failed to update post.", "danger");
             }
         } catch (error) {
             console.error("Error updating post:", error);
+            showToast("Error", "An error occurred while updating the post.", "danger");
         }
     });
 
@@ -199,12 +219,14 @@ async function handleViewReplies(event) {
                 if (response.ok) {
                     replyForm.querySelector("textarea").value = "";
                     handleViewReplies(event); // Refresh replies
+                    showToast("Success", "Reply created successfully!", "success");
                 } else {
                     const errorData = await response.json();
-                    alert(errorData.message);
+                    showToast("Error", errorData.message || "Failed to create reply.", "danger");
                 }
             } catch (error) {
                 console.error("Error creating reply:", error);
+                showToast("Error", "An error occurred while creating the reply.", "danger");
             }
         });
     } catch (error) {
@@ -245,7 +267,7 @@ async function handleReplyToReply(event) {
                     handleViewReplies({ target: document.querySelector(`.view-replies-btn[data-post-id="${postId}"]`) }); // Refresh replies
                 } else {
                     const errorData = await response.json();
-                    alert(errorData.message);
+                    showToast("Error", errorData.message || "Failed to create nested reply.", "danger");
                 }
             } catch (error) {
                 console.error("Error creating nested reply:", error);
