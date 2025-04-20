@@ -916,6 +916,16 @@ router.put("/group/:groupId/edit", async (req, res) => {
             return res.status(403).json({ message: "Only the host can edit the group" });
         }
 
+        // Make sure that current_players does not exceed max_players
+        const currentPlayersRes = await pool.query(
+            "SELECT current_players FROM groups WHERE group_id = $1",
+            [groupId]
+        );
+        const currentPlayers = currentPlayersRes.rows[0].current_players;
+        if (currentPlayers > max_players) {
+            return res.status(400).json({ message: "Current players exceed the new max players limit." });
+        }
+
         // Perform the update
         await pool.query(
             `UPDATE groups
@@ -928,6 +938,28 @@ router.put("/group/:groupId/edit", async (req, res) => {
              WHERE group_id = $7`,
             [start_time, duration, session_type, max_players, platform, session_description, groupId]
         );
+
+         // if current_players is equal to max_players, update the session_status to 'Closed'
+         const maxPlayers = parseInt(max_players, 10);
+
+         console.log("Current Players:", currentPlayers, "Max Players:", maxPlayers);
+         
+        if (currentPlayers === maxPlayers) {
+             console.log("Updating session_status to 'Closed'");
+             await pool.query(
+                 "UPDATE groups SET session_status = 'Closed' WHERE group_id = $1",
+                 [groupId]
+             );
+        }
+
+        // If current_players is less than max_players, update the session_status to 'Open'
+        if (currentPlayers < maxPlayers) {
+            console.log("Updating session_status to 'Open'");
+            await pool.query(
+                "UPDATE groups SET session_status = 'Open' WHERE group_id = $1",
+                [groupId]
+            );
+        }
 
         res.status(200).json({ message: "Group updated successfully" });
     } catch (err) {
