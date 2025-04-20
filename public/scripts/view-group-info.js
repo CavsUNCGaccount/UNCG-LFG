@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         document.getElementById("badge-session-type").textContent = `${group.session_type} Session`;
         const spacesLeft = group.max_players - group.current_players;
-        document.getElementById("badge-spaces-left").textContent = `${spacesLeft} Spaces Left`;
+        document.getElementById("badge-spaces-left").textContent = `${spacesLeft} Space(s) Left`;
         document.getElementById("badge-session-status").textContent = `${group.session_status} Session`;
 
         const startTime = new Date(group.start_time)

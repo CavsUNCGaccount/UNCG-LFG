@@ -923,7 +923,7 @@ router.put("/group/:groupId/edit", async (req, res) => {
         );
         const currentPlayers = currentPlayersRes.rows[0].current_players;
         if (currentPlayers > max_players) {
-            return res.status(400).json({ message: "Current players exceed the new max players limit." });
+            return res.status(400).json({ message: "Current number of players in the group exceed the new max players limit." });
         }
 
         // Perform the update
