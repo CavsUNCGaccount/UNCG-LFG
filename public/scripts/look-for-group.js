@@ -1,3 +1,21 @@
+function showToast(title, message, type = "dark") {
+    // Get the toast elements
+    const toastElement = document.getElementById("genericToast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastBody = document.getElementById("toastBody");
+
+    // Update the title and body
+    toastTitle.textContent = title;
+    toastBody.textContent = message;
+
+    // Update the toast's background color based on the type (e.g., success, error)
+    toastElement.className = `toast bg-${type} text-white`;
+
+    // Show the toast
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const createSessionBtn = document.getElementById("create-session-btn");
     const createSessionForm = document.getElementById("create-session-form");
@@ -37,14 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (response.ok) {
-                
-                location.reload(); // Reload the page to show the new session
+                showToast("Success", "Group session created successfully!", "success");
+                setTimeout(() => location.reload(), 1500); // Reload the page to show the new session
             } else {
                 const errorData = await response.json();
-                alert(errorData.message);
+                showToast("Error", errorData.message || "Failed to create session.", "danger");
             }
         } catch (error) {
             console.error("Error creating group session:", error);
+            showToast("Error", "An unexpected error occurred while creating the session.", "danger");
         }
     });
 });
@@ -64,14 +83,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             credentials: "include"
         });
         if (!response.ok) {
-            throw new Error("Failed to fetch group sessions.");
+            showToast("Error", "Failed to fetch group sessions. Please try again later.", "danger");
         }
 
         const sessions = await response.json();
         console.log("Fetched group sessions:", sessions);
 
         if (sessions.length === 0) {
-            groupSessionsContainer.innerHTML = "<p class='text-white'>No group sessions available.</p>";
+            groupSessionsContainer.innerHTML = 
+            "<p class='text-white'>No group sessions available. Be the first and create a group!.</p>";
             return;
         }
 
