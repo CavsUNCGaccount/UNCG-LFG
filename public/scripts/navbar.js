@@ -136,7 +136,7 @@ function logout() {
     })
         .then(response => response.json())
         .then(data => {
-            alert(data.message || "Logged out");
+            
             window.location.href = "index.html";
         })
         .catch(error => console.error("Error logging out:", error));

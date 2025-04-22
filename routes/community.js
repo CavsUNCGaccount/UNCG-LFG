@@ -60,9 +60,7 @@ router.post('/games/:game_id/join', async (req, res) => {
             [user_id, game_id]
         );
 // possible bug here returning error message (polishing) 
-        if (checkMembership.rows.length > 0) {
-            return res.status(400).json({ message: "You are already a member of this community." });
-        }
+      
 
         // Insert user into community_membership table
         await pool.query(
