@@ -26,14 +26,28 @@
 
   <main class="container my-4">
 
-    <!-- Greeting Section -->
-    <section class="text-center">
-      <h4 id="user-greeting" class="text-white mt-4"></h4>
-      <h5>Don't forget to enter your PSN gamertag, Xbox gamertag, or your Steam ID number at the bottom of the page
-        in the Profile Details section so that other gamers can see your gamertags in the groups you join or create!
-      </h5>
-      <h5>Below is a list of all the communities you are a member of.</h5>
-    </section>
+<!-- Greeting Section -->
+<section class="text-center">
+  <h4 id="user-greeting" class="text-white mt-4"></h4>
+
+  <!-- Suspension Warning (⛔️ visible here under username) -->
+  <div id="suspension-warning"
+    class="alert alert-warning alert-dismissible fade show text-dark text-center fw-semibold shadow mx-auto mt-3"
+    role="alert"
+    style="display: none; max-width: 700px;">
+    ⚠️ Your account has been suspended due to violation of community guidelines. Continued behavior may lead to a permanent ban.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <h5>
+    Don't forget to enter your PSN gamertag, Xbox gamertag, or your Steam ID number at the bottom of the page
+    in the Profile Details section so that other gamers can see your gamertags in the groups you join or create!
+  </h5>
+  <h5>
+    Below is a list of all the communities you are a member of once you join communities.
+  </h5>
+</section>
+
 
     <!-- Steam Account Linking Info -->
     <div class="mt-3">
@@ -60,19 +74,6 @@
         </div>
       </div>
 
-      <div class="collapse" id="steamPrivacyTips">
-        <div class="card card-body bg-dark text-white">
-          <ul>
-            <li>Make sure your <strong>Steam profile</strong> is set to <em>Public</em>.</li>
-            <li>If your account is not set to public, your achievements will not be shown when you link your Steam
-              account.</li>
-            <li>Go to <a href="https://steamcommunity.com/my/edit/settings" target="_blank" class="text-info">Steam
-                Privacy Settings</a>.</li>
-            <li>Set "Game details" to <em>Public</em> as well (this includes your playtime and achievements).</li>
-            <li>Once updated, refresh this page to load your achievements.</li>
-          </ul>
-        </div>
-      </div>
     </div>
 
     <!-- Communities Section -->

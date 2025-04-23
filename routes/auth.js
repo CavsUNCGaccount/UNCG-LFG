@@ -26,9 +26,10 @@ router.post('/register', async (req, res) => {
 
         // Insert user into database with role
         const newUser = await pool.query(
-            'INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING user_id, username, email, role',
-            [username, email, hashedPassword, userRole]
+            'INSERT INTO users (username, email, password_hash, role, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [username, email, hashedPassword, userRole, 'Active']
         );
+        
 
         // Get the newly created user ID
         const userId = newUser.rows[0].user_id;
@@ -66,6 +67,12 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
+        // Check for Banned user
+        if (user.rows[0].status && user.rows[0].status.toLowerCase() === 'banned') {
+            return res.status(403).json({
+                message: "You're banned for not following community guidelines and for behaving disrespectfully to other users on the platform."
+              });
+                      }
 
 
         // Save session with profile picture
@@ -74,6 +81,8 @@ router.post('/login', async (req, res) => {
         req.session.email = user.rows[0].email;
         req.session.role = user.rows[0].role;
         req.session.profile_picture = user.rows[0].profile_picture;
+        req.session.status = user.rows[0].status;
+
 
         res.status(200).json({
             message: 'Login successful',
@@ -82,7 +91,9 @@ router.post('/login', async (req, res) => {
                 username: user.rows[0].username,
                 email: user.rows[0].email,
                 role: user.rows[0].role,
-                profile_picture: user.rows[0].profile_picture
+                profile_picture: user.rows[0].profile_picture,
+                status: user.rows[0].status  // ✅ Add this line here
+
             }
         });
     } catch (err) {
@@ -111,7 +122,7 @@ router.get('/me', async (req, res) => {
 
     try {
         const user = await pool.query(
-            "SELECT user_id, username, email, role, profile_picture FROM users WHERE user_id = $1",
+            "SELECT user_id, username, email, role, profile_picture, status FROM users WHERE user_id = $1",
             [req.session.user_id]
         );
 

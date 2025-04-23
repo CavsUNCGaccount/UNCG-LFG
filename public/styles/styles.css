@@ -351,7 +351,6 @@ footer {
 
 
 
-
 /* =================================== Admin Profile Styling =========================================== */
 .profile-img {
     border: 4px solid #ffc107;
@@ -392,32 +391,42 @@ footer {
 .card {
     border: 2px solid #ffeb3b;
     box-shadow: 0px 4px 15px rgba(255, 193, 7, 0.5);
+    border-radius: 8px;
 }
 
 /* ==================================== Admin Sidebar Styling ===================================== */
 .admin-sidebar {
-    position: relative; /* Not fixed or sticky */
-    width: 220px;
-    background-color: #111;
-    border-right: 2px solid #ffc107;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    border-right: 4px solid #ffc107;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999;
     padding-top: 1rem;
-    min-height: 100vh; /* Stretch full height */
-    float: left;
+    overflow-y: auto;
+    background-color: transparent; /* ✅ No color */
 }
 
 .admin-sidebar h5 {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 18px;
+    text-align: center;
+    margin-top: 0.5rem;
 }
 
 .admin-sidebar .nav-link {
-    padding: 10px 15px;
+    padding: 12px 20px;
     color: #fff;
     transition: background-color 0.3s;
-    border-radius: 5px;
+    border-radius: 6px;
     font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
+    font-size: 17px;
+    display: block;
 }
 
 .admin-sidebar .nav-link:hover {
@@ -426,11 +435,19 @@ footer {
     text-decoration: none;
 }
 
+.admin-sidebar img {
+    display: block;
+    margin: 0 auto 0.5rem auto;
+    width: 60px;
+}
+
 /* ================= Push Main Content Right ================= */
 .admin-main-content {
     margin-left: 240px;
-    max-width: 1000px; /* limit width */
-    width: 100%;
+    padding: 6rem 2rem 2rem 2rem;
+    width: calc(100% - 240px);
+    min-height: 100vh;
+    background-color: transparent; /* ✅ Remove dark background */
 }
 
 /* ================= Responsive Sidebar Hide ================= */
@@ -441,14 +458,38 @@ footer {
 
     .admin-main-content {
         margin-left: 0;
+        width: 100%;
     }
 }
 
 /* ================= Posts Table Styling ================= */
-#posts-table td,
+#posts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #1b1b1b;
+}
+
+#posts-table th,
+#posts-table td {
+    padding: 1.2rem 1.5rem;
+    font-size: 17px;
+    border: 1px solid #444;
+    color: white;
+    text-align: left;
+    background-color: transparent;
+}
+
 #posts-table th {
-    padding: 0.5rem 0.75rem;
-    font-size: 15px;
-    word-break: break-word;
-    max-width: 250px;
+    background-color: #222;
+    color: #ffc107;
+}
+
+#posts-table tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+#posts-table tr:hover {
+    background-color: #333;
+    transition: 0.3s ease-in-out;
 }

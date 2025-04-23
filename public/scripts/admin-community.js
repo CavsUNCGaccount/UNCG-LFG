@@ -65,11 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(`Failed to add game: ${res.statusText}`);
 
       const result = await res.json();
-      alert("✅ Game added successfully!");
+      showToast("✅ Game added successfully!");
       window.location.reload();
     } catch (err) {
       console.error("❌ Failed to add game:", err);
-      alert("Failed to add game. Please try again.");
+      showToast("Failed to add game. Please try again.");
     }
   });
 });
@@ -94,9 +94,21 @@ async function saveCommunity(gameId) {
 
     if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
     const result = await res.json();
-    alert("✅ Community updated successfully!");
+    showToast("✅ Community updated successfully!");
   } catch (err) {
     console.error("❌ Failed to update community:", err);
-    alert("Update failed. Please try again.");
+    showToast("Update failed. Please try again.");
   }
+}
+
+function showToast(message, duration = 3000) {
+  const toastContainer = document.getElementById("toast-container");
+  const toastMessage = document.getElementById("toast-message");
+
+  toastMessage.textContent = message;
+  toastContainer.style.display = "block";
+
+  setTimeout(() => {
+    toastContainer.style.display = "none";
+  }, duration);
 }

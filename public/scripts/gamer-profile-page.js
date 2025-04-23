@@ -373,60 +373,79 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Successfully updated Steam Games UI.");
     }
 
-    // Fetch the profile data using the API route when page loads
-    fetch("/gamer-profile/api/profile", {
-        method: "GET",
-        credentials: "include" // Include session cookies
+// Fetch the profile data using the API route when page loads 
+fetch("/gamer-profile/api/profile", {
+    method: "GET",
+    credentials: "include" // Include session cookies
+})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Unauthorized");
+        }
+        return response.json();
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Unauthorized");
+    .then(profile => {
+        if (profile.error) {
+            alert("No profile information available.");
+            return;
+        }
+
+        // ⚠️ Show Suspension Warning if needed
+        console.log("✅ Checking suspension status for:", profile.username, "Status:", profile.status);
+        if (profile.status && profile.status.toLowerCase() === "suspended") {
+            const warningDiv = document.getElementById("suspension-warning");
+            console.log("🚨 Suspension warning triggered. DOM element found?", !!warningDiv);
+            if (warningDiv) {
+                warningDiv.style.display = "block";
             }
-            return response.json();
-        })
-        .then(profile => {
-            if (profile.error) {
-                alert("No profile information available.");
-            } else {
-                // Update username field and display header
-                document.getElementById("username").value = profile.username;
-                const usernameDisplay = document.getElementById("username-display");
-                if (usernameDisplay) usernameDisplay.textContent = profile.username;
-
-                // Update email, PSN, Xbox, Steam ID
-                document.getElementById("email").value = profile.email;
-                document.getElementById("psn-id").value = profile.psn_id || "N/A";
-                document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
-                document.getElementById("steam-id").value = profile.steam64_id || "";
-
-                // Set profile picture (main + navbar)
-                if (profile.profile_picture) {
-                    const profileImg = document.getElementById("gamer-avatar");
-                    if (profileImg) profileImg.src = profile.profile_picture;
-
-                    const navbarImg = document.getElementById("navbar-avatar");
-                    if (navbarImg) navbarImg.src = profile.profile_picture;
-                }
-
-                // Steam Info
-                if (profile.steam64_id && profile.steam64_id !== "N/A") {
-                    fetchSteamProfile(profile.steam64_id);
-                    fetchSteamGames(profile.steam64_id);
-                } else {
-                    console.log("No Steam ID linked.");
-                    document.getElementById("steam-avatar").src = "images/default-picture.svg";
-                }
-
-                // Call the function to get Communities
-                fetchCommunities();
+        }
+        if (profile.status && profile.status.toLowerCase() === "suspended") {
+            const warningDiv = document.getElementById("suspension-warning");
+            if (warningDiv) {
+                warningDiv.style.display = "block";
+                console.log("Suspension warning displayed for:", profile.username);
             }
-        })
-        .catch(err => {
-            console.error("Error fetching profile:", err);
-            alert("You must be logged in to view this page.");
-            window.location.href = "/login.html";
-        });
+        }
 
+        // ✅ Update username field and optional display
+        document.getElementById("username").value = profile.username || "";
+        const usernameDisplay = document.getElementById("username-display");
+        if (usernameDisplay) {
+            usernameDisplay.textContent = profile.username;
+        }
+
+        // ✅ Update email, PSN, Xbox, Steam ID
+        document.getElementById("email").value = profile.email || "";
+        document.getElementById("psn-id").value = profile.psn_id || "N/A";
+        document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
+        document.getElementById("steam-id").value = profile.steam64_id || "";
+
+        // ✅ Set profile picture (main + navbar)
+        if (profile.profile_picture) {
+            const profileImg = document.getElementById("gamer-avatar");
+            if (profileImg) profileImg.src = profile.profile_picture;
+
+            const navbarImg = document.getElementById("navbar-avatar");
+            if (navbarImg) navbarImg.src = profile.profile_picture;
+        }
+
+        // ✅ Load Steam profile + games if linked
+        if (profile.steam64_id && profile.steam64_id !== "N/A") {
+            fetchSteamProfile(profile.steam64_id);
+            fetchSteamGames(profile.steam64_id);
+        } else {
+            console.log("No Steam ID linked.");
+            document.getElementById("steam-avatar").src = "images/default-picture.svg";
+        }
+
+        // ✅ Load joined communities
+        fetchCommunities();
+    })
+    .catch(err => {
+        console.error("Error fetching profile:", err);
+        alert("You must be logged in to view this page.");
+        window.location.href = "/login.html";
+    });
 
 
     // Function to fetch communities
@@ -507,45 +526,45 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     // Fetch the profile data using the API route when page loads
-    fetch("/gamer-profile/api/profile", {
-        method: "GET",
-        credentials: "include" // Include session cookies
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Unauthorized");
-            }
-            return response.json();
-        })
-        .then(profile => {
-            if (profile.error) {
-                alert("No profile information available.");
-            } else {
-                document.getElementById("username").value = profile.username;
-                document.getElementById("email").value = profile.email;
-                document.getElementById("psn-id").value = profile.psn_id || "N/A";
-                document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
-                document.getElementById("steam-id").value = profile.steam64_id || "";
+    // fetch("/gamer-profile/api/profile", {
+    //     method: "GET",
+    //     credentials: "include" // Include session cookies
+    // })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error("Unauthorized");
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(profile => {
+    //         if (profile.error) {
+    //             alert("No profile information available.");
+    //         } else {
+    //             document.getElementById("username").value = profile.username;
+    //             document.getElementById("email").value = profile.email;
+    //             document.getElementById("psn-id").value = profile.psn_id || "N/A";
+    //             document.getElementById("xbox-id").value = profile.xbox_id || "N/A";
+    //             document.getElementById("steam-id").value = profile.steam64_id || "";
 
-                // Fetch Steam Profile if Steam64 ID exists
-                if (profile.steam64_id && profile.steam64_id !== "N/A") {
-                    fetchSteamProfile(profile.steam64_id);
-                    console.log("Calling fetchSteamProfile with ID:", profile.steam64_id);
+    //             // Fetch Steam Profile if Steam64 ID exists
+    //             if (profile.steam64_id && profile.steam64_id !== "N/A") {
+    //                 fetchSteamProfile(profile.steam64_id);
+    //                 console.log("Calling fetchSteamProfile with ID:", profile.steam64_id);
 
-                    // Fetch Steam Games here after the profile is successfully retrieved
-                    fetchSteamGames(profile.steam64_id);
-                    console.log("Calling fetchSteamGames with ID:", profile.steam64_id);
-                } else {
-                    console.log("No Steam ID linked.");
-                    document.getElementById("steam-avatar").src = "images/default-picture.svg";
-                }
-            }
-        })
-        .catch(err => {
-            console.error("Error fetching profile:", err);
-            alert("You must be logged in to view this page.");
-            window.location.href = "/login.html"; // Redirect to login if not authorized
-        });
+    //                 // Fetch Steam Games here after the profile is successfully retrieved
+    //                 fetchSteamGames(profile.steam64_id);
+    //                 console.log("Calling fetchSteamGames with ID:", profile.steam64_id);
+    //             } else {
+    //                 console.log("No Steam ID linked.");
+    //                 document.getElementById("steam-avatar").src = "images/default-picture.svg";
+    //             }
+    //         }
+    //     })
+    //     .catch(err => {
+    //         console.error("Error fetching profile:", err);
+    //         alert("You must be logged in to view this page.");
+    //         window.location.href = "/login.html"; // Redirect to login if not authorized
+    //     });
 
 });  //End of the script DOM 
 

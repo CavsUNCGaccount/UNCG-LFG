@@ -17,7 +17,7 @@ async function loadAdminProfile() {
             document.getElementById("email").value = data.email;
             document.getElementById("admin-avatar").src = data.profile_picture || "images/default-avatar.png";
         } else {
-            alert("Error fetching admin details: " + data.message);
+            showToast("Error fetching admin details: " + data.message);
         }
     } catch (error) {
         console.error("Error loading admin profile:", error);
@@ -46,7 +46,7 @@ async function updateProfile() {
         });
 
         const data = await response.json();
-        alert(data.message);
+        showToast(data.message);
     } catch (error) {
         console.error("Error updating profile:", error);
     }
@@ -70,9 +70,9 @@ document.getElementById("profile-upload").addEventListener("change", async funct
         const data = await response.json();
         if (response.ok) {
             document.getElementById("admin-avatar").src = data.profile_picture;
-            alert("Profile picture updated successfully!");
+            showToast("Profile picture updated successfully!");
         } else {
-            alert(data.message);
+            showToast(data.message);
         }
     } catch (error) {
         console.error("Error uploading profile picture:", error);
@@ -97,7 +97,7 @@ async function loadReports() {
                 </tr>
             `).join("");
         } else {
-            alert("Error fetching reports: " + reportsData.message);
+            showToast("Error fetching reports: " + reportsData.message);
         }
     } catch (error) {
         console.error("Error loading reports:", error);
@@ -107,4 +107,16 @@ async function loadReports() {
 // ✅ Navigate to Report Details
 function viewReport(reportId) {
     window.location.href = `admin-report-details.html?reportId=${reportId}`;
+}
+
+function showToast(message, duration = 3000) {
+    const toastContainer = document.getElementById("toast-container");
+    const toastMessage = document.getElementById("toast-message");
+    
+    toastMessage.textContent = message;
+    toastContainer.style.display = "block";
+
+    setTimeout(() => {
+        toastContainer.style.display = "none";
+    }, duration);
 }

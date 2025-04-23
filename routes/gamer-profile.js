@@ -42,16 +42,18 @@ router.get("/api/profile", isAuthenticated, async (req, res) => {
             `SELECT 
               u.username,
               u.email,
+              u.status,
               gp.steam64_id,
               gp.steam_username,
               gp.psn_id,
               gp.xbox_id,
-              gp.avatar_url AS profile_picture --
+              gp.avatar_url AS profile_picture
             FROM users u
             LEFT JOIN gamer_profiles gp ON u.user_id = gp.user_id
             WHERE u.user_id = $1`,
             [userId]
         );
+
 
         if (result.rows.length > 0) {
             res.json(result.rows[0]);
