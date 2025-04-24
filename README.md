@@ -54,11 +54,14 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages (Done)
 - Display info next to group members ie. gamertag (Done)
-- Report functionality 
-- Admin functionality
-- get rid of the local host logs
-- 3 powerpoint slides before hand to frame the demo
+- Report functionality (done)
+- Admin functionality (done)
+- get rid of the local host logs (Done)
+- 3 powerpoint slides before hand to frame the demo (Done)
 - Refine presentation "Pre amble" and make it to where you are a user joining a group relevant to your achievments (Done).
+Make a video for section as a user manual for how the app functions
+Finalize report 
+Final presentation 10 to 12 minutes covering each of our subsyteyms
 
 
 ## Stretch goals
