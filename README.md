@@ -31,10 +31,14 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
     - The Session Host can now edit settings for a group.
     - The Session Host can kick group members from a group.
 
-  - Admin login page now working
-    - Admin can now login and log out
+  - Admin functionalities now working
+    - Admin can now login and log out.
     - Admin can now change their username, email, or password.
     - Admin can now upload a profile picture. 
+    - Admin can now add games to the app and edit a game's name, description, and image_url
+    - Admin can flag and remove User Posts that violate app policy. 
+    - Admin can suspend users from the app (Suspension is a verbal warning to users).
+    - Admin can ban users from the app by preventing them from logging in.
 
 ## Features Implemented:
 - Dynamic Game Community Pages for 20+ popular Steam, PlayStation, and Xbox games.
@@ -54,7 +58,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Add a timer that displays when your next group session will be (Done)
 - Display more groups under community page ie. Groups that will be starting soon (Done)
 - Add a game from Carlos' Steam library to the app for demo purposes. (Done, Bloons TD5)
-  - - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
+  - Add Monster Hunter Wilds to the app using a sql query statement just to show our app supports recent games. (Done)
 - Group messages (Done)
 - Display PSN, Xbox, and Steam gamertags of group members in view group info page (Done)
 - Report functionality (Done)
