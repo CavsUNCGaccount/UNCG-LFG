@@ -13,6 +13,7 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
   - Steam Achievement Tracking - implemented.
     - Gamers must manually enter their Steam ID number (no Steam OAuth).
   - Gamers can now edit their email, username, psn id, and xbox id.
+  - Gamers can also add a profile picture to their account. 
   - Homepage now displaying games from the database.
   - Community page is now fully dynamic and displays game info.
     - Gamers can now join or leave a gaming community from the community page.
@@ -61,14 +62,14 @@ A Looking for Group web app for co-op and multiplayer games. Our web app will fo
 - Get rid of the localhost says alerts (Done)
 - 3 Google Slides beforehand to frame the demo (Done)
 - Refine presentation "Preamble" and frame it as if you are a user joining a group relevant to your achievements (Done)
-Make a video for section as a user manual for how the app functions (Done)
-Finalize report (Almost Done, still need Shreya's subsystem parts)
+- Make a video for section as a user manual for how the app functions (Done)
+- Finalize report (Almost Done, still need Shreya's subsystem parts)
 
 # Prerequisites
 To run this current version locally, you need:
 
  - Visual Studio Code (VS Code) (or any code editor)
- - Live Server Extension (for serving static files locally)
+ - Live Server Extension (not needed anymore, required for the static prototype)
  - axios v1.8.1
  - bcryptjs 3.0.2
  - connect-pg-simple v10.0.0
