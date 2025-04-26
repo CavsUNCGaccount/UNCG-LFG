@@ -1,5 +1,5 @@
 /*
-    UNCG LFG Database Schema (clean version and current state as of April 10, 2025) 
+    UNCG LFG Database Schema (clean version and current state as of April 26, 2025) 
     This SQL script creates the necessary tables for the app.
     Used to recreate the database schema from scratch.
     It includes tables for users, game communities, gamer profiles, community memberships,
@@ -57,7 +57,6 @@ CREATE TABLE user_posts (
     community_id  INTEGER NOT NULL REFERENCES game_community ON DELETE CASCADE,
     post_content  TEXT NOT NULL,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    action_status VARCHAR(50) DEFAULT NULL,
     status        TEXT DEFAULT 'pending'
 );
 
